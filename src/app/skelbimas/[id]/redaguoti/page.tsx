@@ -4,6 +4,7 @@ import { lt } from '@/lib/i18n/lt';
 import { requireUser } from '@/lib/auth/require-user';
 import { ListingForm } from '@/components/ListingForm';
 import type { PlateType, FlagType } from '@/lib/validation/listing';
+import type { LithuanianCity } from '@/lib/locations/lithuania-cities';
 import { updateListingAction } from './actions';
 import { DeleteButton } from './DeleteButton';
 
@@ -13,8 +14,8 @@ type ListingRow = {
   plate_text: string;
   plate_type: PlateType;
   flag_type: FlagType;
-  city: string;
-  price_eur: number | null;
+  city: LithuanianCity;
+  price_eur?: number;
   description: string | null;
 };
 

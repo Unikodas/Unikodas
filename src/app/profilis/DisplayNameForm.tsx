@@ -4,7 +4,6 @@ import { useActionState } from 'react';
 import { lt } from '@/lib/i18n/lt';
 import { DISPLAY_NAME_MAX, DISPLAY_NAME_MIN } from '@/lib/validation/profile';
 import {
-  initialDisplayNameFormState,
   updateDisplayNameAction,
   type DisplayNameFormState,
 } from './actions';
