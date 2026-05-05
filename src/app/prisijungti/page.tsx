@@ -1,10 +1,11 @@
 'use client';
 
-import { useState, type FormEvent } from 'react';
+import { useCallback, useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { lt } from '@/lib/i18n/lt';
 import { isValidLithuanianMobile } from '@/lib/validation/phone';
 import { safeRedirectPath } from '@/lib/auth/redirect-path';
+import { Turnstile } from '@/components/Turnstile';
 
 type Tab = 'password' | 'otp';
 type OtpStep = 'phone' | 'code';
@@ -46,6 +47,17 @@ export default function SignInPage() {
   const [pwPhone, setPwPhone] = useState('');
   const [pwPassword, setPwPassword] = useState('');
 
+  // Cloudflare Turnstile token. Shared between password sign-in and
+  // OTP request — both paths require it. Reset to null whenever the
+  // user switches tabs so a stale token from one form doesn't get
+  // submitted by the other.
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  // Stable identity so Turnstile's internal effect doesn't re-render.
+  const handleCaptchaToken = useCallback(
+    (token: string | null) => setCaptchaToken(token),
+    [],
+  );
+
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -63,6 +75,9 @@ export default function SignInPage() {
       case 'invalid_code':
       case 'too_many_attempts':
         return lt.auth.codeIncorrect;
+      case 'captcha_required':
+      case 'captcha_failed':
+        return lt.auth.captchaRequired;
       default:
         return lt.common.error;
     }
@@ -70,6 +85,9 @@ export default function SignInPage() {
 
   function passwordErrorMessage(key: string | null): string | null {
     if (!key) return null;
+    if (key === 'captcha_required' || key === 'captcha_failed') {
+      return lt.auth.captchaRequired;
+    }
     const errs = lt.auth.passwordErrors as Record<string, string>;
     return errs[key] ?? lt.common.error;
   }
@@ -84,15 +102,13 @@ export default function SignInPage() {
       setError('invalid_phone');
       return;
     }
+    if (!captchaToken) {
+      setError('captcha_required');
+      return;
+    }
 
     setSubmitting(true);
     try {
-      // CAPTCHA token. In dev the server's stub provider accepts any
-      // value (including empty). When we wire a real provider, this
-      // will read the token from the captcha widget mounted in the
-      // form (see #captcha-mount below).
-      const captchaToken = '';
-
       const res = await fetch('/api/auth/otp/request', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -101,9 +117,14 @@ export default function SignInPage() {
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
         setError(body.error ?? 'server_error');
+        // Token is single-use; force the user to solve again on retry.
+        setCaptchaToken(null);
         return;
       }
       setOtpStep('code');
+      // Clear the consumed token so the next form (which doesn't show
+      // the widget) can't accidentally submit it.
+      setCaptchaToken(null);
     } finally {
       setSubmitting(false);
     }
@@ -150,11 +171,13 @@ export default function SignInPage() {
       setError('invalid_credentials'); // generic — don't reveal phone-format issue
       return;
     }
+    if (!captchaToken) {
+      setError('captcha_required');
+      return;
+    }
 
     setSubmitting(true);
     try {
-      const captchaToken = ''; // dev stub accepts empty
-
       const res = await fetch('/api/auth/password/sign-in', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -167,6 +190,8 @@ export default function SignInPage() {
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
         setError(body.error ?? 'server_error');
+        // Token is single-use — force the user to re-solve on retry.
+        setCaptchaToken(null);
         return;
       }
       router.push(getPostLoginTarget());
@@ -201,6 +226,7 @@ export default function SignInPage() {
             type="button"
             onClick={() => {
               setTab('password');
+              setCaptchaToken(null);
               clearError();
             }}
             className={
@@ -216,6 +242,7 @@ export default function SignInPage() {
             onClick={() => {
               setTab('otp');
               setResetMode(false);
+              setCaptchaToken(null);
               clearError();
             }}
             className={
@@ -265,7 +292,7 @@ export default function SignInPage() {
               />
             </div>
 
-            <div id="captcha-mount" />
+            <Turnstile onToken={handleCaptchaToken} />
 
             {error && (
               <p className="text-sm text-red-600" role="alert">
@@ -318,7 +345,7 @@ export default function SignInPage() {
               {resetMode ? lt.auth.resetHint : lt.auth.signupHint}
             </p>
 
-            <div id="captcha-mount" />
+            <Turnstile onToken={handleCaptchaToken} />
 
             {error && (
               <p className="text-sm text-red-600" role="alert">

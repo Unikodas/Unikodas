@@ -38,6 +38,7 @@ export const lt = {
     phoneInvalid: 'Neteisingas telefono numerio formatas.',
     signupHint: 'Neturite paskyros? Sukurkite ją įvesdami telefono numerį.',
     resetHint: 'Įveskite telefono numerį ir gausite SMS kodą slaptažodžiui pakeisti.',
+    captchaRequired: 'Patvirtinkite, kad nesate robotas.',
     tabPassword: 'Slaptažodžiu',
     tabOtp: 'SMS kodu',
     signIn: 'Prisijungti',
