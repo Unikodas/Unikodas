@@ -47,5 +47,9 @@ switch (which) {
     );
 }
 
-  return cached;
+  if (!cached) {
+  throw new Error('CAPTCHA provider was not initialized');
+}
+
+return cached;;
 }
