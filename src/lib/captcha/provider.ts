@@ -23,6 +23,7 @@ export interface CaptchaProvider {
 }
 
 import { stubCaptchaProvider } from './stub';
+import { turnstileCaptchaProvider } from './turnstile';
 
 let cached: CaptchaProvider | null = null;
 
@@ -30,21 +31,21 @@ export function getCaptchaProvider(): CaptchaProvider {
   if (cached) return cached;
 
   const which = (process.env.CAPTCHA_PROVIDER ?? 'stub').toLowerCase();
-  switch (which) {
-    case 'stub':
-      cached = stubCaptchaProvider;
-      break;
-    // case 'turnstile':
-    //   cached = turnstileCaptchaProvider;
-    //   break;
-    // case 'hcaptcha':
-    //   cached = hcaptchaProvider;
-    //   break;
-    default:
-      throw new Error(
-        `Unknown CAPTCHA_PROVIDER="${which}". Set CAPTCHA_PROVIDER=stub for dev.`,
-      );
-  }
+
+switch (which) {
+  case 'stub':
+    cached = stubCaptchaProvider;
+    break;
+
+  case 'turnstile':
+    cached = turnstileCaptchaProvider;
+    break;
+
+  default:
+    throw new Error(
+      `Unknown CAPTCHA_PROVIDER="${which}". Set CAPTCHA_PROVIDER=stub for dev.`,
+    );
+}
 
   return cached;
 }
