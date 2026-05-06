@@ -85,8 +85,6 @@ export const lt = {
     priceContact: 'Kaina sutartinė',
     description: 'Aprašymas',
     contactSeller: 'Susisiekti su pardavėju',
-    contactDisabled:
-      'Susisiekimo funkcija bus įgalinta vėliau. Pranešime, kai pridėsime žinučių sistemą.',
     createNew: 'Naujas skelbimas',
     sellCta: 'Parduoti',
     edit: 'Redaguoti',
@@ -166,8 +164,6 @@ export const lt = {
     edit: 'Redaguoti',
     delete: 'Ištrinti',
     postedAt: 'Paskelbta',
-    contactDisabled:
-      'Susisiekimo funkcija bus įgalinta vėliau. Pranešime, kai pridėsime žinučių sistemą.',
     filters: {
       title: 'Filtrai',
       q: 'Paieška',
@@ -288,11 +284,15 @@ export const lt = {
     send: 'Siųsti',
     body: 'Tekstas',
     contactSeller: 'Susisiekti su pardavėju',
+    contactWantedAuthor: 'Susisiekti su ieškojimo autoriumi',
+    writeMessage: 'Rašyti žinutę',
     signInToContact: 'Prisijunkite, kad galėtumėte parašyti pardavėjui.',
+    signInToContactWanted: 'Prisijunkite, kad galėtumėte parašyti ieškojimo autoriui.',
     sentTo: 'Išsiųsta',
     receivedFrom: 'Iš',
     unknownUser: 'Vartotojas',
     viewListing: 'Skelbimas',
+    viewWanted: 'Ieškomas numeris',
     reply: 'Atsakyti',
     replied: 'Atsakymas išsiųstas.',
     form: {

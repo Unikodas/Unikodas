@@ -3,6 +3,9 @@ import { notFound } from 'next/navigation';
 import { lt } from '@/lib/i18n/lt';
 import { createClient } from '@/lib/supabase/server';
 import { ReportButton } from '@/components/ReportButton';
+import { MessageForm } from '@/app/skelbimas/[id]/MessageForm';
+import { sendWantedMessageAction } from './actions';
+import { DeleteButton } from './redaguoti/DeleteButton';
 
 type WantedRow = {
   id: string;
@@ -52,6 +55,9 @@ export default async function WantedDetailPage({
 
   const { data: userData } = await supabase.auth.getUser();
   const isOwner = userData.user?.id === wanted.buyer_id;
+  const canMessageAuthor = !!userData.user && !isOwner && wanted.status === 'active';
+  const boundSendMessage = sendWantedMessageAction.bind(null, wanted.id);
+  const signInRedirect = `/ieskau/${wanted.id}`;
 
   return (
     <>
@@ -99,19 +105,32 @@ export default async function WantedDetailPage({
           )}
         </div>
 
-        {/* Contact disabled until messaging is added (Step 5). */}
-        <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 text-sm text-slate-600">
-          {lt.wanted.contactDisabled}
-        </div>
+        {canMessageAuthor && (
+          <div className="rounded-2xl border border-slate-200 bg-white p-6">
+            <h2 className="text-lg font-semibold mb-3">{lt.messages.contactWantedAuthor}</h2>
+            <MessageForm action={boundSendMessage} submitLabel={lt.messages.writeMessage} />
+          </div>
+        )}
+        {!userData.user && (
+          <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 text-sm text-slate-600">
+            <Link
+              href={`/prisijungti?redirect=${encodeURIComponent(signInRedirect)}`}
+              className="underline hover:text-slate-900"
+            >
+              {lt.messages.signInToContactWanted}
+            </Link>
+          </div>
+        )}
 
         {isOwner && (
-          <div className="flex gap-3">
+          <div className="flex flex-wrap gap-3">
             <Link
               href={`/ieskau/${wanted.id}/redaguoti`}
               className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
             >
               {lt.wanted.edit}
             </Link>
+            <DeleteButton id={wanted.id} />
           </div>
         )}
 

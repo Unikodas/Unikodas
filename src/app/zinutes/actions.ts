@@ -31,9 +31,9 @@ import type { ReplyFormState } from './ReplyButton';
  * `replyToMessageAction.bind(null, msg.id)`.
  *
  * Note: we deliberately do NOT block replies on listings with
- * status='removed'. A continuing conversation about a delisted plate
- * is still useful for both parties; only the initial outreach is
- * gated on listing.status === 'active' (in skelbimas/[id]/actions.ts).
+ * status='removed' or wanted listings with status='removed'. A continuing
+ * conversation is still useful for both parties; only the initial outreach
+ * is gated by the detail-page compose actions.
  */
 export async function replyToMessageAction(
   originalMessageId: string,
@@ -73,7 +73,7 @@ export async function replyToMessageAction(
   // sender (you don't reply to your own outgoing messages).
   const { data: original, error: lookupError } = await supabase
     .from('messages')
-    .select('id, sender_id, recipient_id, listing_id')
+    .select('id, sender_id, recipient_id, listing_id, wanted_listing_id')
     .eq('id', originalMessageId)
     .maybeSingle();
 
@@ -94,9 +94,10 @@ export async function replyToMessageAction(
   }
 
   const { error: insertError } = await supabase.from('messages').insert({
-    listing_id: original.listing_id,   // preserve the conversation context
+    listing_id: original.listing_id,
+    wanted_listing_id: original.wanted_listing_id,
     sender_id: user.id,
-    recipient_id: original.sender_id,  // reply goes to whoever sent us the original
+    recipient_id: original.sender_id,
     body,
   });
 

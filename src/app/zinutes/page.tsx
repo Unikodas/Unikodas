@@ -9,6 +9,7 @@ const PAGE_SIZE = 50;
 type MessageRow = {
   id: string;
   listing_id: string | null;
+  wanted_listing_id: string | null;
   sender_id: string;
   recipient_id: string;
   body: string;
@@ -45,7 +46,7 @@ export default async function InboxPage() {
 
   const { data: msgData, error: msgError } = await supabase
     .from('messages')
-    .select('id, listing_id, sender_id, recipient_id, body, created_at')
+    .select('id, listing_id, wanted_listing_id, sender_id, recipient_id, body, created_at')
     .order('created_at', { ascending: false })
     .limit(PAGE_SIZE);
 
@@ -132,6 +133,14 @@ export default async function InboxPage() {
                         className="text-xs text-slate-500 hover:text-slate-900 underline"
                       >
                         {lt.messages.viewListing}
+                      </Link>
+                    )}
+                    {m.wanted_listing_id && (
+                      <Link
+                        href={`/ieskau/${m.wanted_listing_id}`}
+                        className="text-xs text-slate-500 hover:text-slate-900 underline"
+                      >
+                        {lt.messages.viewWanted}
                       </Link>
                     )}
                     {!isSent && (
