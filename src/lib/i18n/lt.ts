@@ -268,6 +268,11 @@ export const lt = {
     displayNameHint:
       'Šis vardas matomas kitiems vartotojams žinutėse. 2–30 simbolių, be telefono numerio.',
     saved: 'Išsaugota.',
+    navigation: {
+      browseListings: 'Naršyti skelbimus',
+      sellPlate: 'Parduoti numerį',
+      wantedPlate: 'Ieškau numerio',
+    },
     errors: {
       display_name_too_short: 'Vardas per trumpas (min. 2 simboliai).',
       display_name_too_long: 'Vardas per ilgas (maks. 30 simbolių).',

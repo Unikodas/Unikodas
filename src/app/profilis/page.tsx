@@ -31,6 +31,29 @@ export default async function ProfilePage() {
       <div className="w-full max-w-md bg-white rounded-2xl shadow-sm border border-slate-200 p-6 space-y-6">
         <h1 className="text-2xl font-semibold">{lt.nav.profile}</h1>
 
+        <div className="grid gap-2">
+          <Link
+            href="/"
+            className="rounded-lg bg-slate-900 px-4 py-2 text-center text-sm font-medium text-white hover:bg-slate-800"
+          >
+            {lt.profile.navigation.browseListings}
+          </Link>
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+            <Link
+              href="/parduoti"
+              className="rounded-lg border border-slate-300 px-4 py-2 text-center text-sm font-medium text-slate-700 hover:bg-slate-50"
+            >
+              {lt.profile.navigation.sellPlate}
+            </Link>
+            <Link
+              href="/ieskau/naujas"
+              className="rounded-lg border border-slate-300 px-4 py-2 text-center text-sm font-medium text-slate-700 hover:bg-slate-50"
+            >
+              {lt.profile.navigation.wantedPlate}
+            </Link>
+          </div>
+        </div>
+
         <dl className="space-y-3">
           <div>
             <dt className="text-xs uppercase tracking-wider text-slate-500">
