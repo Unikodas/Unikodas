@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { lt } from '@/lib/i18n/lt';
 import { requireUser } from '@/lib/auth/require-user';
+import { LogoLink } from '@/components/LogoLink';
 import { SetPasswordForm } from './SetPasswordForm';
 
 /**
@@ -28,9 +29,7 @@ export default async function SetPasswordPage() {
     <>
       <header className="border-b border-slate-200 bg-white">
         <nav className="max-w-2xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
-          <Link href="/" className="font-semibold">
-            {lt.appName}
-          </Link>
+          <LogoLink />
           <Link href="/profilis" className="text-sm text-slate-600 hover:text-slate-900">
             {lt.common.back}
           </Link>

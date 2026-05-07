@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 import { parseListingFilters } from '@/lib/validation/listing';
 import { ListingCard, type ListingCardData } from '@/components/ListingCard';
 import { ListingFilters } from '@/components/ListingFilters';
+import { LogoLink } from '@/components/LogoLink';
 
 const BROWSE_PAGE_SIZE = 50;
 
@@ -64,9 +65,7 @@ export default async function Home({
     <>
       <header className="border-b border-slate-200 bg-white">
         <nav className="max-w-5xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
-          <Link href="/" className="font-semibold">
-            {lt.appName}
-          </Link>
+          <LogoLink />
           <div className="flex items-center gap-4 text-sm">
             <Link href="/ieskau" className="text-slate-700 hover:text-slate-900 hidden sm:inline">
               {lt.nav.wanted}

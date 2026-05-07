@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 import { parseWantedFilters } from '@/lib/validation/wanted';
 import { WantedCard, type WantedCardData } from '@/components/WantedCard';
 import { WantedFilters } from '@/components/WantedFilters';
+import { LogoLink } from '@/components/LogoLink';
 
 const BROWSE_PAGE_SIZE = 50;
 
@@ -62,9 +63,7 @@ export default async function WantedBrowsePage({
     <>
       <header className="border-b border-slate-200 bg-white">
         <nav className="max-w-5xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
-          <Link href="/" className="font-semibold">
-            {lt.appName}
-          </Link>
+          <LogoLink />
           <div className="flex items-center gap-4 text-sm">
             <Link href="/" className="text-slate-700 hover:text-slate-900 hidden sm:inline">
               {lt.nav.browse}

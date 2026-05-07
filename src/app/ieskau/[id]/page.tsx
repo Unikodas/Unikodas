@@ -4,6 +4,7 @@ import { lt } from '@/lib/i18n/lt';
 import { createClient } from '@/lib/supabase/server';
 import { ReportButton } from '@/components/ReportButton';
 import { MessageForm } from '@/app/skelbimas/[id]/MessageForm';
+import { LogoLink } from '@/components/LogoLink';
 import { sendWantedMessageAction } from './actions';
 import { DeleteButton } from './redaguoti/DeleteButton';
 
@@ -63,9 +64,7 @@ export default async function WantedDetailPage({
     <>
       <header className="border-b border-slate-200 bg-white">
         <nav className="max-w-3xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
-          <Link href="/" className="font-semibold">
-            {lt.appName}
-          </Link>
+          <LogoLink />
           <Link href="/ieskau" className="text-sm text-slate-600 hover:text-slate-900">
             {lt.common.back}
           </Link>

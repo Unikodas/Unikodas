@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { lt } from '@/lib/i18n/lt';
 import { requireAdmin } from '@/lib/auth/require-admin';
 import type { ReportReason, ReportTargetType } from '@/lib/validation/report';
+import { LogoLink } from '@/components/LogoLink';
 import { ReportRowActions } from './ReportRowActions';
 
 const PAGE_SIZE = 50;
@@ -133,9 +134,10 @@ export default async function AdminPage() {
     <>
       <header className="border-b border-slate-200 bg-white">
         <nav className="max-w-5xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
-          <Link href="/" className="font-semibold">
-            {lt.appName} · {lt.admin.title}
-          </Link>
+          <div className="flex items-center gap-3">
+            <LogoLink />
+            <span className="text-sm font-medium text-slate-600">{lt.admin.title}</span>
+          </div>
           <Link href="/" className="text-sm text-slate-600 hover:text-slate-900">
             {lt.common.back}
           </Link>

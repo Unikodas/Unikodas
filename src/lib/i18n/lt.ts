@@ -5,7 +5,7 @@
  */
 
 export const lt = {
-  appName: 'Numerių rinka',
+  appName: 'Unikodas',
   tagline: 'Lietuvos automobilių numerių prekyvietė',
 
   nav: {
