@@ -12,7 +12,13 @@ import {
  * Add new types here AND in lt.ts; widen the DB check constraint once
  * the set stabilises.
  */
-export const PLATE_TYPES = ['standard', 'personalized', 'historical', 'other'] as const;
+export const PLATE_TYPES = [
+  'standard',
+  'personalized',
+  'motorcycle',
+  'historical',
+  'other',
+] as const;
 export type PlateType = (typeof PLATE_TYPES)[number];
 
 /**
@@ -107,6 +113,7 @@ export function parseListingFormData(formData: FormData): ListingInput {
 export type ListingFilters = {
   q: string | null;
   plate_type: PlateType | null;
+  flag_type: FlagType | null;
   city: LithuanianCity | null;
   minPrice: number | null;
   maxPrice: number | null;
@@ -132,6 +139,11 @@ export function parseListingFilters(
     if (s === null) return null;
     return (PLATE_TYPES as readonly string[]).includes(s) ? (s as PlateType) : null;
   };
+  const pickFlagType = (): FlagType | null => {
+    const s = pickString('flag');
+    if (s === null) return null;
+    return (FLAG_TYPES as readonly string[]).includes(s) ? (s as FlagType) : null;
+  };
   const pickCity = (): LithuanianCity | null => {
     const s = pickString('city');
     if (s === null) return null;
@@ -143,6 +155,7 @@ export function parseListingFilters(
   return {
     q: pickString('q'),
     plate_type: pickPlateType(),
+    flag_type: pickFlagType(),
     city: pickCity(),
     minPrice: pickInt('min'),
     maxPrice: pickInt('max'),

@@ -1,10 +1,30 @@
 import './globals.css';
 import type { Metadata, Viewport } from 'next';
-import { lt } from '@/lib/i18n/lt';
+import { HOME_DESCRIPTION, HOME_TITLE, OG_IMAGE_PATH, SITE_NAME, SITE_URL } from '@/lib/seo';
 
 export const metadata: Metadata = {
-  title: lt.appName,
-  description: lt.tagline,
+  metadataBase: SITE_URL,
+  applicationName: SITE_NAME,
+  title: {
+    default: HOME_TITLE,
+    template: `%s | ${SITE_NAME}`,
+  },
+  description: HOME_DESCRIPTION,
+  openGraph: {
+    siteName: SITE_NAME,
+    locale: 'lt_LT',
+    type: 'website',
+    images: [
+      {
+        url: OG_IMAGE_PATH,
+        alt: SITE_NAME,
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    images: [OG_IMAGE_PATH],
+  },
 };
 
 export const viewport: Viewport = {
@@ -15,15 +35,28 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="lt">
+    <html lang="lt" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+try {
+  if (window.localStorage.getItem('unikodas-theme') === 'dark') {
+    document.documentElement.classList.add('dark');
+  }
+} catch (_) {}
+`,
+          }}
+        />
+      </head>
       <body>
         {children}
 
-        <footer className="border-t border-slate-200 py-6 text-center text-sm text-slate-500">
-          <a href="/taisykles" className="mx-2 hover:text-slate-900">
+        <footer className="border-t border-[var(--border)] py-6 text-center text-sm text-[var(--muted)]">
+          <a href="/taisykles" className="mx-2 hover:text-[var(--text)]">
             Taisyklės
           </a>
-          <a href="/privatumas" className="mx-2 hover:text-slate-900">
+          <a href="/privatumas" className="mx-2 hover:text-[var(--text)]">
             Privatumas
           </a>
         </footer>

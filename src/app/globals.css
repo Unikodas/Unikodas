@@ -2,11 +2,281 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  color-scheme: light;
+  --page-bg: #f8fafc;
+  --surface: #ffffff;
+  --surface-muted: #f1f5f9;
+  --surface-soft: #f8fafc;
+  --border: #e2e8f0;
+  --border-strong: #cbd5e1;
+  --text: #0f172a;
+  --muted: #475569;
+  --muted-soft: #64748b;
+  --primary: #0f172a;
+  --primary-hover: #1e293b;
+  --primary-contrast: #ffffff;
+  --focus: #0f172a;
+}
+
+html.dark {
+  color-scheme: dark;
+  --page-bg: #0f172a;
+  --surface: #172033;
+  --surface-muted: #111827;
+  --surface-soft: #1e293b;
+  --border: #334155;
+  --border-strong: #475569;
+  --text: #f8fafc;
+  --muted: #cbd5e1;
+  --muted-soft: #94a3b8;
+  --primary: #e2e8f0;
+  --primary-hover: #f8fafc;
+  --primary-contrast: #0f172a;
+  --focus: #cbd5e1;
+}
+
 html,
 body {
   height: 100%;
 }
 
 body {
-  @apply bg-white text-slate-900 antialiased;
+  background: var(--page-bg);
+  color: var(--text);
+  @apply antialiased;
+}
+
+.plate-preview {
+  --plate-width: 23rem;
+  --plate-font-size: 2.35rem;
+  --plate-strip-width: 3.45rem;
+  align-items: stretch;
+  aspect-ratio: 4.35 / 1;
+  background: linear-gradient(180deg, #fffdfa 0%, #f7f7f1 100%);
+  border: 2px solid #111827;
+  border-radius: 10px;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.95),
+    inset 0 -8px 18px rgba(15, 23, 42, 0.035),
+    0 14px 30px rgba(15, 23, 42, 0.16);
+  color: #020617;
+  display: flex;
+  max-width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  position: relative;
+  width: var(--plate-width);
+}
+
+.plate-preview--sm {
+  --plate-width: 15rem;
+  --plate-font-size: 1.5rem;
+  --plate-strip-width: 2.35rem;
+}
+
+.plate-preview--md {
+  --plate-width: 19rem;
+  --plate-font-size: 1.95rem;
+  --plate-strip-width: 2.85rem;
+}
+
+.plate-preview--lg {
+  --plate-width: 25rem;
+  --plate-font-size: 2.55rem;
+  --plate-strip-width: 3.55rem;
+}
+
+.plate-preview--square {
+  --plate-width: 11.25rem;
+  --plate-font-size: 2rem;
+  --plate-strip-width: 2.55rem;
+  aspect-ratio: 1.12 / 1;
+}
+
+.plate-preview--square.plate-preview--sm {
+  --plate-width: 8.9rem;
+  --plate-font-size: 1.35rem;
+  --plate-strip-width: 2.05rem;
+}
+
+.plate-preview--square.plate-preview--lg {
+  --plate-width: 13.6rem;
+  --plate-font-size: 2.18rem;
+  --plate-strip-width: 2.85rem;
+}
+
+.plate-preview--category {
+  --plate-font-size: 1.65rem;
+  --plate-strip-width: 2.45rem;
+  width: min(100%, 15.75rem);
+}
+
+.plate-preview--square.plate-preview--category {
+  --plate-font-size: 1.2rem;
+  --plate-strip-width: 2.45rem;
+  aspect-ratio: 1.58 / 1;
+  width: 8rem;
+}
+
+.plate-preview--hero {
+  --plate-width: 25.75rem;
+  --plate-font-size: 2.58rem;
+  --plate-strip-width: 3.6rem;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.96),
+    inset 0 -10px 20px rgba(15, 23, 42, 0.04),
+    0 18px 38px rgba(15, 23, 42, 0.18);
+}
+
+.plate-preview--compact {
+  --plate-font-size: 1.58rem;
+}
+
+.plate-preview--square.plate-preview--compact {
+  --plate-font-size: 1.38rem;
+}
+
+.plate-preview__strip {
+  align-items: center;
+  border-right: 1px solid rgba(2, 6, 23, 0.18);
+  display: flex;
+  flex: 0 0 var(--plate-strip-width);
+  justify-content: center;
+  padding: 0.34rem;
+}
+
+.plate-preview__strip--eu {
+  background: linear-gradient(180deg, #1d4ed8 0%, #1e40af 100%);
+}
+
+.plate-preview__strip--vytis {
+  background: linear-gradient(180deg, #c1121f 0%, #991b1b 100%);
+}
+
+.plate-preview__strip--lithuanian {
+  background: url('/symbols/Flag_of_Lithuania.svg') center / cover no-repeat;
+}
+
+.plate-preview__symbol-frame {
+  align-items: center;
+  border-radius: 5px;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.22),
+    0 1px 4px rgba(2, 6, 23, 0.16);
+  display: flex;
+  height: calc(var(--plate-strip-width) * 0.64);
+  justify-content: center;
+  overflow: hidden;
+  width: calc(var(--plate-strip-width) * 0.64);
+}
+
+.plate-preview__strip--vytis .plate-preview__symbol-frame {
+  background: #fff7ed;
+  padding: 0.08rem;
+}
+
+.plate-preview__symbol-image {
+  display: block;
+  height: 82%;
+  object-fit: contain;
+  width: 82%;
+}
+
+.plate-preview__strip--vytis .plate-preview__symbol-image {
+  height: 100%;
+  width: 100%;
+}
+
+.plate-preview__text {
+  align-items: center;
+  display: flex;
+  flex: 1 1 auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
+  font-size: var(--plate-font-size);
+  font-weight: 900;
+  justify-content: center;
+  letter-spacing: 0;
+  line-height: 1;
+  min-width: 0;
+  overflow: hidden;
+  padding: 0 1rem 0 1.08rem;
+  text-align: center;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.plate-preview--square .plate-preview__text {
+  line-height: 1.05;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+.plate-preview--square .plate-preview__text--motorcycle {
+  flex-direction: column;
+  gap: 0.18em;
+  line-height: 0.92;
+  overflow-wrap: normal;
+  padding: 0 0.85rem;
+  white-space: nowrap;
+}
+
+.plate-preview__text--motorcycle span {
+  display: block;
+}
+
+.plate-preview__text--icon {
+  padding: 0 1.1rem;
+}
+
+.plate-preview__motorcycle-icon {
+  color: #020617;
+  height: auto;
+  width: min(58%, 4.6rem);
+}
+
+.theme-toggle {
+  align-items: center;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--muted);
+  display: inline-flex;
+  font-size: 0.875rem;
+  font-weight: 600;
+  gap: 0.5rem;
+  min-height: 2.25rem;
+  padding: 0.25rem 0.65rem 0.25rem 0.3rem;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease;
+}
+
+.theme-toggle:hover {
+  background: var(--surface-soft);
+  border-color: var(--border-strong);
+  color: var(--text);
+}
+
+.theme-toggle__track {
+  background: var(--surface-muted);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  height: 1.55rem;
+  padding: 0.16rem;
+  width: 2.8rem;
+}
+
+.theme-toggle__knob {
+  background: var(--primary);
+  border-radius: 999px;
+  display: block;
+  height: 1.1rem;
+  transform: translateX(0);
+  transition: transform 180ms ease;
+  width: 1.1rem;
+}
+
+.theme-toggle[data-theme='dark'] .theme-toggle__knob {
+  transform: translateX(1.2rem);
 }

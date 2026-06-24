@@ -1,12 +1,15 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { lt } from '@/lib/i18n/lt';
 import { createClient } from '@/lib/supabase/server';
+import { createPageMetadata, getListingSeo, HOME_DESCRIPTION, SITE_NAME } from '@/lib/seo';
 import type { PlateType, FlagType } from '@/lib/validation/listing';
 import { MessageForm } from './MessageForm';
 import { sendMessageAction } from './actions';
 import { ReportButton } from '@/components/ReportButton';
 import { LogoLink } from '@/components/LogoLink';
+import { PlatePreview } from '@/components/PlatePreview';
 import { DeleteButton } from './redaguoti/DeleteButton';
 
 type ListingRow = {
@@ -39,12 +42,7 @@ function formatDate(iso: string): string {
   });
 }
 
-export default async function ListingDetailPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const { id } = await params;
+async function getListing(id: string): Promise<ListingRow | null> {
   const supabase = await createClient();
 
   // RLS lets anon read active listings; the owner can also see their own
@@ -60,6 +58,38 @@ export default async function ListingDetailPage({
   if (error) {
     console.error('[detail] listing query failed:', error);
   }
+
+  return listing ?? null;
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const listing = await getListing(id);
+
+  if (!listing) {
+    return createPageMetadata({
+      title: `Skelbimas nerastas | ${SITE_NAME}`,
+      description: HOME_DESCRIPTION,
+      path: `/skelbimas/${id}`,
+    });
+  }
+
+  return createPageMetadata(getListingSeo(listing.id, listing.plate_text));
+}
+
+export default async function ListingDetailPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  const supabase = await createClient();
+
+  const listing = await getListing(id);
   if (!listing) {
     notFound();
   }
@@ -76,59 +106,70 @@ export default async function ListingDetailPage({
 
   return (
     <>
-      <header className="border-b border-slate-200 bg-white">
+      <header className="border-b border-[var(--border)] bg-[var(--surface)]">
         <nav className="max-w-3xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
           <LogoLink />
-          <Link href="/" className="text-sm text-slate-600 hover:text-slate-900">
+          <Link href="/" className="text-sm text-[var(--muted)] hover:text-[var(--text)]">
             {lt.common.back}
           </Link>
         </nav>
       </header>
 
       <main className="max-w-3xl mx-auto px-4 sm:px-6 py-6 space-y-6">
-        <div className="rounded-2xl border border-slate-200 bg-white p-6">
-          <div className="flex items-start justify-between gap-4 mb-4">
-            <div className="font-mono text-4xl sm:text-5xl font-bold tracking-wider">
-              {listing.plate_text}
+        <div className="rounded-lg border border-[var(--border)] bg-[var(--surface)] p-6">
+          <div className="mb-6 grid gap-5 sm:grid-cols-[minmax(0,1fr)_13rem] sm:items-start">
+            <div className="flex min-h-36 items-center justify-center rounded-lg bg-[var(--surface-muted)] p-4">
+              <PlatePreview
+                plateText={listing.plate_text}
+                plateType={listing.plate_type}
+                flagType={listing.flag_type}
+                size="lg"
+              />
             </div>
-            {listing.is_verified_listing && (
-              <span className="inline-flex items-center text-xs font-medium px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
-                {lt.listings.verifiedBadge}
-              </span>
-            )}
+
+            <div className="space-y-3">
+              <div>
+                <div className="text-xs font-medium uppercase text-[var(--muted-soft)]">
+                  {lt.listings.price}
+                </div>
+                <div className="mt-1 text-3xl font-semibold text-[var(--text)]">
+                  {formatPrice(listing.price_eur)}
+                </div>
+              </div>
+
+              {listing.is_verified_listing && (
+                <span className="inline-flex items-center rounded-full border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-700">
+                  {lt.listings.verifiedBadge}
+                </span>
+              )}
+            </div>
           </div>
 
-          <dl className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm mb-6">
+          <dl className="grid grid-cols-2 gap-4 text-sm sm:grid-cols-3 mb-6">
             <div>
-              <dt className="text-xs uppercase tracking-wider text-slate-500">{lt.listings.plateType}</dt>
-              <dd className="mt-0.5">{typeLabel}</dd>
+              <dt className="text-xs font-medium uppercase text-[var(--muted-soft)]">{lt.listings.plateType}</dt>
+              <dd className="mt-0.5 text-[var(--text)]">{typeLabel}</dd>
             </div>
             <div>
-              <dt className="text-xs uppercase tracking-wider text-slate-500">{lt.listings.flagType}</dt>
-              <dd className="mt-0.5">{flagLabel}</dd>
+              <dt className="text-xs font-medium uppercase text-[var(--muted-soft)]">{lt.listings.flagType}</dt>
+              <dd className="mt-0.5 text-[var(--text)]">{flagLabel}</dd>
             </div>
             <div>
-              <dt className="text-xs uppercase tracking-wider text-slate-500">{lt.listings.city}</dt>
-              <dd className="mt-0.5">{listing.city}</dd>
-            </div>
-            <div>
-              <dt className="text-xs uppercase tracking-wider text-slate-500">{lt.listings.price}</dt>
-              <dd className="mt-0.5 font-medium text-base text-slate-900">
-                {formatPrice(listing.price_eur)}
-              </dd>
+              <dt className="text-xs font-medium uppercase text-[var(--muted-soft)]">{lt.listings.city}</dt>
+              <dd className="mt-0.5 text-[var(--text)]">{listing.city}</dd>
             </div>
           </dl>
 
           {listing.description && (
             <div className="mb-6">
-              <h2 className="text-xs uppercase tracking-wider text-slate-500 mb-1">
+              <h2 className="mb-1 text-xs font-medium uppercase text-[var(--muted-soft)]">
                 {lt.listings.description}
               </h2>
-              <p className="whitespace-pre-wrap text-slate-800">{listing.description}</p>
+              <p className="whitespace-pre-wrap text-[var(--text)]">{listing.description}</p>
             </div>
           )}
 
-          <div className="text-xs text-slate-500">
+          <div className="text-xs text-[var(--muted)]">
             {lt.listings.postedAt}: {formatDate(listing.created_at)}
           </div>
         </div>
@@ -136,16 +177,16 @@ export default async function ListingDetailPage({
         {/* Contact section. Phone numbers stay hidden — buyers reach
             the seller through in-app messaging instead. */}
         {canMessageSeller && (
-          <div className="rounded-2xl border border-slate-200 bg-white p-6">
+          <div className="rounded-lg border border-[var(--border)] bg-[var(--surface)] p-6">
             <h2 className="text-lg font-semibold mb-3">{lt.messages.contactSeller}</h2>
             <MessageForm action={boundSendMessage} submitLabel={lt.messages.form.send} />
           </div>
         )}
         {!userData.user && (
-          <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 text-sm text-slate-600">
+          <div className="rounded-lg border border-dashed border-[var(--border-strong)] bg-[var(--surface-muted)] p-6 text-sm text-[var(--muted)]">
             <Link
               href={`/prisijungti?redirect=${encodeURIComponent(`/skelbimas/${listing.id}`)}`}
-              className="underline hover:text-slate-900"
+              className="underline hover:text-[var(--text)]"
             >
               {lt.messages.signInToContact}
             </Link>
@@ -156,7 +197,7 @@ export default async function ListingDetailPage({
           <div className="flex flex-wrap gap-3">
             <Link
               href={`/skelbimas/${listing.id}/redaguoti`}
-              className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+              className="rounded-lg border border-[var(--border-strong)] px-4 py-2 text-sm font-medium text-[var(--muted)] hover:bg-[var(--surface-soft)] hover:text-[var(--text)]"
             >
               {lt.listings.edit}
             </Link>

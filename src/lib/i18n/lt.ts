@@ -8,6 +8,93 @@ export const lt = {
   appName: 'Unikodas',
   tagline: 'Lietuvos automobilių numerių prekyvietė',
 
+  home: {
+    heroTitle: 'Išskirtiniai numeriai vienoje vietoje',
+    heroLead:
+      'Naršykite parduodamus numerius, filtruokite pagal tipą, simbolį, miestą ar kainą ir susisiekite su pardavėju per Unikodo žinutes.',
+    listingsTitle: 'Naujausi skelbimai',
+    listingsLead:
+      'Čia rodomi tik aktyvūs skelbimai. Pasinaudokite filtrais, kad greičiau rastumėte tinkamą numerį.',
+    categoriesTitle: 'Greiti filtrai',
+    allCategories: 'Visi skelbimai',
+    categories: {
+      personalized: 'Vardiniai',
+      euSymbol: 'ES simbolis',
+      vytis: 'Su Vyčiu',
+      standard: 'Standartiniai',
+      motorcycle: 'Motociklų',
+      lithuanianFlag: 'Su vėliava',
+      historical: 'Istoriniai',
+    },
+    how: {
+      title: 'Kaip vyksta numerio pirkimas?',
+      steps: [
+        'Susisiekite su pardavėju',
+        'Apsikeiskite kontaktais',
+        'Susitarkite dėl kainos',
+        'Susitikite gyvai',
+        'Kartu vykite į Regitrą',
+        'Perregistruokite numerį',
+      ],
+    },
+    safety: {
+      title: 'Saugūs sandoriai',
+      intro:
+        'Unikodas nėra sandorio šalis – platforma padeda pirkėjams ir pardavėjams susisiekti. Kad sandoris vyktų sklandžiai, rekomenduojame laikytis kelių paprastų saugumo principų.',
+      items: [
+        'Susitikite gyvai ir įsitikinkite, kad abi šalys sutaria dėl sandorio sąlygų',
+        'Numerį perregistruokite Regitroje',
+        'Prieš sandorį patikrinkite dokumentus',
+        'Atsiskaitykite tik įsitikinę, kad visos sandorio sąlygos yra aiškios',
+      ],
+    },
+    faq: {
+      title: 'Dažniausi klausimai',
+      items: [
+        {
+          question: 'Kaip vyksta numerio perregistravimas?',
+          answer:
+            'Pirkėjas ir pardavėjas kartu kreipiasi į Regitrą, kur numeris perregistruojamas naujam savininkui pagal tuo metu galiojančią tvarką.',
+        },
+        {
+          question: 'Ar galima parduoti motociklo numerius?',
+          answer:
+            'Taip. Motociklų numeriai gali būti skelbiami ir parduodami, jei juos galima teisėtai perregistruoti ir skelbime aiškiai nurodytas numerio tipas.',
+        },
+        {
+          question: 'Kaip nustatyti numerio vertę?',
+          answer:
+            'Šiuo metu nėra vieno tikslaus būdo nustatyti numerio vertę – galutinę kainą dažniausiai lemia pirkėjo ir pardavėjo susitarimas. Numerio vertę gali didinti jo trumpumas, įsimenamumas, populiarūs žodžiai ar išskirtiniai skaičių deriniai.\n\nVienas iš mūsų tikslų – ateityje padėti vartotojams lengviau orientuotis numerių rinkoje ir geriau suprasti, kokie veiksniai gali turėti įtakos numerio vertei.',
+        },
+        {
+          question: 'Ar Unikodas dalyvauja sandoryje?',
+          answer:
+            'Ne. Unikodas yra skelbimų platforma, jungianti pirkėjus ir pardavėjus. Dėl kainos, atsiskaitymo ir kitų sąlygų šalys susitaria tarpusavyje.',
+        },
+        {
+          question: 'Ar galima derėtis dėl kainos?',
+          answer:
+            'Taip. Daugelyje skelbimų dėl kainos galima derėtis, tačiau galutinį sprendimą priima pardavėjas.',
+        },
+        {
+          question: 'Ar galima rezervuoti numerį?',
+          answer:
+            'Rezervavimas priklauso nuo pirkėjo ir pardavėjo susitarimo. Visada būkite atsargūs pervesdami pinigus iš anksto nepažįstamiems asmenims.',
+        },
+        {
+          question: 'Ar Unikodas tikrina numerių autentiškumą?',
+          answer:
+            'Ne. Už skelbime pateikiamos informacijos tikslumą atsako pardavėjas. Prieš sudarydami sandorį visuomet įsitikinkite, kad numeris gali būti teisėtai perregistruotas.',
+        },
+      ],
+    },
+    theme: {
+      light: 'Šviesi',
+      dark: 'Tamsi',
+      toggle: 'Keisti svetainės temą',
+    },
+  },
+
   nav: {
     browse: 'Naršyti',
     wanted: 'Ieškomi',
@@ -97,6 +184,7 @@ export const lt = {
     types: {
       standard: 'Standartinis',
       personalized: 'Personalizuotas',
+      motorcycle: 'Motociklo',
       historical: 'Istorinis',
       other: 'Kita',
     },

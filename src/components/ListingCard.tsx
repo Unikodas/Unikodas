@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { lt } from '@/lib/i18n/lt';
 import type { PlateType, FlagType } from '@/lib/validation/listing';
+import { PlatePreview } from '@/components/PlatePreview';
 
 export type ListingCardData = {
   id: string;
@@ -22,6 +23,11 @@ function formatPrice(price: number | null): string {
   return `${price.toLocaleString('lt-LT')} €`;
 }
 
+function truncate(s: string, max: number): string {
+  if (s.length <= max) return s;
+  return s.slice(0, max - 1).trimEnd() + '…';
+}
+
 export function ListingCard({ listing }: { listing: ListingCardData }) {
   const typeLabel = lt.listings.types[listing.plate_type] ?? listing.plate_type;
   const flagLabel = lt.listings.flagTypes[listing.flag_type] ?? listing.flag_type;
@@ -29,37 +35,52 @@ export function ListingCard({ listing }: { listing: ListingCardData }) {
   return (
     <Link
       href={`/skelbimas/${listing.id}`}
-      className="block rounded-2xl border border-slate-200 bg-white hover:border-slate-300 hover:shadow-sm transition p-4"
+      className="group flex h-full min-h-[22rem] flex-col overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--surface)] transition hover:-translate-y-0.5 hover:border-[var(--border-strong)] hover:shadow-lg"
     >
-      <div className="flex items-start justify-between gap-3 mb-2">
-        <div className="font-mono text-2xl font-bold tracking-wider">
-          {listing.plate_text}
-        </div>
-        {listing.is_verified_listing && (
-          <span className="inline-flex items-center text-xs font-medium px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
-            {lt.listings.verifiedBadge}
-          </span>
-        )}
+      <div className="flex min-h-32 items-center justify-center bg-[var(--surface-muted)] p-4">
+        <PlatePreview
+          plateText={listing.plate_text}
+          plateType={listing.plate_type}
+          flagType={listing.flag_type}
+          size="lg"
+        />
       </div>
 
-      <dl className="text-sm text-slate-600 space-y-1">
-        <div className="flex gap-2">
-          <dt className="text-slate-400 w-16">{lt.listings.plateType}</dt>
-          <dd>{typeLabel}</dd>
+      <div className="flex flex-1 flex-col p-4">
+        <div className="flex items-start justify-between gap-3">
+          <div>
+            <div className="text-2xl font-semibold text-[var(--text)]">
+              {formatPrice(listing.price_eur)}
+            </div>
+            <div className="mt-1 text-sm font-medium text-[var(--muted)]">{listing.city}</div>
+          </div>
+
+          {listing.is_verified_listing && (
+            <span className="inline-flex shrink-0 items-center rounded-full border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-700">
+              {lt.listings.verifiedBadge}
+            </span>
+          )}
         </div>
-        <div className="flex gap-2">
-          <dt className="text-slate-400 w-16">{lt.listings.flagType}</dt>
-          <dd>{flagLabel}</dd>
-        </div>
-        <div className="flex gap-2">
-          <dt className="text-slate-400 w-16">{lt.listings.city}</dt>
-          <dd>{listing.city}</dd>
-        </div>
-        <div className="flex gap-2">
-          <dt className="text-slate-400 w-16">{lt.listings.price}</dt>
-          <dd className="font-medium text-slate-900">{formatPrice(listing.price_eur)}</dd>
-        </div>
-      </dl>
+
+        <p className="mt-3 min-h-10 text-sm leading-5 text-[var(--muted)]">
+          {listing.description ? truncate(listing.description, 92) : ''}
+        </p>
+
+        <dl className="mt-auto grid grid-cols-2 gap-3 pt-4 text-sm">
+          <div>
+            <dt className="text-xs font-medium uppercase text-[var(--muted-soft)]">
+              {lt.listings.plateType}
+            </dt>
+            <dd className="mt-1 font-medium text-[var(--text)]">{typeLabel}</dd>
+          </div>
+          <div>
+            <dt className="text-xs font-medium uppercase text-[var(--muted-soft)]">
+              {lt.listings.flagType}
+            </dt>
+            <dd className="mt-1 font-medium text-[var(--text)]">{flagLabel}</dd>
+          </div>
+        </dl>
+      </div>
     </Link>
   );
 }
