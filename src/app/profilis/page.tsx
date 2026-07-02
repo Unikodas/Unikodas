@@ -2,13 +2,15 @@ import Link from 'next/link';
 import { lt } from '@/lib/i18n/lt';
 import { requireUser } from '@/lib/auth/require-user';
 import { DisplayNameForm } from './DisplayNameForm';
+import { EmailSettingsForm } from './EmailSettingsForm';
 import SignOutButton from './SignOutButton';
 
 /**
  * Authenticated profile page. Three sections, top to bottom:
  *   1. Phone (read-only — anchored identity, only the user can see it)
  *   2. Display name editor (visible to other users via public_profiles)
- *   3. Sign out
+ *   3. Optional email notification settings (separate from auth)
+ *   4. Sign out
  *
  * Phone fetch relies on `profiles_self_read` RLS, which limits SELECT
  * on profiles to `auth.uid() = id` — no other user can read this row.
@@ -18,7 +20,7 @@ export default async function ProfilePage() {
 
   const { data: profile, error: profileErr } = await supabase
     .from('profiles')
-    .select('phone, display_name, has_password, created_at')
+    .select('phone, display_name, has_password, email, email_notifications_enabled, created_at')
     .eq('id', user.id)
     .maybeSingle();
 
@@ -65,6 +67,13 @@ export default async function ProfilePage() {
 
         <div className="border-t border-slate-200 pt-6">
           <DisplayNameForm initialDisplayName={profile?.display_name ?? null} />
+        </div>
+
+        <div className="border-t border-slate-200 pt-6">
+          <EmailSettingsForm
+            initialEmail={profile?.email ?? null}
+            initialEmailNotificationsEnabled={profile?.email_notifications_enabled ?? true}
+          />
         </div>
 
         <div className="border-t border-slate-200 pt-6 space-y-2">

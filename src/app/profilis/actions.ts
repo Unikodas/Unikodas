@@ -4,9 +4,17 @@ import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 
 import { requireUser } from '@/lib/auth/require-user';
-import { parseDisplayNameFormData } from '@/lib/validation/profile';
+import {
+  parseDisplayNameFormData,
+  parseEmailSettingsFormData,
+} from '@/lib/validation/profile';
 
 export type DisplayNameFormState = {
+  error: string | null;
+  success: boolean;
+};
+
+export type EmailSettingsFormState = {
   error: string | null;
   success: boolean;
 };
@@ -58,5 +66,41 @@ export async function updateDisplayNameAction(
   // path so the new name appears next time the user opens it.
   revalidatePath('/profilis');
   revalidatePath('/zinutes');
+  return { error: null, success: true };
+}
+
+export async function updateEmailSettingsAction(
+  _prev: EmailSettingsFormState,
+  formData: FormData,
+): Promise<EmailSettingsFormState> {
+  const { supabase, user } = await requireUser('/profilis');
+
+  let parsed: ReturnType<typeof parseEmailSettingsFormData>;
+  try {
+    parsed = parseEmailSettingsFormData(formData);
+  } catch (err) {
+    if (err instanceof z.ZodError) {
+      return {
+        error: err.issues[0]?.message ?? 'validation_error',
+        success: false,
+      };
+    }
+    return { error: 'validation_error', success: false };
+  }
+
+  const { error } = await supabase
+    .from('profiles')
+    .update({
+      email: parsed.email,
+      email_notifications_enabled: parsed.emailNotificationsEnabled,
+    })
+    .eq('id', user.id);
+
+  if (error) {
+    console.error('[profilis] email settings update failed:', error);
+    return { error: 'server_error', success: false };
+  }
+
+  revalidatePath('/profilis');
   return { error: null, success: true };
 }

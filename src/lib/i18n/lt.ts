@@ -355,6 +355,12 @@ export const lt = {
     displayNamePlaceholder: 'Jūsų vardas',
     displayNameHint:
       'Šis vardas matomas kitiems vartotojams žinutėse. 2–30 simbolių, be telefono numerio.',
+    emailSettingsTitle: 'El. pašto pranešimai',
+    emailSettingsHint:
+      'El. paštas naudojamas tik pranešimams apie naujas žinutes.',
+    emailLabel: 'El. pašto adresas',
+    emailPlaceholder: 'vardas@example.com',
+    emailNotificationsToggle: 'Gauti pranešimus apie naujas žinutes',
     saved: 'Išsaugota.',
     navigation: {
       browseListings: 'Naršyti skelbimus',
@@ -366,6 +372,7 @@ export const lt = {
       display_name_too_long: 'Vardas per ilgas (maks. 30 simbolių).',
       display_name_contains_phone: 'Varde negalima naudoti telefono numerio.',
       display_name_taken: 'Toks vardas jau užimtas. Pasirinkite kitą.',
+      email_invalid: 'Įveskite teisingą el. pašto adresą arba palikite lauką tuščią.',
       validation_error: 'Patikrinkite įvestus duomenis.',
       server_error: 'Įvyko klaida. Bandykite vėliau.',
     },

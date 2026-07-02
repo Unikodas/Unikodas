@@ -3,6 +3,7 @@ import { normalizeLithuanianMobile } from './phone';
 
 export const DISPLAY_NAME_MIN = 2;
 export const DISPLAY_NAME_MAX = 30;
+export const PROFILE_EMAIL_MAX = 254;
 
 /**
  * Returns true if the input contains a phone-number-like sequence.
@@ -52,4 +53,32 @@ export const DisplayNameSchema = z
 export function parseDisplayNameFormData(formData: FormData): string {
   const trimmed = String(formData.get('display_name') ?? '').trim();
   return DisplayNameSchema.parse(trimmed);
+}
+
+export const ProfileEmailSchema = z
+  .string()
+  .trim()
+  .max(PROFILE_EMAIL_MAX, 'email_invalid')
+  .email('email_invalid')
+  .transform((email) => email.toLowerCase());
+
+export type EmailSettingsInput = {
+  email: string | null;
+  emailNotificationsEnabled: boolean;
+};
+
+/**
+ * Parse profile email notification settings.
+ *
+ * Empty email is allowed and stored as null because email is optional and
+ * separate from phone-number authentication.
+ */
+export function parseEmailSettingsFormData(formData: FormData): EmailSettingsInput {
+  const rawEmail = String(formData.get('email') ?? '').trim();
+  const email = rawEmail.length === 0 ? null : ProfileEmailSchema.parse(rawEmail);
+
+  return {
+    email,
+    emailNotificationsEnabled: formData.get('email_notifications_enabled') === 'on',
+  };
 }
