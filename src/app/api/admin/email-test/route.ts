@@ -3,11 +3,10 @@ import { z } from 'zod';
 
 import { requireAdmin } from '@/lib/auth/require-admin';
 import { getEmailEnvironmentStatus, sendEmail } from '@/lib/email/resend';
-import { ProfileEmailSchema } from '@/lib/validation/profile';
 
 const TestEmailBodySchema = z
   .object({
-    to: ProfileEmailSchema.optional(),
+    to: z.string().trim().email().optional(),
   })
   .optional();
 
