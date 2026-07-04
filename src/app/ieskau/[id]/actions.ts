@@ -7,6 +7,7 @@ import { z } from 'zod';
 import { requireUser } from '@/lib/auth/require-user';
 import { MessageBodySchema } from '@/lib/validation/message';
 import { bumpRateLimit, RATE_LIMITS } from '@/lib/auth/rate-limit';
+import { queueNewMessageNotification } from '@/lib/email/notifications';
 import type { MessageFormState } from '@/app/skelbimas/[id]/MessageForm';
 
 /**
@@ -70,6 +71,11 @@ export async function sendWantedMessageAction(
     console.error('[messages/send-wanted] insert failed:', insertError);
     return { error: 'server_error' };
   }
+
+  queueNewMessageNotification({
+    recipientId: wanted.buyer_id,
+    senderId: user.id,
+  });
 
   revalidatePath('/zinutes');
   redirect('/zinutes');

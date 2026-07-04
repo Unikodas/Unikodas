@@ -6,6 +6,7 @@ import { z } from 'zod';
 import { requireUser } from '@/lib/auth/require-user';
 import { MessageBodySchema } from '@/lib/validation/message';
 import { bumpRateLimit, RATE_LIMITS } from '@/lib/auth/rate-limit';
+import { queueNewMessageNotification } from '@/lib/email/notifications';
 import type { ReplyFormState } from './ReplyButton';
 
 /**
@@ -105,6 +106,11 @@ export async function replyToMessageAction(
     console.error('[zinutes/reply] insert failed:', insertError);
     return { error: 'server_error', success: false };
   }
+
+  queueNewMessageNotification({
+    recipientId: original.sender_id,
+    senderId: user.id,
+  });
 
   revalidatePath('/zinutes');
   return { error: null, success: true };
