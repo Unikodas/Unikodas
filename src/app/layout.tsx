@@ -1,5 +1,6 @@
 import './globals.css';
 import type { Metadata, Viewport } from 'next';
+import { GoogleAnalytics } from '@next/third-parties/google';
 import { HOME_DESCRIPTION, HOME_TITLE, OG_IMAGE_PATH, SITE_NAME, SITE_URL } from '@/lib/seo';
 
 export const metadata: Metadata = {
@@ -60,6 +61,7 @@ try {
             Privatumas
           </a>
         </footer>
+        <GoogleAnalytics gaId="G-6HPX9Q9GLV" />
       </body>
     </html>
   );
