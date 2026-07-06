@@ -118,17 +118,17 @@ export default async function InboxPage({
 
   return (
     <>
-      <header className="sticky top-0 z-40 border-b border-[var(--border)] bg-[color:color-mix(in_srgb,var(--card)_92%,transparent)] backdrop-blur">
+      <header className="app-header sticky top-0 z-40">
         <nav className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3 sm:px-6">
           <LogoLink />
-          <Link href="/" className="text-sm font-semibold text-[var(--muted-foreground)] hover:text-[var(--foreground)]">
+          <Link href="/" className="inline-flex min-h-10 min-w-12 items-center justify-center text-sm font-semibold text-[var(--muted-foreground)] hover:text-[var(--foreground)]">
             {lt.common.back}
           </Link>
         </nav>
       </header>
 
       {!userData.user ? (
-        <main className="mx-auto max-w-2xl px-4 py-6 sm:px-6">
+        <main className="app-shell mx-auto min-h-screen max-w-2xl px-4 py-6 sm:px-6">
           <LoginPrompt redirectTo="/zinutes" />
         </main>
       ) : (
@@ -184,7 +184,7 @@ async function SignedInInbox({
   const showMobileChat = !!requestedConversation;
 
   return (
-    <main className="mx-auto max-w-5xl px-4 py-5 sm:px-6">
+    <main className="app-shell mx-auto min-h-screen max-w-5xl px-4 py-5 sm:px-6">
       <div className="mb-4 flex items-end justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black text-[var(--foreground)]">{lt.messages.title}</h1>
@@ -202,7 +202,7 @@ async function SignedInInbox({
         <div className="grid min-h-[70vh] gap-4 lg:grid-cols-[22rem_minmax(0,1fr)]">
           <aside
             className={[
-              'rounded-3xl border border-[var(--border)] bg-[var(--card)] lg:block',
+              'app-card overflow-hidden lg:block',
               showMobileChat ? 'hidden' : 'block',
             ].join(' ')}
           >
@@ -215,7 +215,7 @@ async function SignedInInbox({
 
           <section
             className={[
-              'overflow-hidden rounded-3xl border border-[var(--border)] bg-[var(--card)] lg:block',
+              'app-card overflow-hidden lg:block',
               showMobileChat ? 'block' : 'hidden',
             ].join(' ')}
           >
@@ -241,6 +241,7 @@ function ConversationList({
       {conversations.map((conversation) => {
         const isSelected = conversation.key === selectedKey;
         const isSent = conversation.latest.sender_id === userId;
+        const hasIncomingLatest = !isSent;
         const contextHref = conversation.listingId
           ? `/skelbimas/${conversation.listingId}`
           : conversation.wantedListingId
@@ -267,9 +268,16 @@ function ConversationList({
                     </span>
                   )}
                 </div>
-                <time className="shrink-0 text-xs text-[var(--muted-soft)]">
-                  {shortDate(conversation.latest.created_at)}
-                </time>
+                <div className="flex shrink-0 flex-col items-end gap-1">
+                  <time className="text-xs text-[var(--muted-soft)]">
+                    {shortDate(conversation.latest.created_at)}
+                  </time>
+                  {hasIncomingLatest && (
+                    <span className="rounded-full bg-[var(--primary)] px-2 py-0.5 text-[0.65rem] font-black text-[var(--primary-foreground)]">
+                      Nauja
+                    </span>
+                  )}
+                </div>
               </div>
               <p className="mt-2 line-clamp-2 text-sm leading-5 text-[var(--muted-foreground)]">
                 {isSent ? `${lt.messages.sentTo}: ` : ''}
@@ -325,6 +333,20 @@ function ConversationView({
         </div>
       </div>
 
+      {contextHref && (
+        <div className="border-b border-[var(--border)] px-4 py-3">
+          <Link
+            href={contextHref}
+            className="flex items-center justify-between gap-3 rounded-3xl bg-[var(--muted)] p-3 text-sm font-bold text-[var(--foreground)] hover:bg-[var(--surface-soft)]"
+          >
+            <span>
+              {conversation.listingId ? lt.messages.viewListing : lt.messages.viewWanted}
+            </span>
+            <span className="text-[var(--primary)]">Peržiūrėti</span>
+          </Link>
+        </div>
+      )}
+
       <div className="flex-1 space-y-3 px-4 py-4">
         {conversation.messages.map((message) => {
           const isSent = message.sender_id === userId;
@@ -338,7 +360,7 @@ function ConversationView({
                   'max-w-[82%] rounded-3xl px-4 py-3 text-sm shadow-sm',
                   isSent
                     ? 'rounded-br-lg bg-[var(--primary)] text-[var(--primary-foreground)]'
-                    : 'rounded-bl-lg border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)]',
+                    : 'rounded-bl-lg border border-[var(--border)] bg-[var(--muted)] text-[var(--foreground)]',
                 ].join(' ')}
               >
                 <p className="whitespace-pre-wrap leading-6">{message.body}</p>

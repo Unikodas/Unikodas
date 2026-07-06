@@ -98,7 +98,7 @@ export function MobileBottomNav() {
 
   return (
     <nav
-      className="fixed inset-x-0 bottom-0 z-50 border-t border-[var(--border)] bg-[color:color-mix(in_srgb,var(--card)_92%,transparent)] px-3 pb-[calc(0.45rem+env(safe-area-inset-bottom))] pt-2 shadow-2xl shadow-black/20 backdrop-blur sm:hidden"
+      className="fixed inset-x-0 bottom-0 z-50 border-t border-white/10 bg-[rgba(5,10,24,0.86)] px-3 pb-[calc(0.5rem+env(safe-area-inset-bottom))] pt-2 shadow-[0_-18px_48px_rgba(0,0,0,0.46)] backdrop-blur-2xl sm:hidden"
       aria-label="Pagrindinė mobilioji navigacija"
     >
       <div className="mx-auto grid max-w-md grid-cols-5 items-end gap-1">
@@ -110,12 +110,12 @@ export function MobileBottomNav() {
                 key={item.href}
                 href={item.href}
                 aria-current={active ? 'page' : undefined}
-                className="flex flex-col items-center gap-1 text-[0.68rem] font-semibold text-[var(--primary)]"
+                className="flex flex-col items-center gap-1 text-[0.68rem] font-black text-[var(--primary)]"
               >
-                <span className="flex h-14 w-14 -translate-y-3 items-center justify-center rounded-full bg-[var(--primary)] text-[var(--primary-foreground)] shadow-lg shadow-blue-500/30 ring-4 ring-[var(--background)]">
+                <span className="flex h-16 w-16 -translate-y-4 items-center justify-center rounded-full bg-[linear-gradient(180deg,var(--primary),#1557d8)] text-[var(--primary-foreground)] shadow-[0_18px_40px_rgba(47,125,246,0.42)] ring-4 ring-[#050a18]">
                   {item.icon}
                 </span>
-                <span className="-mt-3">{item.label}</span>
+                <span className="-mt-4">{item.label}</span>
               </Link>
             );
           }
@@ -126,10 +126,10 @@ export function MobileBottomNav() {
               href={item.href}
               aria-current={active ? 'page' : undefined}
               className={[
-                'flex min-h-14 flex-col items-center justify-center gap-1 rounded-2xl px-1 text-[0.68rem] font-medium transition',
+                'flex min-h-14 flex-col items-center justify-center gap-1 rounded-2xl px-1 text-[0.68rem] font-bold transition',
                 active
-                  ? 'bg-[var(--muted)] text-[var(--primary)]'
-                  : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]',
+                  ? 'bg-white/8 text-[var(--primary)]'
+                  : 'text-slate-400 hover:text-white',
               ].join(' ')}
             >
               {item.icon}

@@ -40,20 +40,20 @@ export function ConversationComposer({ threadKey }: { threadKey: string }) {
 
   return (
     <form ref={formRef} action={formAction} className="space-y-2">
-      <div className="flex items-end gap-2 rounded-3xl border border-[var(--border)] bg-[var(--input)] p-2 shadow-lg shadow-black/10">
+      <div className="flex items-end gap-2 rounded-3xl border border-[var(--border)] bg-[var(--input)] p-2 shadow-[0_-10px_32px_rgba(0,0,0,0.18)]">
         <textarea
           name="body"
           maxLength={2000}
           rows={2}
           required
           placeholder={lt.messages.form.bodyPlaceholder}
-          className="min-h-12 flex-1 resize-none rounded-2xl border-0 bg-transparent px-3 py-2 text-sm text-[var(--foreground)] placeholder:text-[var(--muted-soft)] focus:outline-none focus:ring-0 disabled:text-[var(--muted-foreground)]"
+          className="min-h-12 flex-1 resize-none rounded-2xl border-0 bg-transparent px-3 py-2 text-base text-[var(--foreground)] placeholder:text-[var(--muted-soft)] focus:outline-none focus:ring-0 disabled:text-[var(--muted-foreground)]"
           disabled={pending}
         />
         <button
           type="submit"
           disabled={pending}
-          className="inline-flex h-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--primary)] px-4 text-sm font-bold text-[var(--primary-foreground)] hover:bg-[var(--primary-hover)] disabled:opacity-60"
+          className="app-button-primary inline-flex h-12 shrink-0 items-center justify-center px-4 text-sm disabled:opacity-60"
         >
           {pending ? lt.common.loading : lt.messages.form.send}
         </button>

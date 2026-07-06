@@ -40,14 +40,6 @@ const CATEGORIES: Category[] = [
     flag: 'vytis',
   },
   {
-    key: 'standard',
-    href: '/?type=standard',
-    plateText: 'ABC123',
-    plateType: 'standard',
-    flagType: 'eu_symbol',
-    type: 'standard',
-  },
-  {
     key: 'lithuanianFlag',
     href: '/?flag=lithuanian_flag',
     plateText: 'LT2026',
@@ -62,6 +54,14 @@ const CATEGORIES: Category[] = [
     plateType: 'motorcycle',
     flagType: 'lithuanian_flag',
     type: 'motorcycle',
+  },
+  {
+    key: 'standard',
+    href: '/?type=standard',
+    plateText: 'ABC123',
+    plateType: 'standard',
+    flagType: 'eu_symbol',
+    type: 'standard',
   },
 ];
 
@@ -80,12 +80,12 @@ export function ListingCategoryCards({ current }: { current: ListingFilters }) {
             {lt.home.categoriesTitle}
           </h2>
         </div>
-        <Link href="/" className="text-sm font-medium text-[var(--muted)] hover:text-[var(--text)]">
+        <Link href="/" className="inline-flex min-h-10 items-center text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)]">
           {lt.home.allCategories}
         </Link>
       </div>
 
-      <div className="-mx-4 flex gap-3 overflow-x-auto px-4 pb-1 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-4 sm:overflow-visible sm:px-0 lg:grid-cols-6">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-6">
         {CATEGORIES.map((category) => {
           const active = isActive(category, current);
 
@@ -95,14 +95,14 @@ export function ListingCategoryCards({ current }: { current: ListingFilters }) {
               href={category.href}
               aria-current={active ? 'page' : undefined}
               className={[
-                'group flex min-h-40 w-40 shrink-0 flex-col justify-between rounded-3xl border bg-[var(--card)] p-4 transition sm:min-h-44 sm:w-auto',
-                'hover:-translate-y-0.5 hover:border-[var(--border-strong)] hover:shadow-md',
+                'group app-card-soft flex min-h-44 flex-col justify-between overflow-hidden p-3.5 transition sm:min-h-44',
+                'hover:-translate-y-0.5 hover:border-[var(--border-strong)]',
                 active
-                  ? 'border-[var(--border-strong)] ring-2 ring-[var(--focus)]'
+                  ? 'border-[var(--primary)] ring-2 ring-[color:color-mix(in_srgb,var(--primary)_35%,transparent)]'
                   : 'border-[var(--border)]',
               ].join(' ')}
             >
-              <div className="flex min-h-28 items-center justify-center">
+              <div className="flex min-h-28 items-center justify-center rounded-3xl bg-[color:color-mix(in_srgb,var(--background)_72%,var(--primary)_8%)] px-1.5">
                 <PlatePreview
                   plateText={category.plateText}
                   plateType={category.plateType}
@@ -112,7 +112,7 @@ export function ListingCategoryCards({ current }: { current: ListingFilters }) {
                   className="plate-preview--category mx-auto"
                 />
               </div>
-              <span className="mt-4 text-sm font-semibold text-[var(--foreground)]">
+              <span className="mt-3 text-sm font-extrabold text-[var(--foreground)]">
                 {lt.home.categories[category.key]}
               </span>
             </Link>

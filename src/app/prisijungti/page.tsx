@@ -215,8 +215,8 @@ export default function SignInPage() {
   // ---------- Render --------------------------------------------------
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-[var(--background)] p-6">
-      <div className="w-full max-w-sm rounded-3xl border border-[var(--border)] bg-[var(--card)] p-6 text-[var(--foreground)] shadow-lg shadow-black/10">
+    <main className="app-shell flex min-h-screen items-center justify-center p-6">
+      <div className="app-card w-full max-w-sm p-6 text-[var(--foreground)]">
         <h1 className="mb-1 text-2xl font-black">{lt.nav.login}</h1>
         <p className="mb-4 text-sm text-[var(--muted-foreground)]">{lt.appName}</p>
 
@@ -311,7 +311,7 @@ export default function SignInPage() {
             <button
               type="button"
               onClick={startResetFlow}
-              className="w-full text-sm font-semibold text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
+              className="inline-flex min-h-10 w-full items-center justify-center text-sm font-semibold text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
               disabled={submitting}
             >
               {lt.auth.forgotPassword}
@@ -408,7 +408,7 @@ export default function SignInPage() {
                 setOtpCode('');
                 clearError();
               }}
-              className="w-full text-sm font-semibold text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
+              className="inline-flex min-h-10 w-full items-center justify-center text-sm font-semibold text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
               disabled={submitting}
             >
               {lt.common.back}

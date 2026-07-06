@@ -32,7 +32,7 @@ export function DisplayNameForm({ initialDisplayName }: DisplayNameFormProps) {
   return (
     <form action={formAction} className="space-y-3">
       <label className="block">
-        <span className="block text-sm font-medium mb-1">
+        <span className="mb-1 block text-sm font-bold text-[var(--foreground)]">
           {lt.profile.displayNameLabel}
         </span>
         <input
@@ -44,9 +44,9 @@ export function DisplayNameForm({ initialDisplayName }: DisplayNameFormProps) {
           required
           autoComplete="off"
           placeholder={lt.profile.displayNamePlaceholder}
-          className="w-full rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-900"
+          className="w-full rounded-2xl border border-[var(--border-strong)] bg-[var(--input)] px-3 py-3 text-[var(--foreground)] placeholder:text-[var(--muted-soft)] focus:outline-none focus:ring-2 focus:ring-[var(--ring)]"
         />
-        <span className="block mt-1 text-xs text-slate-500">
+        <span className="mt-1 block text-xs leading-5 text-[var(--muted-foreground)]">
           {lt.profile.displayNameHint}
         </span>
       </label>
@@ -65,7 +65,7 @@ export function DisplayNameForm({ initialDisplayName }: DisplayNameFormProps) {
       <button
         type="submit"
         disabled={pending}
-        className="rounded-lg bg-slate-900 text-white px-4 py-2 text-sm font-medium hover:bg-slate-800 disabled:opacity-50"
+        className="app-button-primary px-4 py-3 text-sm disabled:opacity-60"
       >
         {pending ? lt.common.loading : lt.common.save}
       </button>

@@ -29,7 +29,7 @@ function errorMessage(code: string | null): string | null {
 }
 
 const sectionClassName =
-  'rounded-3xl border border-[var(--border)] bg-[var(--card)] p-4 shadow-lg shadow-black/5 sm:p-5';
+  'app-card p-4 sm:p-5';
 
 const fieldClassName =
   'w-full rounded-2xl border border-[var(--border-strong)] bg-[var(--input)] px-3 py-3 text-base text-[var(--foreground)] placeholder:text-[var(--muted-soft)] focus:outline-none focus:ring-2 focus:ring-[var(--ring)] disabled:border-[var(--border)] disabled:bg-[var(--muted)] disabled:text-[var(--muted-foreground)] disabled:opacity-100 read-only:border-[var(--border)] read-only:bg-[var(--muted)] read-only:text-[var(--muted-foreground)]';
@@ -41,7 +41,7 @@ const optionClassName = 'bg-[var(--input)] text-[var(--foreground)] disabled:tex
 function StepHeader({ number, title }: { number: number; title: string }) {
   return (
     <div className="mb-4 flex items-center gap-3">
-      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--primary)] text-sm font-black text-[var(--primary-foreground)]">
+      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-[var(--primary)] text-sm font-black text-[var(--primary-foreground)] shadow-lg shadow-blue-500/20">
         {number}
       </span>
       <h2 className="text-base font-black text-[var(--foreground)]">{title}</h2>
@@ -62,6 +62,17 @@ export function ListingForm({ initial, action, submitLabel }: ListingFormProps) 
 
   return (
     <form action={formAction} className="space-y-4">
+      <div className="app-card-soft flex items-center justify-between gap-2 p-3">
+        {[1, 2, 3, 4].map((step) => (
+          <span
+            key={step}
+            className="flex flex-1 items-center justify-center rounded-full bg-[var(--muted)] py-2 text-xs font-black text-[var(--muted-foreground)]"
+          >
+            {step}
+          </span>
+        ))}
+      </div>
+
       <section className={sectionClassName}>
         <StepHeader number={1} title={lt.listings.form.steps.number} />
         <div className="space-y-4">
