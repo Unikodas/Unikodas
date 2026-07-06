@@ -85,7 +85,7 @@ export function ListingCategoryCards({ current }: { current: ListingFilters }) {
         </Link>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-6">
+      <div className="-mx-4 flex gap-3 overflow-x-auto px-4 pb-1 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-4 sm:overflow-visible sm:px-0 lg:grid-cols-6">
         {CATEGORIES.map((category) => {
           const active = isActive(category, current);
 
@@ -95,7 +95,7 @@ export function ListingCategoryCards({ current }: { current: ListingFilters }) {
               href={category.href}
               aria-current={active ? 'page' : undefined}
               className={[
-                'group flex min-h-44 flex-col justify-between rounded-lg border bg-[var(--surface)] p-4 transition',
+                'group flex min-h-40 w-40 shrink-0 flex-col justify-between rounded-3xl border bg-[var(--card)] p-4 transition sm:min-h-44 sm:w-auto',
                 'hover:-translate-y-0.5 hover:border-[var(--border-strong)] hover:shadow-md',
                 active
                   ? 'border-[var(--border-strong)] ring-2 ring-[var(--focus)]'
@@ -112,7 +112,7 @@ export function ListingCategoryCards({ current }: { current: ListingFilters }) {
                   className="plate-preview--category mx-auto"
                 />
               </div>
-              <span className="mt-4 text-sm font-semibold text-[var(--text)]">
+              <span className="mt-4 text-sm font-semibold text-[var(--foreground)]">
                 {lt.home.categories[category.key]}
               </span>
             </Link>

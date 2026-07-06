@@ -53,7 +53,7 @@ export function ReplyButton({ messageId }: { messageId: string }) {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="text-xs text-slate-700 hover:text-slate-900 underline"
+        className="text-xs font-semibold text-[var(--primary)] hover:underline"
       >
         {lt.messages.reply}
       </button>
@@ -68,7 +68,7 @@ export function ReplyButton({ messageId }: { messageId: string }) {
         rows={3}
         required
         placeholder={lt.messages.form.bodyPlaceholder}
-        className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900"
+        className="w-full rounded-2xl border border-[var(--border-strong)] bg-[var(--input)] px-3 py-2 text-sm text-[var(--foreground)] placeholder:text-[var(--muted-soft)] focus:outline-none focus:ring-2 focus:ring-[var(--ring)]"
       />
       {state.error && (
         <p className="text-xs text-red-600" role="alert">
@@ -84,7 +84,7 @@ export function ReplyButton({ messageId }: { messageId: string }) {
         <button
           type="submit"
           disabled={pending}
-          className="rounded-lg bg-slate-900 text-white px-3 py-1.5 text-xs font-medium hover:bg-slate-800 disabled:opacity-50"
+          className="rounded-xl bg-[var(--primary)] px-3 py-1.5 text-xs font-semibold text-[var(--primary-foreground)] hover:bg-[var(--primary-hover)] disabled:opacity-60"
         >
           {pending ? lt.common.loading : lt.messages.form.send}
         </button>
@@ -92,7 +92,7 @@ export function ReplyButton({ messageId }: { messageId: string }) {
           type="button"
           onClick={() => setOpen(false)}
           disabled={pending}
-          className="rounded-lg border border-slate-300 px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50"
+          className="rounded-xl border border-[var(--border-strong)] px-3 py-1.5 text-xs font-semibold text-[var(--foreground)] hover:bg-[var(--muted)] disabled:opacity-60"
         >
           {lt.common.cancel}
         </button>

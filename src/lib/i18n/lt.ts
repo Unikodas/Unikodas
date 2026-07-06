@@ -9,7 +9,7 @@ export const lt = {
   tagline: 'Lietuvos automobilių numerių prekyvietė',
 
   home: {
-    heroTitle: 'Išskirtiniai numeriai vienoje vietoje',
+    heroTitle: 'Unikalūs numeriai vienoje vietoje',
     heroLead:
       'Naršykite parduodamus numerius, filtruokite pagal tipą, simbolį, miestą ar kainą ir susisiekite su pardavėju per Unikodo žinutes.',
     listingsTitle: 'Naujausi skelbimai',
@@ -29,8 +29,8 @@ export const lt = {
     how: {
       title: 'Kaip vyksta numerio pirkimas?',
       steps: [
-        'Susisiekite su pardavėju',
-        'Apsikeiskite kontaktais',
+        'Rašykite pardavėjui per Unikodo žinutes',
+        'Aptarkite sąlygas žinutėse',
         'Susitarkite dėl kainos',
         'Susitikite gyvai',
         'Kartu vykite į Regitrą',
@@ -206,6 +206,12 @@ export const lt = {
       all: 'Visi',
     },
     form: {
+      steps: {
+        number: 'Numeris',
+        details: 'Detalės',
+        price: 'Kaina ir aprašymas',
+        preview: 'Peržiūra',
+      },
       plateText: 'Numerio tekstas',
       plateTextHint: 'Pvz. ABC123',
       plateType: 'Numerio tipas',

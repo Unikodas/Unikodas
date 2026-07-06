@@ -47,8 +47,8 @@ export function ReportButton({ targetType, targetId, compact }: ReportButtonProp
   }, [state.success, open]);
 
   const triggerClass = compact
-    ? 'text-xs text-slate-500 hover:text-slate-900 underline'
-    : 'rounded-lg border border-slate-300 px-3 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-50';
+    ? 'text-xs font-semibold text-current opacity-75 underline hover:opacity-100'
+    : 'rounded-xl border border-[var(--border-strong)] px-3 py-1.5 text-sm font-semibold text-[var(--foreground)] hover:bg-[var(--muted)]';
 
   if (!open) {
     return (
@@ -62,26 +62,26 @@ export function ReportButton({ targetType, targetId, compact }: ReportButtonProp
   return (
     <form
       action={formAction}
-      className="rounded-2xl border border-slate-200 bg-white p-4 space-y-3"
+      className="space-y-3 rounded-2xl border border-[var(--border)] bg-[var(--card)] p-4 text-[var(--foreground)]"
     >
       <input type="hidden" name="target_type" value={targetType} />
       <input type="hidden" name="target_id" value={targetId} />
 
-      <h3 className="text-sm font-semibold">{lt.report.title}</h3>
+      <h3 className="text-sm font-semibold text-[var(--foreground)]">{lt.report.title}</h3>
 
       <label className="block">
-        <span className="block text-xs text-slate-600 mb-1">{lt.report.reasonLabel}</span>
+        <span className="mb-1 block text-xs text-[var(--muted-foreground)]">{lt.report.reasonLabel}</span>
         <select
           name="reason"
           required
           defaultValue=""
-          className="w-full rounded-lg border border-slate-300 px-3 py-2 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-slate-900"
+          className="w-full rounded-2xl border border-[var(--border-strong)] bg-[var(--input)] px-3 py-2 text-sm text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--ring)]"
         >
-          <option value="" disabled>
+          <option value="" disabled className="bg-[var(--input)] text-[var(--foreground)]">
             —
           </option>
           {REPORT_REASONS.map((r) => (
-            <option key={r} value={r}>
+            <option key={r} value={r} className="bg-[var(--input)] text-[var(--foreground)]">
               {lt.report.reasons[r]}
             </option>
           ))}
@@ -89,13 +89,13 @@ export function ReportButton({ targetType, targetId, compact }: ReportButtonProp
       </label>
 
       <label className="block">
-        <span className="block text-xs text-slate-600 mb-1">{lt.report.detailsLabel}</span>
+        <span className="mb-1 block text-xs text-[var(--muted-foreground)]">{lt.report.detailsLabel}</span>
         <textarea
           name="details"
           maxLength={1000}
           rows={3}
           placeholder={lt.report.detailsPlaceholder}
-          className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900"
+          className="w-full rounded-2xl border border-[var(--border-strong)] bg-[var(--input)] px-3 py-2 text-sm text-[var(--foreground)] placeholder:text-[var(--muted-soft)] focus:outline-none focus:ring-2 focus:ring-[var(--ring)]"
         />
       </label>
 
@@ -114,7 +114,7 @@ export function ReportButton({ targetType, targetId, compact }: ReportButtonProp
         <button
           type="submit"
           disabled={pending}
-          className="rounded-lg bg-slate-900 text-white px-3 py-1.5 text-sm font-medium hover:bg-slate-800 disabled:opacity-50"
+          className="rounded-xl bg-[var(--primary)] px-3 py-1.5 text-sm font-semibold text-[var(--primary-foreground)] hover:bg-[var(--primary-hover)] disabled:opacity-60"
         >
           {pending ? lt.common.loading : lt.report.submit}
         </button>
@@ -122,7 +122,7 @@ export function ReportButton({ targetType, targetId, compact }: ReportButtonProp
           type="button"
           onClick={() => setOpen(false)}
           disabled={pending}
-          className="rounded-lg border border-slate-300 px-3 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-50"
+          className="rounded-xl border border-[var(--border-strong)] px-3 py-1.5 text-sm font-semibold text-[var(--foreground)] hover:bg-[var(--muted)] disabled:opacity-60"
         >
           {lt.report.cancel}
         </button>

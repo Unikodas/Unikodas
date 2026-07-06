@@ -7,7 +7,10 @@ import { requireUser } from '@/lib/auth/require-user';
 import { MessageBodySchema } from '@/lib/validation/message';
 import { bumpRateLimit, RATE_LIMITS } from '@/lib/auth/rate-limit';
 import { queueNewMessageNotification } from '@/lib/email/notifications';
+import { makeMessageThreadKey, parseMessageThreadKey } from '@/lib/messages/thread-key';
 import type { ReplyFormState } from './ReplyButton';
+
+export type ConversationMessageFormState = { error: string | null; success: boolean };
 
 /**
  * Reply to a received message from the inbox.
@@ -109,6 +112,89 @@ export async function replyToMessageAction(
 
   queueNewMessageNotification({
     recipientId: original.sender_id,
+    senderId: user.id,
+  });
+
+  revalidatePath('/zinutes');
+  return { error: null, success: true };
+}
+
+export async function sendConversationMessageAction(
+  threadKey: string,
+  _prev: ConversationMessageFormState,
+  formData: FormData,
+): Promise<ConversationMessageFormState> {
+  const { supabase, user } = await requireUser('/zinutes');
+  const thread = parseMessageThreadKey(threadKey);
+
+  if (!thread || thread.otherId === user.id) {
+    return { error: 'not_authorized', success: false };
+  }
+
+  const bodyRaw = String(formData.get('body') ?? '');
+  let body: string;
+  try {
+    body = MessageBodySchema.parse(bodyRaw);
+  } catch (err) {
+    if (err instanceof z.ZodError) {
+      return {
+        error: err.issues[0]?.message ?? 'validation_error',
+        success: false,
+      };
+    }
+    return { error: 'validation_error', success: false };
+  }
+
+  const ok = await bumpRateLimit({
+    bucket: 'msg_send_user',
+    key: user.id,
+    ...RATE_LIMITS.MSG_SEND_PER_USER,
+  });
+  if (!ok.allowed) {
+    return { error: 'rate_limited', success: false };
+  }
+
+  const { data: visibleMessages, error: lookupError } = await supabase
+    .from('messages')
+    .select('id, sender_id, recipient_id, listing_id, wanted_listing_id')
+    .order('created_at', { ascending: false })
+    .limit(200);
+
+  if (lookupError) {
+    console.error('[zinutes/conversation-send] lookup failed:', lookupError);
+    return { error: 'server_error', success: false };
+  }
+
+  const matchingThread = (visibleMessages ?? []).find((message) => {
+    const otherId = message.sender_id === user.id ? message.recipient_id : message.sender_id;
+    return (
+      makeMessageThreadKey({
+        otherId,
+        listingId: message.listing_id,
+        wantedListingId: message.wanted_listing_id,
+      }) === threadKey
+    );
+  });
+
+  if (!matchingThread) {
+    return { error: 'not_authorized', success: false };
+  }
+
+  const { error: insertError } = await supabase.from('messages').insert({
+    listing_id: thread.listingId,
+    wanted_listing_id: thread.wantedListingId,
+    sender_id: user.id,
+    recipient_id: thread.otherId,
+    body,
+  });
+
+  if (insertError) {
+    console.error('[zinutes/conversation-send] insert failed:', insertError);
+    return { error: 'server_error', success: false };
+  }
+
+  queueNewMessageNotification({
+    recipientId: thread.otherId,
     senderId: user.id,
   });
 

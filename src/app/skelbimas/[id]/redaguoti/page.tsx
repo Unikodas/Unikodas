@@ -55,20 +55,20 @@ export default async function EditListingPage({
 
   return (
     <>
-      <header className="border-b border-slate-200 bg-white">
-        <nav className="max-w-2xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
+      <header className="sticky top-0 z-40 border-b border-[var(--border)] bg-[color:color-mix(in_srgb,var(--card)_92%,transparent)] backdrop-blur">
+        <nav className="mx-auto flex max-w-2xl items-center justify-between px-4 py-3 sm:px-6">
           <LogoLink />
           <Link
             href={`/skelbimas/${id}`}
-            className="text-sm text-slate-600 hover:text-slate-900"
+            className="text-sm font-semibold text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
           >
             {lt.common.back}
           </Link>
         </nav>
       </header>
 
-      <main className="max-w-2xl mx-auto px-4 sm:px-6 py-6 space-y-6">
-        <h1 className="text-2xl font-semibold">{lt.listings.edit}</h1>
+      <main className="mx-auto max-w-2xl space-y-6 px-4 py-6 sm:px-6">
+        <h1 className="text-2xl font-black text-[var(--foreground)]">{lt.listings.edit}</h1>
 
         <ListingForm
           initial={listing}
@@ -76,7 +76,7 @@ export default async function EditListingPage({
           submitLabel={lt.listings.form.submitUpdate}
         />
 
-        <div className="border-t border-slate-200 pt-6">
+        <div className="border-t border-[var(--border)] pt-6">
           <DeleteButton id={id} />
         </div>
       </main>

@@ -24,7 +24,7 @@ export function DeleteButton({ id }: { id: string }) {
       type="button"
       onClick={onClick}
       disabled={pending}
-      className="rounded-lg border border-red-300 text-red-700 px-4 py-2 text-sm font-medium hover:bg-red-50 disabled:opacity-50"
+      className="rounded-2xl border border-red-400/60 px-4 py-2 text-sm font-semibold text-red-500 hover:bg-red-500/10 disabled:opacity-60"
     >
       {pending ? lt.common.loading : lt.listings.delete}
     </button>

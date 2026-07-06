@@ -1,29 +1,37 @@
 import Link from 'next/link';
 import { lt } from '@/lib/i18n/lt';
-import { requireUser } from '@/lib/auth/require-user';
+import { createClient } from '@/lib/supabase/server';
 import { ListingForm } from '@/components/ListingForm';
+import { LoginPrompt } from '@/components/LoginPrompt';
 import { LogoLink } from '@/components/LogoLink';
 import { createListingAction } from './actions';
 
 export default async function NewListingPage() {
-  // Auth-gate the page. Pass the current path so the sign-in page can
-  // bring the user back here after verification.
-  await requireUser('/parduoti');
+  const supabase = await createClient();
+  const { data: userData } = await supabase.auth.getUser();
 
   return (
     <>
-      <header className="border-b border-slate-200 bg-white">
-        <nav className="max-w-2xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
+      <header className="sticky top-0 z-40 border-b border-[var(--border)] bg-[color:color-mix(in_srgb,var(--card)_92%,transparent)] backdrop-blur">
+        <nav className="mx-auto flex max-w-2xl items-center justify-between px-4 py-3 sm:px-6">
           <LogoLink />
-          <Link href="/" className="text-sm text-slate-600 hover:text-slate-900">
+          <Link href="/" className="text-sm font-semibold text-[var(--muted-foreground)] hover:text-[var(--foreground)]">
             {lt.common.back}
           </Link>
         </nav>
       </header>
 
-      <main className="max-w-2xl mx-auto px-4 sm:px-6 py-6">
-        <h1 className="text-2xl font-semibold mb-6">{lt.listings.createNew}</h1>
-        <ListingForm action={createListingAction} submitLabel={lt.listings.form.submitCreate} />
+      <main className="mx-auto max-w-2xl px-4 py-6 sm:px-6">
+        {!userData.user ? (
+          <LoginPrompt redirectTo="/parduoti" />
+        ) : (
+          <>
+            <h1 className="mb-5 text-2xl font-black text-[var(--foreground)]">
+              {lt.listings.createNew}
+            </h1>
+            <ListingForm action={createListingAction} submitLabel={lt.listings.form.submitCreate} />
+          </>
+        )}
       </main>
     </>
   );

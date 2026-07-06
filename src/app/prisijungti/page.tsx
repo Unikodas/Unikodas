@@ -215,13 +215,13 @@ export default function SignInPage() {
   // ---------- Render --------------------------------------------------
 
   return (
-    <main className="min-h-screen flex items-center justify-center p-6 bg-slate-50">
-      <div className="w-full max-w-sm bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
-        <h1 className="text-2xl font-semibold mb-1">{lt.nav.login}</h1>
-        <p className="text-sm text-slate-600 mb-4">{lt.appName}</p>
+    <main className="flex min-h-screen items-center justify-center bg-[var(--background)] p-6">
+      <div className="w-full max-w-sm rounded-3xl border border-[var(--border)] bg-[var(--card)] p-6 text-[var(--foreground)] shadow-lg shadow-black/10">
+        <h1 className="mb-1 text-2xl font-black">{lt.nav.login}</h1>
+        <p className="mb-4 text-sm text-[var(--muted-foreground)]">{lt.appName}</p>
 
         {/* Tab selector */}
-        <div className="flex gap-1 rounded-lg bg-slate-100 p-1 mb-5 text-sm">
+        <div className="mb-5 flex gap-1 rounded-2xl bg-[var(--muted)] p-1 text-sm">
           <button
             type="button"
             onClick={() => {
@@ -231,8 +231,8 @@ export default function SignInPage() {
             }}
             className={
               tab === 'password'
-                ? 'flex-1 rounded-md bg-white shadow-sm py-1.5 font-medium'
-                : 'flex-1 rounded-md py-1.5 text-slate-600 hover:text-slate-900'
+                ? 'flex-1 rounded-xl bg-[var(--card)] py-2 font-semibold shadow-sm'
+                : 'flex-1 rounded-xl py-2 text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
             }
           >
             {lt.auth.tabPassword}
@@ -247,8 +247,8 @@ export default function SignInPage() {
             }}
             className={
               tab === 'otp'
-                ? 'flex-1 rounded-md bg-white shadow-sm py-1.5 font-medium'
-                : 'flex-1 rounded-md py-1.5 text-slate-600 hover:text-slate-900'
+                ? 'flex-1 rounded-xl bg-[var(--card)] py-2 font-semibold shadow-sm'
+                : 'flex-1 rounded-xl py-2 text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
             }
           >
             {lt.auth.tabOtp}
@@ -259,7 +259,7 @@ export default function SignInPage() {
         {tab === 'password' && (
           <form onSubmit={handlePasswordSubmit} className="space-y-4">
             <div>
-              <label htmlFor="pw-phone" className="block text-sm font-medium mb-1">
+              <label htmlFor="pw-phone" className="mb-1 block text-sm font-semibold">
                 {lt.auth.phoneLabel}
               </label>
               <input
@@ -270,14 +270,14 @@ export default function SignInPage() {
                 placeholder={lt.auth.phonePlaceholder}
                 value={pwPhone}
                 onChange={(e) => setPwPhone(e.target.value)}
-                className="w-full rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-900"
+                className="w-full rounded-2xl border border-[var(--border-strong)] bg-[var(--input)] px-3 py-3 text-[var(--foreground)] placeholder:text-[var(--muted-soft)] focus:outline-none focus:ring-2 focus:ring-[var(--ring)] disabled:bg-[var(--muted)] disabled:text-[var(--muted-foreground)]"
                 disabled={submitting}
                 required
               />
             </div>
 
             <div>
-              <label htmlFor="pw-password" className="block text-sm font-medium mb-1">
+              <label htmlFor="pw-password" className="mb-1 block text-sm font-semibold">
                 {lt.auth.passwordLabel}
               </label>
               <input
@@ -286,7 +286,7 @@ export default function SignInPage() {
                 autoComplete="current-password"
                 value={pwPassword}
                 onChange={(e) => setPwPassword(e.target.value)}
-                className="w-full rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-900"
+                className="w-full rounded-2xl border border-[var(--border-strong)] bg-[var(--input)] px-3 py-3 text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--ring)] disabled:bg-[var(--muted)] disabled:text-[var(--muted-foreground)]"
                 disabled={submitting}
                 required
               />
@@ -303,7 +303,7 @@ export default function SignInPage() {
             <button
               type="submit"
               disabled={submitting}
-              className="w-full rounded-lg bg-slate-900 text-white py-2 font-medium hover:bg-slate-800 disabled:opacity-50"
+              className="w-full rounded-2xl bg-[var(--primary)] py-3 font-bold text-[var(--primary-foreground)] hover:bg-[var(--primary-hover)] disabled:opacity-60"
             >
               {submitting ? lt.common.loading : lt.auth.signIn}
             </button>
@@ -311,7 +311,7 @@ export default function SignInPage() {
             <button
               type="button"
               onClick={startResetFlow}
-              className="w-full text-sm text-slate-600 hover:text-slate-900"
+              className="w-full text-sm font-semibold text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
               disabled={submitting}
             >
               {lt.auth.forgotPassword}
@@ -323,7 +323,7 @@ export default function SignInPage() {
         {tab === 'otp' && otpStep === 'phone' && (
           <form onSubmit={handleOtpRequest} className="space-y-4">
             <div>
-              <label htmlFor="otp-phone" className="block text-sm font-medium mb-1">
+              <label htmlFor="otp-phone" className="mb-1 block text-sm font-semibold">
                 {lt.auth.phoneLabel}
               </label>
               <input
@@ -334,14 +334,14 @@ export default function SignInPage() {
                 placeholder={lt.auth.phonePlaceholder}
                 value={otpPhone}
                 onChange={(e) => setOtpPhone(e.target.value)}
-                className="w-full rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-900"
+                className="w-full rounded-2xl border border-[var(--border-strong)] bg-[var(--input)] px-3 py-3 text-[var(--foreground)] placeholder:text-[var(--muted-soft)] focus:outline-none focus:ring-2 focus:ring-[var(--ring)] disabled:bg-[var(--muted)] disabled:text-[var(--muted-foreground)]"
                 disabled={submitting}
                 required
               />
-              <p className="mt-1 text-xs text-slate-500">{lt.auth.phoneHint}</p>
+              <p className="mt-1 text-xs text-[var(--muted-foreground)]">{lt.auth.phoneHint}</p>
             </div>
 
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-[var(--muted-foreground)]">
               {resetMode ? lt.auth.resetHint : lt.auth.signupHint}
             </p>
 
@@ -356,7 +356,7 @@ export default function SignInPage() {
             <button
               type="submit"
               disabled={submitting}
-              className="w-full rounded-lg bg-slate-900 text-white py-2 font-medium hover:bg-slate-800 disabled:opacity-50"
+              className="w-full rounded-2xl bg-[var(--primary)] py-3 font-bold text-[var(--primary-foreground)] hover:bg-[var(--primary-hover)] disabled:opacity-60"
             >
               {submitting ? lt.common.loading : lt.auth.sendCode}
             </button>
@@ -367,7 +367,7 @@ export default function SignInPage() {
         {tab === 'otp' && otpStep === 'code' && (
           <form onSubmit={handleOtpVerify} className="space-y-4">
             <div>
-              <label htmlFor="otp-code" className="block text-sm font-medium mb-1">
+              <label htmlFor="otp-code" className="mb-1 block text-sm font-semibold">
                 {lt.auth.codeLabel}
               </label>
               <input
@@ -380,11 +380,11 @@ export default function SignInPage() {
                 placeholder={lt.auth.codePlaceholder}
                 value={otpCode}
                 onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, ''))}
-                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-center tracking-[0.5em] text-lg focus:outline-none focus:ring-2 focus:ring-slate-900"
+                className="w-full rounded-2xl border border-[var(--border-strong)] bg-[var(--input)] px-3 py-3 text-center text-lg tracking-[0.5em] text-[var(--foreground)] placeholder:text-[var(--muted-soft)] focus:outline-none focus:ring-2 focus:ring-[var(--ring)] disabled:bg-[var(--muted)] disabled:text-[var(--muted-foreground)]"
                 disabled={submitting}
                 required
               />
-              <p className="mt-1 text-xs text-slate-500">{otpPhone}</p>
+              <p className="mt-1 text-xs text-[var(--muted-foreground)]">{otpPhone}</p>
             </div>
 
             {error && (
@@ -396,7 +396,7 @@ export default function SignInPage() {
             <button
               type="submit"
               disabled={submitting}
-              className="w-full rounded-lg bg-slate-900 text-white py-2 font-medium hover:bg-slate-800 disabled:opacity-50"
+              className="w-full rounded-2xl bg-[var(--primary)] py-3 font-bold text-[var(--primary-foreground)] hover:bg-[var(--primary-hover)] disabled:opacity-60"
             >
               {submitting ? lt.common.loading : lt.auth.verify}
             </button>
@@ -408,7 +408,7 @@ export default function SignInPage() {
                 setOtpCode('');
                 clearError();
               }}
-              className="w-full text-sm text-slate-600 hover:text-slate-900"
+              className="w-full text-sm font-semibold text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
               disabled={submitting}
             >
               {lt.common.back}

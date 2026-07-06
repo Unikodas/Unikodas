@@ -2,6 +2,7 @@ import './globals.css';
 import type { Metadata, Viewport } from 'next';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import { HOME_DESCRIPTION, HOME_TITLE, OG_IMAGE_PATH, SITE_NAME, SITE_URL } from '@/lib/seo';
+import { MobileBottomNav } from '@/components/MobileBottomNav';
 
 export const metadata: Metadata = {
   metadataBase: SITE_URL,
@@ -61,6 +62,7 @@ try {
             Privatumas
           </a>
         </footer>
+        <MobileBottomNav />
         <GoogleAnalytics gaId="G-6HPX9Q9GLV" />
       </body>
     </html>

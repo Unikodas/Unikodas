@@ -36,7 +36,7 @@ export function MessageForm({ action, submitLabel }: MessageFormProps) {
         rows={4}
         required
         placeholder={lt.messages.form.bodyPlaceholder}
-        className="w-full rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-900"
+        className="w-full rounded-2xl border border-[var(--border-strong)] bg-[var(--input)] px-3 py-2 text-[var(--foreground)] placeholder:text-[var(--muted-soft)] focus:outline-none focus:ring-2 focus:ring-[var(--ring)] disabled:bg-[var(--muted)] disabled:text-[var(--muted-foreground)]"
       />
       {state.error && (
         <p className="text-sm text-red-600" role="alert">
@@ -46,7 +46,7 @@ export function MessageForm({ action, submitLabel }: MessageFormProps) {
       <button
         type="submit"
         disabled={pending}
-        className="w-full sm:w-auto rounded-lg bg-slate-900 text-white px-4 py-2 font-medium hover:bg-slate-800 disabled:opacity-50"
+        className="w-full rounded-2xl bg-[var(--primary)] px-4 py-3 font-bold text-[var(--primary-foreground)] hover:bg-[var(--primary-hover)] disabled:opacity-60 sm:w-auto"
       >
         {pending ? lt.common.loading : submitLabel}
       </button>

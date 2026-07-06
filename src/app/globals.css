@@ -4,36 +4,52 @@
 
 :root {
   color-scheme: light;
-  --page-bg: #f8fafc;
-  --surface: #ffffff;
-  --surface-muted: #f1f5f9;
-  --surface-soft: #f8fafc;
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+  --muted: #f1f5f9;
+  --muted-foreground: #475569;
+  --muted-soft: #64748b;
   --border: #e2e8f0;
   --border-strong: #cbd5e1;
-  --text: #0f172a;
-  --muted: #475569;
-  --muted-soft: #64748b;
-  --primary: #0f172a;
-  --primary-hover: #1e293b;
-  --primary-contrast: #ffffff;
-  --focus: #0f172a;
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --primary-foreground: #ffffff;
+  --input: #ffffff;
+  --ring: #2563eb;
+  --page-bg: var(--background);
+  --surface: var(--card);
+  --surface-muted: var(--muted);
+  --surface-soft: #f8fafc;
+  --text: var(--foreground);
+  --primary-contrast: var(--primary-foreground);
+  --focus: var(--ring);
 }
 
 html.dark {
   color-scheme: dark;
-  --page-bg: #0f172a;
-  --surface: #172033;
-  --surface-muted: #111827;
-  --surface-soft: #1e293b;
-  --border: #334155;
-  --border-strong: #475569;
-  --text: #f8fafc;
-  --muted: #cbd5e1;
+  --background: #050816;
+  --foreground: #f8fafc;
+  --card: #0f172a;
+  --card-foreground: #f8fafc;
+  --muted: #111827;
+  --muted-foreground: #cbd5e1;
   --muted-soft: #94a3b8;
-  --primary: #e2e8f0;
-  --primary-hover: #f8fafc;
-  --primary-contrast: #0f172a;
-  --focus: #cbd5e1;
+  --border: #1f2937;
+  --border-strong: #334155;
+  --primary: #2f7df6;
+  --primary-hover: #60a5fa;
+  --primary-foreground: #ffffff;
+  --input: #111827;
+  --ring: #60a5fa;
+  --page-bg: var(--background);
+  --surface: var(--card);
+  --surface-muted: var(--muted);
+  --surface-soft: #172033;
+  --text: var(--foreground);
+  --primary-contrast: var(--primary-foreground);
+  --focus: var(--ring);
 }
 
 html,
@@ -45,6 +61,12 @@ body {
   background: var(--page-bg);
   color: var(--text);
   @apply antialiased;
+}
+
+@media (max-width: 639px) {
+  body {
+    padding-bottom: calc(5.5rem + env(safe-area-inset-bottom));
+  }
 }
 
 .plate-preview {
