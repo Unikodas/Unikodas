@@ -14,10 +14,10 @@ type CommunityCTAProps = {
 const TELEGRAM_URL = 'https://t.me/+xweru-k3heRlMjY0';
 
 const bullets = [
-  '🚀 Be the first to see newly listed number plates',
-  '💬 Discuss rare and valuable plates',
-  '🔎 Share wanted plate requests',
-  '📢 Get marketplace updates',
+  '🚀 Pirmieji pamatykite naujus numerių skelbimus',
+  '💬 Diskutuokite apie retus ir vertingus numerius',
+  '🔎 Dalinkitės ieškomais numeriais',
+  '📢 Gaukite Unikodas naujienas',
 ];
 
 type GtagWindow = Window & {
@@ -78,10 +78,10 @@ export function CommunityCTA({
             id={`community-cta-${placement}`}
             className="text-xl font-black leading-tight text-[var(--foreground)]"
           >
-            Join the Unikodas Community
+            Prisijunkite prie Unikodas bendruomenės
           </p>
           <p className="mt-1 text-sm leading-6 text-[var(--muted-foreground)]">
-            The largest Lithuanian community for vehicle number plate enthusiasts.
+            Lietuviška bendruomenė automobilių numerių entuziastams.
           </p>
         </div>
 
@@ -92,7 +92,7 @@ export function CommunityCTA({
           onClick={trackClick}
           className="app-button-primary min-h-[52px] px-5 py-3 text-center text-sm"
         >
-          Join on Telegram
+          Prisijungti per Telegram
         </a>
       </div>
 
@@ -105,7 +105,7 @@ export function CommunityCTA({
       </ul>
 
       <p className="mt-3 text-xs font-bold uppercase text-[var(--muted-soft)]">
-        Free to join.
+        Prisijungimas nemokamas.
       </p>
     </section>
   );
