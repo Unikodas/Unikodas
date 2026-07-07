@@ -124,6 +124,7 @@ body {
     linear-gradient(180deg, color-mix(in srgb, var(--card) 92%, white 8%) 0%, var(--card) 100%);
   border: 1px solid var(--border);
   border-radius: 1.75rem;
+  min-width: 0;
   box-shadow: var(--app-shadow);
 }
 
@@ -132,22 +133,31 @@ body {
     linear-gradient(180deg, color-mix(in srgb, var(--muted) 74%, var(--card) 26%) 0%, var(--card) 100%);
   border: 1px solid var(--border);
   border-radius: 1.5rem;
+  min-width: 0;
 }
 
 .app-button-primary {
+  align-items: center;
   background: linear-gradient(180deg, var(--primary) 0%, color-mix(in srgb, var(--primary) 82%, #0b3b91 18%) 100%);
   border-radius: 1.15rem;
   box-shadow: 0 16px 36px color-mix(in srgb, var(--primary) 34%, transparent);
   color: var(--primary-foreground);
+  display: inline-flex;
   font-weight: 800;
+  justify-content: center;
+  min-height: 3rem;
 }
 
 .app-button-secondary {
+  align-items: center;
   background: color-mix(in srgb, var(--muted) 72%, transparent);
   border: 1px solid var(--border-strong);
   border-radius: 1.15rem;
   color: var(--foreground);
+  display: inline-flex;
   font-weight: 800;
+  justify-content: center;
+  min-height: 3rem;
 }
 
 .app-search-field {
@@ -181,7 +191,7 @@ body {
   min-width: 0;
   overflow: hidden;
   position: relative;
-  width: var(--plate-width);
+  width: min(100%, var(--plate-width));
 }
 
 .plate-preview--sm {
@@ -359,7 +369,7 @@ body {
   font-size: 0.875rem;
   font-weight: 600;
   gap: 0.5rem;
-  min-height: 2.25rem;
+  min-height: 2.75rem;
   padding: 0.25rem 0.65rem 0.25rem 0.3rem;
   transition:
     background-color 160ms ease,

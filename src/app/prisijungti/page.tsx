@@ -231,8 +231,8 @@ export default function SignInPage() {
             }}
             className={
               tab === 'password'
-                ? 'flex-1 rounded-xl bg-[var(--card)] py-2 font-semibold shadow-sm'
-                : 'flex-1 rounded-xl py-2 text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
+                ? 'flex-1 rounded-xl bg-[var(--card)] py-3 font-semibold shadow-sm'
+                : 'flex-1 rounded-xl py-3 text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
             }
           >
             {lt.auth.tabPassword}
@@ -247,8 +247,8 @@ export default function SignInPage() {
             }}
             className={
               tab === 'otp'
-                ? 'flex-1 rounded-xl bg-[var(--card)] py-2 font-semibold shadow-sm'
-                : 'flex-1 rounded-xl py-2 text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
+                ? 'flex-1 rounded-xl bg-[var(--card)] py-3 font-semibold shadow-sm'
+                : 'flex-1 rounded-xl py-3 text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
             }
           >
             {lt.auth.tabOtp}
@@ -311,7 +311,7 @@ export default function SignInPage() {
             <button
               type="button"
               onClick={startResetFlow}
-              className="inline-flex min-h-10 w-full items-center justify-center text-sm font-semibold text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
+              className="inline-flex min-h-11 w-full items-center justify-center text-sm font-semibold text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
               disabled={submitting}
             >
               {lt.auth.forgotPassword}
@@ -408,7 +408,7 @@ export default function SignInPage() {
                 setOtpCode('');
                 clearError();
               }}
-              className="inline-flex min-h-10 w-full items-center justify-center text-sm font-semibold text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
+              className="inline-flex min-h-11 w-full items-center justify-center text-sm font-semibold text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
               disabled={submitting}
             >
               {lt.common.back}

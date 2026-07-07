@@ -71,7 +71,7 @@ export default async function ProfilePage() {
       <header className="app-header sticky top-0 z-40">
         <nav className="mx-auto flex max-w-2xl items-center justify-between px-4 py-3 sm:px-6">
           <LogoLink />
-          <Link href="/" className="inline-flex min-h-10 min-w-12 items-center justify-center text-sm font-semibold text-[var(--muted-foreground)] hover:text-[var(--foreground)]">
+          <Link href="/" className="inline-flex min-h-11 min-w-12 items-center justify-center text-sm font-semibold text-[var(--muted-foreground)] hover:text-[var(--foreground)]">
             {lt.common.back}
           </Link>
         </nav>

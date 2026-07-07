@@ -80,7 +80,7 @@ export function ListingCategoryCards({ current }: { current: ListingFilters }) {
             {lt.home.categoriesTitle}
           </h2>
         </div>
-        <Link href="/" className="inline-flex min-h-10 items-center text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)]">
+        <Link href="/" className="inline-flex min-h-11 items-center text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)]">
           {lt.home.allCategories}
         </Link>
       </div>

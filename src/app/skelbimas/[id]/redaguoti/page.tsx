@@ -60,7 +60,7 @@ export default async function EditListingPage({
           <LogoLink />
           <Link
             href={`/skelbimas/${id}`}
-            className="inline-flex min-h-10 min-w-12 items-center justify-center text-sm font-semibold text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
+            className="inline-flex min-h-11 min-w-12 items-center justify-center text-sm font-semibold text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
           >
             {lt.common.back}
           </Link>

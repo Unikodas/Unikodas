@@ -121,7 +121,7 @@ export default async function InboxPage({
       <header className="app-header sticky top-0 z-40">
         <nav className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3 sm:px-6">
           <LogoLink />
-          <Link href="/" className="inline-flex min-h-10 min-w-12 items-center justify-center text-sm font-semibold text-[var(--muted-foreground)] hover:text-[var(--foreground)]">
+          <Link href="/" className="inline-flex min-h-11 min-w-12 items-center justify-center text-sm font-semibold text-[var(--muted-foreground)] hover:text-[var(--foreground)]">
             {lt.common.back}
           </Link>
         </nav>
@@ -310,7 +310,7 @@ function ConversationView({
         <div className="flex items-center gap-3">
           <Link
             href="/zinutes"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[var(--border)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] lg:hidden"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--border)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] lg:hidden"
             aria-label={lt.common.back}
           >
             <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">

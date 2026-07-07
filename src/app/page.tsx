@@ -92,7 +92,7 @@ export default async function Home({
             </Link>
             <Link
               href={isSignedIn ? '/zinutes' : '/prisijungti?redirect=%2Fzinutes'}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[var(--border)] bg-[color:color-mix(in_srgb,var(--card)_76%,transparent)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] sm:hidden"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--border)] bg-[color:color-mix(in_srgb,var(--card)_76%,transparent)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] sm:hidden"
               aria-label={lt.nav.messages}
             >
               <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
@@ -103,7 +103,7 @@ export default async function Home({
             </Link>
             <Link
               href={isSignedIn ? '/profilis' : '/prisijungti'}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[var(--border)] bg-[color:color-mix(in_srgb,var(--card)_76%,transparent)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] sm:h-auto sm:w-auto sm:border-0 sm:bg-transparent"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--border)] bg-[color:color-mix(in_srgb,var(--card)_76%,transparent)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] sm:h-auto sm:w-auto sm:border-0 sm:bg-transparent"
               aria-label={isSignedIn ? lt.nav.profile : lt.nav.login}
             >
               <span className="hidden sm:inline">{isSignedIn ? lt.nav.profile : lt.nav.login}</span>
@@ -118,25 +118,27 @@ export default async function Home({
       </header>
 
       <main className="app-shell mx-auto max-w-6xl space-y-8 px-4 py-6 sm:px-6 sm:py-9">
-        <section className="app-card grid gap-7 overflow-hidden p-5 sm:p-8 lg:grid-cols-[minmax(0,1fr)_24rem] lg:items-center">
-          <div>
-            <p className="text-sm font-black uppercase text-[var(--primary)]">{lt.tagline}</p>
-            <h1 className="mt-3 max-w-3xl text-4xl font-black leading-tight tracking-tight text-[var(--foreground)] sm:text-5xl">
+        <section className="app-card grid max-w-full gap-6 overflow-hidden p-5 sm:p-8 lg:grid-cols-[minmax(0,1fr)_24rem] lg:items-center">
+          <div className="min-w-0">
+            <p className="max-w-full text-sm font-black uppercase text-[var(--primary)] [overflow-wrap:anywhere]">
+              {lt.tagline}
+            </p>
+            <h1 className="mt-3 max-w-full text-[clamp(2rem,9vw,3rem)] font-black leading-tight tracking-tight text-[var(--foreground)] [overflow-wrap:anywhere] sm:text-5xl">
               {lt.home.heroTitle}
             </h1>
-            <p className="mt-3 max-w-2xl text-base leading-7 text-[var(--muted-foreground)]">
+            <p className="mt-3 max-w-full text-base leading-7 text-[var(--muted-foreground)] [overflow-wrap:anywhere] sm:max-w-2xl">
               {lt.home.heroLead}
             </p>
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-              <Link href="/parduoti" className="app-button-primary px-5 py-3 text-center text-sm">
+              <Link href="/parduoti" className="app-button-primary flex min-h-[52px] w-full items-center justify-center px-5 py-3 text-center text-sm sm:w-auto">
                 Įdėti skelbimą
               </Link>
-              <Link href="#paieska" className="app-button-secondary px-5 py-3 text-center text-sm">
+              <Link href="#paieska" className="app-button-secondary flex min-h-[52px] w-full items-center justify-center px-5 py-3 text-center text-sm sm:w-auto">
                 Ieškoti numerio
               </Link>
             </div>
           </div>
-          <div className="flex justify-center rounded-[2rem] bg-[linear-gradient(145deg,color-mix(in_srgb,var(--primary)_18%,var(--muted)),var(--background))] p-5 sm:justify-end">
+          <div className="flex min-w-0 justify-center overflow-hidden rounded-[2rem] bg-[linear-gradient(145deg,color-mix(in_srgb,var(--primary)_18%,var(--muted)),var(--background))] p-4 sm:justify-end sm:p-5">
             <PlatePreview
               plateText="UN1K0D"
               plateType="personalized"

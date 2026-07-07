@@ -11,7 +11,7 @@ export const lt = {
   home: {
     heroTitle: 'Unikalūs numeriai vienoje vietoje',
     heroLead:
-      'Naršykite parduodamus numerius, filtruokite pagal tipą, simbolį, miestą ar kainą ir susisiekite su pardavėju per Unikodo žinutes.',
+      'Naršykite parduodamus numerius, filtruokite pagal simbolį, miestą ar kainą ir susisiekite su pardavėju Unikodo žinutėse.',
     listingsTitle: 'Naujausi skelbimai',
     listingsLead:
       'Čia rodomi tik aktyvūs skelbimai. Pasinaudokite filtrais, kad greičiau rastumėte tinkamą numerį.',

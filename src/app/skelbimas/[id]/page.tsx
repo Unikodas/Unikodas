@@ -104,7 +104,7 @@ export default async function ListingDetailPage({
       <header className="app-header sticky top-0 z-40">
         <nav className="mx-auto flex max-w-3xl items-center justify-between px-4 py-3 sm:px-6">
           <LogoLink />
-          <Link href="/" className="inline-flex min-h-10 min-w-12 items-center justify-center text-sm font-semibold text-[var(--muted-foreground)] hover:text-[var(--foreground)]">
+          <Link href="/" className="inline-flex min-h-11 min-w-12 items-center justify-center text-sm font-semibold text-[var(--muted-foreground)] hover:text-[var(--foreground)]">
             {lt.common.back}
           </Link>
         </nav>
@@ -233,7 +233,7 @@ export default async function ListingDetailPage({
           <div className="flex flex-wrap gap-3">
             <Link
               href={`/skelbimas/${listing.id}/redaguoti`}
-              className="app-button-secondary px-4 py-2 text-sm"
+              className="app-button-secondary px-4 py-3 text-sm"
             >
               {lt.listings.edit}
             </Link>
