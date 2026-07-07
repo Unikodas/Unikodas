@@ -18,6 +18,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'daily',
       priority: 1,
     },
+    {
+      url: absoluteUrl('/kaip-parduoti-numeri'),
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
     ...SITEMAP_CATEGORY_PATHS.map((path) => ({
       url: absoluteUrl(path),
       lastModified: now,
