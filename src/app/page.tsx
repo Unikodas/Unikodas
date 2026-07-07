@@ -11,6 +11,7 @@ import { HomeInfoSections } from '@/components/HomeInfoSections';
 import { LogoLink } from '@/components/LogoLink';
 import { PlatePreview } from '@/components/PlatePreview';
 import { ThemeToggle } from '@/components/ThemeToggle';
+import { CommunityCTA } from '@/components/CommunityCTA';
 
 const BROWSE_PAGE_SIZE = 50;
 
@@ -137,6 +138,7 @@ export default async function Home({
                 Ieškoti numerio
               </Link>
             </div>
+            <CommunityCTA placement="hero" className="mt-5" variant="embedded" />
           </div>
           <div className="flex min-w-0 justify-center overflow-hidden rounded-[2rem] bg-[linear-gradient(145deg,color-mix(in_srgb,var(--primary)_18%,var(--muted)),var(--background))] p-4 sm:justify-end sm:p-5">
             <PlatePreview
@@ -169,8 +171,9 @@ export default async function Home({
           </div>
 
           {listings.length === 0 ? (
-            <div className="app-card border-dashed px-4 py-12 text-center">
+            <div className="app-card space-y-5 border-dashed px-4 py-8 text-center sm:px-6">
               <p className="text-sm text-[var(--muted-foreground)]">{lt.listings.empty}</p>
+              <CommunityCTA placement="empty_search" className="text-left" variant="embedded" />
             </div>
           ) : (
             <div

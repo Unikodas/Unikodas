@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from 'next';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import { HOME_DESCRIPTION, HOME_TITLE, OG_IMAGE_PATH, SITE_NAME, SITE_URL } from '@/lib/seo';
 import { MobileBottomNav } from '@/components/MobileBottomNav';
+import { CommunityCTA } from '@/components/CommunityCTA';
 
 export const metadata: Metadata = {
   metadataBase: SITE_URL,
@@ -54,7 +55,8 @@ try {
       <body>
         {children}
 
-        <footer className="border-t border-[var(--border)] px-4 pb-[calc(7rem+env(safe-area-inset-bottom))] pt-6 text-center text-sm text-[var(--muted)] sm:pb-6">
+        <footer className="space-y-5 border-t border-[var(--border)] px-4 pb-[calc(7rem+env(safe-area-inset-bottom))] pt-6 text-center text-sm text-[var(--muted)] sm:pb-6">
+          <CommunityCTA placement="footer" />
           <a href="/taisykles" className="mx-2 inline-flex min-h-11 items-center hover:text-[var(--text)]">
             Taisyklės
           </a>

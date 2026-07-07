@@ -13,6 +13,7 @@ import { PlatePreview } from '@/components/PlatePreview';
 import { DeleteButton } from './redaguoti/DeleteButton';
 import { LoginPrompt } from '@/components/LoginPrompt';
 import { ShareButton } from '@/components/ShareButton';
+import { CommunityCTA } from '@/components/CommunityCTA';
 import { ListingViewTracker } from './ListingViewTracker';
 
 type ListingRow = {
@@ -229,6 +230,8 @@ export default async function ListingDetailPage({
             <MessageForm action={boundSendMessage} submitLabel={lt.messages.form.send} />
           </section>
         )}
+
+        <CommunityCTA placement="listing" listingId={listing.id} />
 
         {!userData.user && <LoginPrompt redirectTo={detailPath} />}
 
