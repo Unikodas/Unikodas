@@ -7,6 +7,7 @@ import { requireUser } from '@/lib/auth/require-user';
 import { MessageBodySchema } from '@/lib/validation/message';
 import { bumpRateLimit, RATE_LIMITS } from '@/lib/auth/rate-limit';
 import { queueNewMessageNotification } from '@/lib/email/notifications';
+import { recordListingEvent } from '@/lib/listing-analytics';
 import { makeMessageThreadKey, parseMessageThreadKey } from '@/lib/messages/thread-key';
 import type { ReplyFormState } from './ReplyButton';
 
@@ -110,6 +111,12 @@ export async function replyToMessageAction(
     return { error: 'server_error', success: false };
   }
 
+  if (original.listing_id) {
+    await recordListingEvent(original.listing_id, 'message', {
+      source: 'inbox_reply',
+    });
+  }
+
   queueNewMessageNotification({
     recipientId: original.sender_id,
     senderId: user.id,
@@ -191,6 +198,12 @@ export async function sendConversationMessageAction(
   if (insertError) {
     console.error('[zinutes/conversation-send] insert failed:', insertError);
     return { error: 'server_error', success: false };
+  }
+
+  if (thread.listingId) {
+    await recordListingEvent(thread.listingId, 'message', {
+      source: 'conversation_composer',
+    });
   }
 
   queueNewMessageNotification({

@@ -6,6 +6,7 @@ import { z } from 'zod';
 
 import { requireUser } from '@/lib/auth/require-user';
 import { parseListingFormData } from '@/lib/validation/listing';
+import { recordPriceChange } from '@/lib/listing-analytics';
 import type { ListingFormState } from '@/components/ListingForm';
 
 /**
@@ -42,7 +43,7 @@ export async function updateListingAction(
   // Confirm ownership before mutating.
   const { data: existing, error: fetchError } = await supabase
     .from('listings')
-    .select('id, seller_id')
+    .select('id, seller_id, price_eur')
     .eq('id', id)
     .maybeSingle();
 
@@ -74,6 +75,10 @@ export async function updateListingAction(
     return { error: 'server_error' };
   }
 
+  if (existing.price_eur !== parsed.price_eur) {
+    await recordPriceChange(id, existing.price_eur, parsed.price_eur, user.id);
+  }
+
   revalidatePath('/');
   revalidatePath(`/skelbimas/${id}`);
   redirect(`/skelbimas/${id}`);
@@ -103,6 +108,8 @@ export async function deleteListingAction(id: string): Promise<{ error: string |
     return { error: 'not_authorized' };
   }
 
+  // TODO: replace hard delete with a safe soft-remove outcome flow later
+  // so removed_at/removal_reason and a persistent "removed" event can be kept.
   const { error: deleteError } = await supabase.from('listings').delete().eq('id', id);
   if (deleteError) {
     console.error('[redaguoti] delete failed:', deleteError);

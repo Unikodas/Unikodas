@@ -8,6 +8,7 @@ import { requireUser } from '@/lib/auth/require-user';
 import { MessageBodySchema } from '@/lib/validation/message';
 import { bumpRateLimit, RATE_LIMITS } from '@/lib/auth/rate-limit';
 import { queueNewMessageNotification } from '@/lib/email/notifications';
+import { incrementListingCounter, recordListingEvent } from '@/lib/listing-analytics';
 import type { MessageFormState } from './MessageForm';
 
 /**
@@ -86,6 +87,13 @@ export async function sendMessageAction(
     console.error('[messages/send] insert failed:', insertError);
     return { error: 'server_error' };
   }
+
+  await Promise.all([
+    recordListingEvent(listingId, 'contact', {
+      source: 'listing_detail_message_form',
+    }),
+    incrementListingCounter(listingId, 'contact_count'),
+  ]);
 
   queueNewMessageNotification({
     recipientId: listing.seller_id,

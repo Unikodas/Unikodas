@@ -13,6 +13,7 @@ import { PlatePreview } from '@/components/PlatePreview';
 import { DeleteButton } from './redaguoti/DeleteButton';
 import { LoginPrompt } from '@/components/LoginPrompt';
 import { ShareButton } from '@/components/ShareButton';
+import { ListingViewTracker } from './ListingViewTracker';
 
 type ListingRow = {
   id: string;
@@ -101,6 +102,8 @@ export default async function ListingDetailPage({
 
   return (
     <>
+      {listing.status === 'active' && <ListingViewTracker listingId={listing.id} />}
+
       <header className="app-header sticky top-0 z-40">
         <nav className="mx-auto flex max-w-3xl items-center justify-between px-4 py-3 sm:px-6">
           <LogoLink />
