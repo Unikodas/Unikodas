@@ -139,6 +139,20 @@ export default async function Home({
               </Link>
             </div>
             <CommunityCTA placement="hero" className="mt-5" variant="embedded" />
+            <Link
+              href="/numerio-analize"
+              className="mt-4 block rounded-3xl border border-[var(--border)] bg-[var(--muted)] p-4 transition hover:border-[var(--primary)]"
+            >
+              <span className="block text-lg font-black text-[var(--foreground)]">
+                Patikrinkite savo numerį
+              </span>
+              <span className="mt-1 block text-sm leading-6 text-[var(--muted-foreground)]">
+                Sužinokite, ar numeris turi paslėptą reikšmę, vardą ar automobilių asociaciją.
+              </span>
+              <span className="mt-3 inline-flex text-sm font-black text-[var(--primary)]">
+                Analizuoti numerį
+              </span>
+            </Link>
           </div>
           <div className="flex min-w-0 justify-center overflow-hidden rounded-[2rem] bg-[linear-gradient(145deg,color-mix(in_srgb,var(--primary)_18%,var(--muted)),var(--background))] p-4 sm:justify-end sm:p-5">
             <PlatePreview

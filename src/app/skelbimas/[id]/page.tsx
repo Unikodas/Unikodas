@@ -14,6 +14,7 @@ import { DeleteButton } from './redaguoti/DeleteButton';
 import { LoginPrompt } from '@/components/LoginPrompt';
 import { ShareButton } from '@/components/ShareButton';
 import { CommunityCTA } from '@/components/CommunityCTA';
+import { PlateAnalysis } from '@/components/PlateAnalysis';
 import { ListingViewTracker } from './ListingViewTracker';
 
 type ListingRow = {
@@ -181,6 +182,12 @@ export default async function ListingDetailPage({
             )}
           </div>
         </article>
+
+        <PlateAnalysis
+          plate={listing.plate_text}
+          symbol={listing.flag_type}
+          type={listing.plate_type}
+        />
 
         <section className="app-card p-5 sm:p-6">
           <h2 className="mb-4 text-lg font-black text-[var(--foreground)]">Informacija</h2>
