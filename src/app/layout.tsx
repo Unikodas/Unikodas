@@ -63,6 +63,9 @@ try {
           <a href="/privatumas" className="mx-2 inline-flex min-h-11 items-center hover:text-[var(--text)]">
             Privatumas
           </a>
+          <a href="/idomiausi-numeriai" className="mx-2 inline-flex min-h-11 items-center hover:text-[var(--text)]">
+            Įdomiausi numeriai
+          </a>
         </footer>
         <MobileBottomNav />
         <GoogleAnalytics gaId="G-6HPX9Q9GLV" />

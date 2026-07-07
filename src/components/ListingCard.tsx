@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { lt } from '@/lib/i18n/lt';
 import type { PlateType, FlagType } from '@/lib/validation/listing';
+import { getPlateInsight } from '@/lib/interesting-plates';
 import { PlatePreview } from '@/components/PlatePreview';
 
 export type ListingCardData = {
@@ -35,6 +36,7 @@ export function ListingCard({
   const typeLabel = lt.listings.types[listing.plate_type] ?? listing.plate_type;
   const flagLabel = lt.listings.flagTypes[listing.flag_type] ?? listing.flag_type;
   const loginHref = `/prisijungti?redirect=${encodeURIComponent(`/skelbimas/${listing.id}`)}`;
+  const insight = getPlateInsight(listing);
 
   return (
     <article className="group app-card relative flex h-full min-h-[24rem] flex-col overflow-hidden transition hover:-translate-y-0.5 hover:border-[var(--border-strong)]">
@@ -79,11 +81,21 @@ export function ListingCard({
               <div className="mt-1 text-base font-bold text-[var(--foreground)]">{listing.city}</div>
             </div>
 
-            {listing.is_verified_listing && (
-              <span className="inline-flex shrink-0 items-center rounded-full border border-emerald-400/30 bg-emerald-400/10 px-2 py-0.5 text-xs font-bold text-emerald-300">
-                {lt.listings.verifiedBadge}
-              </span>
-            )}
+            <div className="flex shrink-0 flex-col items-end gap-2">
+              {insight.label && (
+                <span
+                  className="inline-flex items-center rounded-full border border-[var(--primary)]/30 bg-[color:color-mix(in_srgb,var(--primary)_12%,transparent)] px-2 py-0.5 text-xs font-black text-[var(--primary)]"
+                  title={`Unikodas įžvalgos: ${insight.score}/100`}
+                >
+                  {insight.label}
+                </span>
+              )}
+              {listing.is_verified_listing && (
+                <span className="inline-flex items-center rounded-full border border-emerald-400/30 bg-emerald-400/10 px-2 py-0.5 text-xs font-bold text-emerald-300">
+                  {lt.listings.verifiedBadge}
+                </span>
+              )}
+            </div>
           </div>
 
           <p className="mt-3 min-h-10 text-base leading-6 text-[var(--muted-foreground)]">

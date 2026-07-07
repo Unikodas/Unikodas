@@ -42,6 +42,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly',
       priority: 0.8,
     },
+    {
+      url: absoluteUrl('/idomiausi-numeriai'),
+      lastModified: now,
+      changeFrequency: 'daily',
+      priority: 0.8,
+    },
     ...SITEMAP_CATEGORY_PATHS.map((path) => ({
       url: absoluteUrl(path),
       lastModified: now,

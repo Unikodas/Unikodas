@@ -4,7 +4,12 @@ import Link from 'next/link';
 import { useState } from 'react';
 import type { FormEvent, ReactNode } from 'react';
 
-import type { PlateAnalysis, PlateAnalysisContext } from '@/lib/plate-intelligence';
+import type {
+  MeaningCategory,
+  PlateAnalysis,
+  PlateAnalysisContext,
+  PlateMeaning,
+} from '@/lib/plate-intelligence';
 
 type AiPlateAnalysis = {
   summary: string;
@@ -40,6 +45,18 @@ const dimensionLabels = {
   automotiveAppeal: 'Automobilių patrauklumas',
   collectorAppeal: 'Kolekcinis įdomumas',
 } as const;
+
+const meaningCategoryLabels: Record<MeaningCategory, string> = {
+  PERSON_NAME: 'Vardas',
+  CAR_MODEL: 'Modelis',
+  CAR_BRAND: 'Markė',
+  CITY: 'Miestas',
+  BUSINESS: 'Verslas',
+  COMMON_WORD: 'Žodis',
+  PERFORMANCE: 'Performance',
+  NUMBER_PATTERN: 'Raštas',
+  LUXURY: 'Premium',
+};
 
 export function PlateAnalysisTool() {
   const [plate, setPlate] = useState('');
@@ -244,8 +261,8 @@ export function PlateAnalysisTool() {
 
             <div className="grid gap-4 sm:grid-cols-2">
               <InsightBlock title="Atpažintos reikšmės">
-                {result.ruleAnalysis.detectedMeanings.length > 0 ? (
-                  <InsightList items={result.ruleAnalysis.detectedMeanings} />
+                {result.ruleAnalysis.topMeanings.length > 0 ? (
+                  <MeaningList meanings={result.ruleAnalysis.topMeanings} />
                 ) : (
                   <p className="mt-3 text-sm leading-6 text-[var(--muted-foreground)]">
                     Ryškių reikšmių neaptikta, bet derinį vis tiek verta vertinti pagal kontekstą.
@@ -254,7 +271,7 @@ export function PlateAnalysisTool() {
               </InsightBlock>
 
               <InsightBlock title="Kodėl derinys gali būti įdomus?">
-                <InsightList items={result.ruleAnalysis.insights.slice(0, 5)} />
+                <InsightList items={result.ruleAnalysis.collectorInsights.slice(0, 5)} />
               </InsightBlock>
             </div>
 
@@ -375,5 +392,31 @@ function InsightList({ items }: { items: string[] }) {
         <li key={item}>{item}</li>
       ))}
     </ul>
+  );
+}
+
+function MeaningList({ meanings }: { meanings: PlateMeaning[] }) {
+  return (
+    <div className="mt-3 space-y-2">
+      {meanings.map((meaning) => (
+        <div
+          key={`${meaning.category}-${meaning.text}`}
+          className="rounded-2xl border border-[var(--border)] bg-[var(--card)] px-3 py-2"
+        >
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <p className="text-sm font-black text-[var(--foreground)]">{meaning.text}</p>
+            <span className="rounded-full bg-[var(--primary)] px-2 py-1 text-xs font-black text-[var(--primary-foreground)]">
+              {meaning.confidence}%
+            </span>
+          </div>
+          <p className="mt-1 text-xs font-bold uppercase text-[var(--muted-soft)]">
+            {meaningCategoryLabels[meaning.category]}
+          </p>
+          <p className="mt-1 text-xs leading-5 text-[var(--muted-foreground)]">
+            {meaning.reason}
+          </p>
+        </div>
+      ))}
+    </div>
   );
 }

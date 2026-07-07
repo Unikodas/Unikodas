@@ -1,0 +1,17 @@
+export const ENGLISH_NAMES = [
+  'ALEX',
+  'BEN',
+  'CHRIS',
+  'DAN',
+  'DAVID',
+  'EMMA',
+  'JOHN',
+  'KATE',
+  'MAX',
+  'MIKE',
+  'NICK',
+  'PAUL',
+  'ROB',
+  'SAM',
+  'TOM',
+] as const;

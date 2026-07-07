@@ -1,6 +1,12 @@
 import type { ReactNode } from 'react';
 
-import { analyzePlate, normalizePlate, type PlateAnalysisContext } from '@/lib/plate-intelligence';
+import {
+  analyzePlate,
+  normalizePlate,
+  type MeaningCategory,
+  type PlateAnalysisContext,
+  type PlateMeaning,
+} from '@/lib/plate-intelligence';
 
 type PlateAnalysisProps = {
   plate: string | null | undefined;
@@ -17,11 +23,23 @@ const dimensionLabels = {
   collectorAppeal: 'Kolekcinis įdomumas',
 } as const;
 
+const meaningCategoryLabels: Record<MeaningCategory, string> = {
+  PERSON_NAME: 'Vardas',
+  CAR_MODEL: 'Modelis',
+  CAR_BRAND: 'Markė',
+  CITY: 'Miestas',
+  BUSINESS: 'Verslas',
+  COMMON_WORD: 'Žodis',
+  PERFORMANCE: 'Performance',
+  NUMBER_PATTERN: 'Raštas',
+  LUXURY: 'Premium',
+};
+
 export function PlateAnalysis({ plate, symbol, category, type }: PlateAnalysisProps) {
   if (!plate || !normalizePlate(plate)) return null;
 
   const analysis = analyzePlate(plate, { symbol, category, type });
-  const primaryInsights = analysis.insights.slice(0, 4);
+  const primaryInsights = analysis.collectorInsights.slice(0, 4);
   const visibleFactors = analysis.factors.slice(0, 4);
   const contextInsights = analysis.symbolInsights.slice(0, 4);
 
@@ -79,8 +97,8 @@ export function PlateAnalysis({ plate, symbol, category, type }: PlateAnalysisPr
 
       <div className="mt-5 grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
         <InsightBlock title="Atpažintos reikšmės">
-          {analysis.detectedMeanings.length > 0 ? (
-            <InsightList items={analysis.detectedMeanings} />
+          {analysis.topMeanings.length > 0 ? (
+            <MeaningList meanings={analysis.topMeanings} />
           ) : (
             <p className="mt-3 text-sm leading-6 text-[var(--muted-foreground)]">
               Ryškių automobilinių ar žodinių reikšmių neaptikta.
@@ -175,5 +193,31 @@ function InsightList({ items }: { items: string[] }) {
         <li key={item}>{item}</li>
       ))}
     </ul>
+  );
+}
+
+function MeaningList({ meanings }: { meanings: PlateMeaning[] }) {
+  return (
+    <div className="mt-3 space-y-2">
+      {meanings.map((meaning) => (
+        <div
+          key={`${meaning.category}-${meaning.text}`}
+          className="rounded-2xl border border-[var(--border)] bg-[var(--card)] px-3 py-2"
+        >
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <p className="text-sm font-black text-[var(--foreground)]">{meaning.text}</p>
+            <span className="rounded-full bg-[var(--primary)] px-2 py-1 text-xs font-black text-[var(--primary-foreground)]">
+              {meaning.confidence}%
+            </span>
+          </div>
+          <p className="mt-1 text-xs font-bold uppercase text-[var(--muted-soft)]">
+            {meaningCategoryLabels[meaning.category]}
+          </p>
+          <p className="mt-1 text-xs leading-5 text-[var(--muted-foreground)]">
+            {meaning.reason}
+          </p>
+        </div>
+      ))}
+    </div>
   );
 }

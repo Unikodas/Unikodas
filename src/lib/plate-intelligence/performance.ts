@@ -1,0 +1,16 @@
+export const PERFORMANCE_TERMS = [
+  'AMG',
+  'DRIFT',
+  'EVO',
+  'FAST',
+  'GTR',
+  'NISMO',
+  'RACE',
+  'STI',
+  'TURBO',
+  'TYPER',
+  'V8',
+  'V10',
+  'V12',
+  'VTEC',
+] as const;

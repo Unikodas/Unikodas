@@ -4,6 +4,10 @@ import { lt } from '@/lib/i18n/lt';
 import { createClient } from '@/lib/supabase/server';
 import { parseListingFilters } from '@/lib/validation/listing';
 import { createPageMetadata, getBrowseSeo } from '@/lib/seo';
+import {
+  INTERESTING_LISTING_CANDIDATE_LIMIT,
+  rankInterestingListings,
+} from '@/lib/interesting-plates';
 import { ListingCard, type ListingCardData } from '@/components/ListingCard';
 import { ListingFilters } from '@/components/ListingFilters';
 import { ListingCategoryCards } from '@/components/ListingCategoryCards';
@@ -14,6 +18,7 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 import { CommunityCTA } from '@/components/CommunityCTA';
 
 const BROWSE_PAGE_SIZE = 50;
+const HOME_INTERESTING_LISTINGS_LIMIT = 8;
 
 type SearchParams = Record<string, string | string[] | undefined>;
 
@@ -66,6 +71,24 @@ export default async function Home({
     console.error('[browse] listings query failed:', error);
   }
   const listings = (data ?? []) as ListingCardData[];
+
+  const { data: interestingData, error: interestingError } = await supabase
+    .from('listings')
+    .select(
+      'id, plate_text, plate_type, flag_type, city, price_eur, description, is_verified_listing, created_at',
+    )
+    .eq('status', 'active')
+    .order('created_at', { ascending: false })
+    .limit(INTERESTING_LISTING_CANDIDATE_LIMIT);
+  if (interestingError) {
+    console.error('[home] interesting listings query failed:', interestingError);
+  }
+  // TODO: move Unikodas įžvalgų scores to a cached/precomputed field once listing volume grows.
+  const interestingListings = rankInterestingListings(
+    (interestingData ?? []) as ListingCardData[],
+    HOME_INTERESTING_LISTINGS_LIMIT,
+  );
+
   const hasSparseListings = listings.length > 0 && listings.length <= 3;
   const listingsGridClass = hasSparseListings
     ? 'grid auto-rows-fr grid-cols-1 gap-4 sm:grid-cols-[repeat(auto-fit,minmax(18rem,22rem))] sm:justify-center'
@@ -153,6 +176,20 @@ export default async function Home({
                 Analizuoti numerį
               </span>
             </Link>
+            <Link
+              href="/idomiausi-numeriai"
+              className="mt-3 block rounded-3xl border border-[var(--border)] bg-[var(--muted)] p-4 transition hover:border-[var(--primary)]"
+            >
+              <span className="block text-lg font-black text-[var(--foreground)]">
+                Atraskite įdomiausius numerius
+              </span>
+              <span className="mt-1 block text-sm leading-6 text-[var(--muted-foreground)]">
+                Peržiūrėkite skelbimus, kuriuos Unikodas įžvalgos įvertino kaip stipriausius.
+              </span>
+              <span className="mt-3 inline-flex text-sm font-black text-[var(--primary)]">
+                Žiūrėti reitingą
+              </span>
+            </Link>
           </div>
           <div className="flex min-w-0 justify-center overflow-hidden rounded-[2rem] bg-[linear-gradient(145deg,color-mix(in_srgb,var(--primary)_18%,var(--muted)),var(--background))] p-4 sm:justify-end sm:p-5">
             <PlatePreview
@@ -166,6 +203,30 @@ export default async function Home({
         </section>
 
         <ListingCategoryCards current={filters} />
+
+        {interestingListings.length > 0 && (
+          <section className="space-y-4" aria-labelledby="interesting-listings-title">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <h2 id="interesting-listings-title" className="text-2xl font-black text-[var(--foreground)]">
+                  Įdomiausi numeriai
+                </h2>
+                <p className="mt-1 max-w-2xl text-sm leading-6 text-[var(--muted-foreground)]">
+                  Automatiškai atrinkti deriniai pagal raštus, paslėptas reikšmes ir automobilių asociacijas.
+                </p>
+              </div>
+              <Link href="/idomiausi-numeriai" className="app-button-secondary min-h-11 px-4 py-2 text-sm">
+                Visi įdomiausi
+              </Link>
+            </div>
+
+            <div className="grid auto-rows-fr grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {interestingListings.map((listing) => (
+                <ListingCard key={listing.id} listing={listing} isSignedIn={isSignedIn} />
+              ))}
+            </div>
+          </section>
+        )}
 
         <section id="paieska" className="scroll-mt-24">
           <ListingFilters current={filters} />
