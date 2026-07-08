@@ -116,7 +116,7 @@ export function HomeInfoSections() {
           <h2 id="safety-title" className="text-2xl font-semibold text-[var(--text)]">
             {lt.home.safety.title}
           </h2>
-          <p className="mt-2 text-sm leading-6 text-[var(--muted)]">{lt.home.safety.intro}</p>
+          <p className="mt-2 text-sm leading-6 text-[var(--muted-foreground)]">{lt.home.safety.intro}</p>
         </div>
 
         <ul className="grid gap-2.5 sm:grid-cols-2">
