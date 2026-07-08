@@ -69,9 +69,11 @@ export function FaqAccordion({ items }: { items: readonly FaqItem[] }) {
                 aria-labelledby={buttonId}
                 className="px-4 pb-5 pt-1 sm:px-5"
               >
-                <div className="max-w-3xl space-y-3 text-sm leading-6 text-[var(--muted-foreground)]">
+                <div className="faq-answer max-w-3xl space-y-3 text-sm leading-6">
                   {item.answer.split(/\n\n+/).map((paragraph) => (
-                    <p key={paragraph}>{paragraph}</p>
+                    <p key={paragraph} className="faq-answer__paragraph">
+                      {paragraph}
+                    </p>
                   ))}
                 </div>
               </div>

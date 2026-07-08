@@ -180,6 +180,11 @@ body {
   color: var(--muted-soft);
 }
 
+.faq-answer,
+.faq-answer__paragraph {
+  color: var(--muted-foreground);
+}
+
 .plate-preview {
   --plate-width: 23rem;
   --plate-font-size: 2.35rem;

@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { LogoLink } from '@/components/LogoLink';
+import { FaqAccordion } from '@/components/FaqAccordion';
 import { createPageMetadata } from '@/lib/seo';
 
 export const metadata: Metadata = createPageMetadata({
@@ -182,18 +183,7 @@ export default function SellPlateGuidePage() {
                 Dažniausiai užduodami klausimai
               </h2>
             </div>
-            <div className="grid gap-3">
-              {faqs.map((faq) => (
-                <article key={faq.question} className="app-card-soft p-5">
-                  <h3 className="text-lg font-black text-[var(--foreground)]">
-                    {faq.question}
-                  </h3>
-                  <p className="mt-2 text-sm leading-6 text-[var(--muted-foreground)]">
-                    {faq.answer}
-                  </p>
-                </article>
-              ))}
-            </div>
+            <FaqAccordion items={faqs} />
           </section>
 
           <section className="app-card p-5 text-center sm:p-8">
