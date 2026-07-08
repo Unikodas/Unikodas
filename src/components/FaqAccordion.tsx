@@ -55,7 +55,7 @@ export function FaqAccordion({ items }: { items: readonly FaqItem[] }) {
                   'flex h-7 w-7 shrink-0 items-center justify-center rounded-full border transition',
                   isOpen
                     ? 'border-[var(--primary)] bg-[var(--primary)] text-[var(--primary-contrast)]'
-                    : 'border-[var(--border)] bg-[var(--surface-muted)] text-[var(--muted)]',
+                    : 'border-[var(--border)] bg-[var(--surface-muted)] text-[var(--muted-foreground)]',
                 ].join(' ')}
               >
                 <AccordionIcon isOpen={isOpen} />
@@ -67,9 +67,9 @@ export function FaqAccordion({ items }: { items: readonly FaqItem[] }) {
                 id={panelId}
                 role="region"
                 aria-labelledby={buttonId}
-                className="px-4 pb-4 sm:px-5"
+                className="px-4 pb-5 pt-1 sm:px-5"
               >
-                <div className="max-w-3xl space-y-3 text-sm leading-6 text-[var(--muted)]">
+                <div className="max-w-3xl space-y-3 text-sm leading-6 text-[var(--muted-foreground)]">
                   {item.answer.split(/\n\n+/).map((paragraph) => (
                     <p key={paragraph}>{paragraph}</p>
                   ))}
