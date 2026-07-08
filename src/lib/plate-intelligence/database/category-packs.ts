@@ -1,0 +1,148 @@
+import { CARS_ENTRIES } from './cars';
+import { MOTORCYCLES_ENTRIES } from './motorcycles';
+import { TRUCKS_ENTRIES } from './trucks';
+import { ENGINES_ENTRIES } from './engines';
+import { GEARBOXES_ENTRIES } from './gearboxes';
+import { PERFORMANCE_ENTRIES } from './performance';
+import { MANUFACTURERS_ENTRIES } from './manufacturers';
+import { SUPERCARS_ENTRIES } from './supercars';
+import { MOTORSPORT_ENTRIES } from './motorsport';
+import { PEOPLE_ENTRIES } from './people';
+import { LITHUANIAN_NAMES_ENTRIES } from './lithuanian-names';
+import { ENGLISH_NAMES_ENTRIES } from './english-names';
+import { NICKNAMES_ENTRIES } from './nicknames';
+import { FAMOUS_PEOPLE_ENTRIES } from './famous-people';
+import { ATHLETES_ENTRIES } from './athletes';
+import { DRIVERS_ENTRIES } from './drivers';
+import { MUSICIANS_ENTRIES } from './musicians';
+import { PLACES_ENTRIES } from './places';
+import { COUNTRIES_ENTRIES } from './countries';
+import { CITIES_ENTRIES } from './cities';
+import { VILLAGES_ENTRIES } from './villages';
+import { AIRPORTS_ENTRIES } from './airports';
+import { ROADS_ENTRIES } from './roads';
+import { BRANDS_ENTRIES } from './brands';
+import { LUXURY_ENTRIES } from './luxury';
+import { FASHION_ENTRIES } from './fashion';
+import { TECHNOLOGY_ENTRIES } from './technology';
+import { GAMING_ENTRIES } from './gaming';
+import { FOOD_ENTRIES } from './food';
+import { AVIATION_ENTRIES } from './aviation';
+import { MILITARY_ENTRIES } from './military';
+import { SHIPS_ENTRIES } from './ships';
+import { SPACE_ENTRIES } from './space';
+import { MOVIES_ENTRIES } from './movies';
+import { TV_ENTRIES } from './tv';
+import { ANIME_ENTRIES } from './anime';
+import { GAMES_ENTRIES } from './games';
+import { BUSINESS_ENTRIES } from './business';
+import { FINANCE_ENTRIES } from './finance';
+import { SPORTS_ENTRIES } from './sports';
+import { MUSIC_ENTRIES } from './music';
+import { INTERNET_ENTRIES } from './internet';
+import { COMMON_WORDS_ENTRIES } from './common-words';
+import { SLANG_ENTRIES } from './slang';
+import { ABBREVIATIONS_ENTRIES } from './abbreviations';
+import { ROMAN_NUMERALS_ENTRIES } from './roman-numerals';
+import { CHEMICAL_ELEMENTS_ENTRIES } from './chemical-elements';
+import { GREEK_LETTERS_ENTRIES } from './greek-letters';
+import { LATIN_WORDS_ENTRIES } from './latin-words';
+import { RELIGION_ENTRIES } from './religion';
+import { HISTORY_ENTRIES } from './history';
+import { MYTHOLOGY_ENTRIES } from './mythology';
+import { ANIMALS_ENTRIES } from './animals';
+import { BIRDS_ENTRIES } from './birds';
+import { FISH_ENTRIES } from './fish';
+import { DOGS_ENTRIES } from './dogs';
+import { CATS_ENTRIES } from './cats';
+import { LUXURY_WATCHES_ENTRIES } from './luxury-watches';
+import { ALCOHOL_ENTRIES } from './alcohol';
+import { CIGARS_ENTRIES } from './cigars';
+import { BOATS_ENTRIES } from './boats';
+import { BIKES_ENTRIES } from './bikes';
+import { TOOLS_ENTRIES } from './tools';
+import { CONSTRUCTION_ENTRIES } from './construction';
+import { AGRICULTURE_ENTRIES } from './agriculture';
+import { UNIVERSITIES_ENTRIES } from './universities';
+import { GOVERNMENT_ENTRIES } from './government';
+import { EMERGENCY_ENTRIES } from './emergency';
+import { MEDICAL_ENTRIES } from './medical';
+import { SCIENCE_ENTRIES } from './science';
+import { WEATHER_ENTRIES } from './weather';
+import { NATURE_ENTRIES } from './nature';
+import type { KnowledgeCategoryPack } from './schema';
+
+export const KNOWLEDGE_CATEGORY_PACKS = [
+  { category: 'cars', entries: CARS_ENTRIES },
+  { category: 'motorcycles', entries: MOTORCYCLES_ENTRIES },
+  { category: 'trucks', entries: TRUCKS_ENTRIES },
+  { category: 'engines', entries: ENGINES_ENTRIES },
+  { category: 'gearboxes', entries: GEARBOXES_ENTRIES },
+  { category: 'performance', entries: PERFORMANCE_ENTRIES },
+  { category: 'manufacturers', entries: MANUFACTURERS_ENTRIES },
+  { category: 'supercars', entries: SUPERCARS_ENTRIES },
+  { category: 'motorsport', entries: MOTORSPORT_ENTRIES },
+  { category: 'people', entries: PEOPLE_ENTRIES },
+  { category: 'lithuanian-names', entries: LITHUANIAN_NAMES_ENTRIES },
+  { category: 'english-names', entries: ENGLISH_NAMES_ENTRIES },
+  { category: 'nicknames', entries: NICKNAMES_ENTRIES },
+  { category: 'famous-people', entries: FAMOUS_PEOPLE_ENTRIES },
+  { category: 'athletes', entries: ATHLETES_ENTRIES },
+  { category: 'drivers', entries: DRIVERS_ENTRIES },
+  { category: 'musicians', entries: MUSICIANS_ENTRIES },
+  { category: 'places', entries: PLACES_ENTRIES },
+  { category: 'countries', entries: COUNTRIES_ENTRIES },
+  { category: 'cities', entries: CITIES_ENTRIES },
+  { category: 'villages', entries: VILLAGES_ENTRIES },
+  { category: 'airports', entries: AIRPORTS_ENTRIES },
+  { category: 'roads', entries: ROADS_ENTRIES },
+  { category: 'brands', entries: BRANDS_ENTRIES },
+  { category: 'luxury', entries: LUXURY_ENTRIES },
+  { category: 'fashion', entries: FASHION_ENTRIES },
+  { category: 'technology', entries: TECHNOLOGY_ENTRIES },
+  { category: 'gaming', entries: GAMING_ENTRIES },
+  { category: 'food', entries: FOOD_ENTRIES },
+  { category: 'aviation', entries: AVIATION_ENTRIES },
+  { category: 'military', entries: MILITARY_ENTRIES },
+  { category: 'ships', entries: SHIPS_ENTRIES },
+  { category: 'space', entries: SPACE_ENTRIES },
+  { category: 'movies', entries: MOVIES_ENTRIES },
+  { category: 'tv', entries: TV_ENTRIES },
+  { category: 'anime', entries: ANIME_ENTRIES },
+  { category: 'games', entries: GAMES_ENTRIES },
+  { category: 'business', entries: BUSINESS_ENTRIES },
+  { category: 'finance', entries: FINANCE_ENTRIES },
+  { category: 'sports', entries: SPORTS_ENTRIES },
+  { category: 'music', entries: MUSIC_ENTRIES },
+  { category: 'internet', entries: INTERNET_ENTRIES },
+  { category: 'common-words', entries: COMMON_WORDS_ENTRIES },
+  { category: 'slang', entries: SLANG_ENTRIES },
+  { category: 'abbreviations', entries: ABBREVIATIONS_ENTRIES },
+  { category: 'roman-numerals', entries: ROMAN_NUMERALS_ENTRIES },
+  { category: 'chemical-elements', entries: CHEMICAL_ELEMENTS_ENTRIES },
+  { category: 'greek-letters', entries: GREEK_LETTERS_ENTRIES },
+  { category: 'latin-words', entries: LATIN_WORDS_ENTRIES },
+  { category: 'religion', entries: RELIGION_ENTRIES },
+  { category: 'history', entries: HISTORY_ENTRIES },
+  { category: 'mythology', entries: MYTHOLOGY_ENTRIES },
+  { category: 'animals', entries: ANIMALS_ENTRIES },
+  { category: 'birds', entries: BIRDS_ENTRIES },
+  { category: 'fish', entries: FISH_ENTRIES },
+  { category: 'dogs', entries: DOGS_ENTRIES },
+  { category: 'cats', entries: CATS_ENTRIES },
+  { category: 'luxury-watches', entries: LUXURY_WATCHES_ENTRIES },
+  { category: 'alcohol', entries: ALCOHOL_ENTRIES },
+  { category: 'cigars', entries: CIGARS_ENTRIES },
+  { category: 'boats', entries: BOATS_ENTRIES },
+  { category: 'bikes', entries: BIKES_ENTRIES },
+  { category: 'tools', entries: TOOLS_ENTRIES },
+  { category: 'construction', entries: CONSTRUCTION_ENTRIES },
+  { category: 'agriculture', entries: AGRICULTURE_ENTRIES },
+  { category: 'universities', entries: UNIVERSITIES_ENTRIES },
+  { category: 'government', entries: GOVERNMENT_ENTRIES },
+  { category: 'emergency', entries: EMERGENCY_ENTRIES },
+  { category: 'medical', entries: MEDICAL_ENTRIES },
+  { category: 'science', entries: SCIENCE_ENTRIES },
+  { category: 'weather', entries: WEATHER_ENTRIES },
+  { category: 'nature', entries: NATURE_ENTRIES },
+] as const satisfies readonly KnowledgeCategoryPack[];

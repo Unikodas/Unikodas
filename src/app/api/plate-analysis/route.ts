@@ -3,7 +3,7 @@ import { z } from 'zod';
 
 import { generateAiPlateAnalysis, hasOpenAiPlateAnalysisConfig } from '@/lib/ai-plate-analysis';
 import { analyzePlate, normalizePlate } from '@/lib/plate-intelligence';
-import { createServiceRoleClient } from '@/lib/supabase/server';
+import { createClient, createServiceRoleClient } from '@/lib/supabase/server';
 
 export const runtime = 'nodejs';
 
@@ -50,6 +50,22 @@ export async function POST(request: NextRequest) {
         message: 'Įveskite 1-15 raidžių arba skaičių derinį.',
       },
       { status: 400 },
+    );
+  }
+
+  const supabase = await createClient();
+  const { data: userData } = await supabase.auth.getUser();
+
+  if (!userData.user) {
+    return NextResponse.json(
+      {
+        ok: false,
+        authRequired: true,
+        plate,
+        normalizedPlate,
+        message: 'Prisijunkite nemokamai, kad pamatytumėte visas Unikodas įžvalgas.',
+      },
+      { status: 401 },
     );
   }
 

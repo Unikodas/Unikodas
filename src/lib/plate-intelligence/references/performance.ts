@@ -1,0 +1,32 @@
+import { reference } from './types';
+
+export const PERFORMANCE_REFERENCES = [
+  reference('TURBO', 'Turbo', 'PERFORMANCE', 86, 'Turbo yra labai atpažįstamas sportinių ir galingesnių automobilių motyvas.', ['TUR'], ['TWIN TURBO', 'BITURBO']),
+  reference('TWINTURBO', 'Twin Turbo', 'PERFORMANCE', 88, 'Twin Turbo dažnai siejama su galingais performance automobiliais.', ['TWIN TURBO', 'TTURBO'], ['TURBO', 'BITURBO']),
+  reference('BITURBO', 'BiTurbo', 'PERFORMANCE', 88, 'BiTurbo dažnai naudojama sportinių ir premium modelių žymėjime.', ['BI TURBO'], ['TURBO', 'TWINTURBO']),
+  reference('HYBRID', 'Hybrid', 'PERFORMANCE', 70, 'Hybrid gali priminti šiuolaikines elektrifikuotas pavaras.', ['HYB'], ['ELECTRIC', 'EV']),
+  reference('ELECTRIC', 'Electric', 'PERFORMANCE', 72, 'Electric gali būti aktualu elektromobilių ir modernios technikos entuziastams.', ['ELEC', 'EV'], ['TESLA', 'PLAID']),
+  reference('DRIFT', 'Drift', 'PERFORMANCE', 84, 'Drift aiškiai siejama su automobilių sportu ir slydimo kultūra.', ['DRF'], ['RACE', 'TRACK']),
+  reference('RACE', 'Race', 'PERFORMANCE', 82, 'Race gali priminti lenktynių ir sporto motyvą.', ['RACING'], ['TRACK', 'SPORT']),
+  reference('TRACK', 'Track', 'PERFORMANCE', 82, 'Track dažnai siejama su trasai paruoštais automobiliais.', ['TRK'], ['RACE', 'GT3']),
+  reference('COMPETITION', 'Competition', 'PERFORMANCE', 84, 'Competition dažnai naudojama sportiškesnėms versijoms apibūdinti.', ['COMP'], ['M3COMP', 'M4COMP']),
+  reference('SPORT', 'Sport', 'PERFORMANCE', 76, 'Sport yra bendras, bet lengvai suprantamas sportiškumo motyvas.', ['SPRT'], ['RACE', 'TRACK']),
+  reference('RACING', 'Racing', 'PERFORMANCE', 78, 'Racing gali priminti lenktynių kultūrą.', ['RACE'], ['TRACK', 'DRIFT']),
+  reference('FAST', 'Fast', 'PERFORMANCE', 78, 'Fast yra paprasta ir aiški greičio asociacija.', [], ['RACE', 'TURBO']),
+  reference('JDM', 'JDM', 'PERFORMANCE', 92, 'JDM dažnai vartojama Japonijos automobilių entuziastų kultūroje.', [], ['GTR', 'STI', 'EVO', 'VTEC']),
+  reference('NISMO', 'Nismo', 'PERFORMANCE', 92, 'Nismo aiškiai siejama su Nissan sportiniais modeliais.', ['NIS'], ['GTR', 'SKYLINE']),
+  reference('GTR', 'GT-R', 'PERFORMANCE', 96, 'GT-R yra vienas žinomiausių sportinių automobilių trumpinių.', ['GT R'], ['NISMO', 'SKYLINE']),
+  reference('STI', 'STI', 'PERFORMANCE', 96, 'STI dažnai siejama su Subaru WRX STI.', [], ['WRX', 'STI555']),
+  reference('EVO', 'EVO', 'PERFORMANCE', 94, 'EVO dažnai siejama su Mitsubishi Lancer Evolution arba sportine evoliucijos versija.', ['EVOLUTION'], ['4G63', 'JDM']),
+  reference('TYPER', 'Type R', 'PERFORMANCE', 92, 'Type R yra labai atpažįstama Honda sportinių modelių linija.', ['TYPE R'], ['CIVIC', 'VTEC']),
+  reference('VTEC', 'VTEC', 'ENGINE', 94, 'VTEC yra labai atpažįstamas Honda entuziastų motyvas.', [], ['TYPER', 'CIVIC']),
+  reference('RS', 'RS', 'PERFORMANCE', 76, 'RS gali priminti sportines Audi, Porsche, Ford ar Skoda versijas, tačiau be konteksto tai platesnė asociacija.', [], ['RS3', 'RS6', 'GT3RS']),
+  reference('AMG', 'AMG', 'PERFORMANCE', 98, 'AMG yra labai atpažįstamas Mercedes sportinių modelių trumpinys.', [], ['AMG063', 'C63', 'G63']),
+  reference('BRABUS', 'Brabus', 'PERFORMANCE', 94, 'Brabus dažnai siejama su aukštos klasės Mercedes tiuningu.', ['BRAB'], ['G63', 'S63']),
+  reference('ALPINA', 'Alpina', 'PERFORMANCE', 90, 'Alpina yra BMW entuziastams gerai pažįstamas gamintojas ir tiuningo vardas.', ['ALP'], ['BMW', 'B5']),
+  reference('CS', 'CS', 'PERFORMANCE', 72, 'CS gali būti sportinės ar kolekcinės versijos trumpinys, tačiau be konteksto jis silpnesnis.', [], ['CSL', 'M3CS']),
+  reference('CSL', 'CSL', 'PERFORMANCE', 90, 'CSL dažnai siejama su lengvesnėmis, kolekcinėmis BMW M versijomis.', [], ['M3CSL']),
+  reference('BLACKSERIES', 'Black Series', 'PERFORMANCE', 92, 'Black Series dažnai siejama su retesnėmis Mercedes-AMG versijomis.', ['BLACK SERIES'], ['AMG', 'C63']),
+  reference('VAG', 'VAG', 'BRAND', 88, 'VAG yra atpažįstamas Volkswagen grupės entuziastų trumpinys.', [], ['VW', 'AUDI', 'GTI', 'RS6']),
+] as const;
+

@@ -1,11 +1,9 @@
 import { BUSINESS_TERMS } from '@/lib/plate-intelligence/business';
-import { CAR_BRANDS } from '@/lib/plate-intelligence/brands';
 import {
   AMG_NUMBERS,
   AUDI_CODES,
   BMW_MODEL_NUMBERS,
   BMW_SERIES_CODES,
-  CAR_MODEL_TERMS,
   MERCEDES_MODEL_NUMBERS,
   PORSCHE_CODES,
   VOLKSWAGEN_CODES,
@@ -15,7 +13,12 @@ import { COMMON_WORDS, LUXURY_WORDS } from '@/lib/plate-intelligence/common-word
 import { LEET_SUBSTITUTIONS, describeLeetSubstitution } from '@/lib/plate-intelligence/leet';
 import { ENGLISH_NAMES } from '@/lib/plate-intelligence/names-en';
 import { LITHUANIAN_NAMES } from '@/lib/plate-intelligence/names-lt';
-import { PERFORMANCE_TERMS } from '@/lib/plate-intelligence/performance';
+import {
+  KNOWLEDGE_BASE,
+  searchKnowledgeIndex,
+  type KnowledgeCategory,
+  type KnowledgeMatch,
+} from '@/lib/plate-intelligence/database';
 
 export type PlateAnalysisFactor = {
   name: string;
@@ -84,6 +87,8 @@ type DictionaryTerm = {
   category: MeaningCategory;
   related: string[];
   priority: number;
+  baseConfidence?: number;
+  collectorDescription?: string;
 };
 
 type Variant = {
@@ -221,38 +226,6 @@ function buildDictionaryTerms(): DictionaryTerm[] {
     terms.push({ text: name, aliases: [], category: 'PERSON_NAME', related: buildNameRelated(name), priority: 72 });
   }
 
-  for (const brand of CAR_BRANDS) {
-    terms.push({
-      text: brand.text,
-      aliases: [...brand.aliases],
-      category: 'CAR_BRAND',
-      related: [...brand.related],
-      priority: 84,
-    });
-
-    for (const alias of brand.aliases) {
-      if (alias.length >= 3) {
-        terms.push({
-          text: alias,
-          aliases: [],
-          category: 'CAR_BRAND',
-          related: [brand.text, ...brand.related],
-          priority: 66,
-        });
-      }
-    }
-  }
-
-  for (const model of CAR_MODEL_TERMS) {
-    terms.push({
-      text: model.text,
-      aliases: [...model.aliases],
-      category: 'CAR_MODEL',
-      related: [...model.related],
-      priority: 92,
-    });
-  }
-
   for (const modelNumber of BMW_MODEL_NUMBERS) {
     terms.push({
       text: modelNumber,
@@ -260,6 +233,8 @@ function buildDictionaryTerms(): DictionaryTerm[] {
       category: 'CAR_MODEL',
       related: [`BMW${modelNumber}`, ...buildBmwRelated(modelNumber)],
       priority: 58,
+      baseConfidence: 74,
+      collectorDescription: `${modelNumber} gali priminti BMW modelio kodą, tačiau be BMW raidžių ši asociacija yra silpnesnė.`,
     });
   }
 
@@ -274,10 +249,6 @@ function buildDictionaryTerms(): DictionaryTerm[] {
 
   for (const word of LUXURY_WORDS) {
     terms.push({ text: word, aliases: [], category: 'LUXURY', related: buildWordRelated(word), priority: 68 });
-  }
-
-  for (const term of PERFORMANCE_TERMS) {
-    terms.push({ text: term, aliases: term === 'TYPER' ? ['TYPE R'] : [], category: 'PERFORMANCE', related: buildPerformanceRelated(term), priority: 76 });
   }
 
   for (const term of BUSINESS_TERMS) {
@@ -398,6 +369,20 @@ function inferTopMeanings({
     }
   }
 
+  for (const match of searchKnowledgeIndex(KNOWLEDGE_BASE.index, normalized)) {
+    addMeaning(createKnowledgeMeaning(match));
+  }
+
+  for (const association of detectAutomotiveContextualMeanings({
+    normalized,
+    alphaTokens,
+    numericTokens,
+    lettersOnly,
+    digitsOnly,
+  })) {
+    addMeaning(association);
+  }
+
   for (const pattern of detectNumberPatternMeanings({ normalized, lettersOnly, digitsOnly, numericTokens })) {
     addMeaning(pattern);
   }
@@ -416,16 +401,55 @@ function createMeaning(
   matchedAlias?: string,
 ): InternalMeaning {
   const matchedText = matchedAlias ?? candidate.text;
+  let cappedConfidence = term.baseConfidence ? Math.min(confidence, term.baseConfidence) : confidence;
+  if (term.collectorDescription && normalizePlate(matchedText).length <= 1) {
+    cappedConfidence = Math.min(cappedConfidence, 58);
+  }
   return {
     text: term.text,
     category: term.category,
-    confidence: adjustConfidence(term, confidence, candidate),
+    confidence: adjustConfidence(term, cappedConfidence, candidate),
     reason: buildMeaningReason(term, pass, candidate, matchedText),
     related: term.related,
     normalizedText: term.normalized,
     source: pass,
     priority: term.priority,
   };
+}
+
+function createKnowledgeMeaning(match: KnowledgeMatch): InternalMeaning {
+  return {
+    text: match.entry.displayName,
+    category: mapKnowledgeCategory(match.entry.category, match.entry.subcategory, match.entry.tags),
+    confidence: clampScore(match.confidence),
+    reason: `${match.reason} ${match.entry.collectorNotes}`.trim(),
+    related: [...match.entry.relatedKeywords],
+    normalizedText: match.entry.normalizedKeyword,
+    source: `knowledge:${match.source}`,
+    priority: match.priority,
+  };
+}
+
+function mapKnowledgeCategory(
+  category: KnowledgeCategory,
+  subcategory: string,
+  tags: readonly string[],
+): MeaningCategory {
+  if (category === 'manufacturers') return 'CAR_BRAND';
+  if (['cars', 'supercars', 'motorcycles', 'trucks'].includes(category)) return 'CAR_MODEL';
+  if (['engines', 'gearboxes', 'performance', 'motorsport'].includes(category)) return 'PERFORMANCE';
+  if (['people', 'lithuanian-names', 'english-names', 'nicknames', 'famous-people', 'athletes', 'drivers', 'musicians'].includes(category)) {
+    return 'PERSON_NAME';
+  }
+  if (['places', 'countries', 'cities', 'villages', 'airports', 'roads'].includes(category)) return 'CITY';
+  if (['luxury', 'fashion', 'luxury-watches', 'alcohol', 'cigars'].includes(category)) return 'LUXURY';
+  if (['brands', 'business', 'finance', 'tools', 'construction', 'agriculture', 'universities', 'government', 'emergency', 'medical'].includes(category)) {
+    return 'BUSINESS';
+  }
+  if (tags.some((tag) => ['automotive', 'performance', 'engine'].includes(tag)) || subcategory.includes('performance')) {
+    return 'PERFORMANCE';
+  }
+  return 'COMMON_WORD';
 }
 
 function buildMeaningReason(
@@ -435,7 +459,11 @@ function buildMeaningReason(
   matchedText: string,
 ): string {
   const substitutions = describeSubstitutions(candidate.substitutions);
+  const referenceDescription = term.collectorDescription ? ` ${term.collectorDescription}` : '';
   if (pass === 'exact') {
+    if (term.collectorDescription) {
+      return `Aptikta automobilių asociacija „${matchedText}“.${referenceDescription}`;
+    }
     if (candidate.source === 'token' && candidate.text !== term.normalized) {
       return `Aptiktas aiškus fragmentas „${candidate.text}“, siejamas su „${term.text}“.`;
     }
@@ -443,18 +471,18 @@ function buildMeaningReason(
   }
 
   if (pass === 'leet') {
-    return `Paslėptas skaitymas „${term.text}“ naudojant ${substitutions || 'vizualius skaičių ir raidžių pakeitimus'}.`;
+    return `Paslėptas skaitymas „${term.text}“ naudojant ${substitutions || 'vizualius skaičių ir raidžių pakeitimus'}.${referenceDescription}`;
   }
 
   if (pass === 'substring') {
-    return `Derinyje matomas fragmentas „${matchedText}“, kuris gali priminti „${term.text}“.`;
+    return `Derinyje matomas fragmentas „${matchedText}“, kuris gali priminti „${term.text}“.${referenceDescription}`;
   }
 
   if (pass === 'fuzzy') {
-    return `Derinys yra labai artimas „${term.text}“; ${substitutions || 'skiriasi tik vienas simbolis arba pasikartojanti raidė'}.`;
+    return `Derinys yra labai artimas „${term.text}“; ${substitutions || 'skiriasi tik vienas simbolis arba pasikartojanti raidė'}.${referenceDescription}`;
   }
 
-  return `„${candidate.text}“ yra žinomos reikšmės „${term.text}“ pradžia, todėl gali būti taip perskaitoma.`;
+  return `„${candidate.text}“ yra žinomos reikšmės „${term.text}“ pradžia, todėl gali būti taip perskaitoma.${referenceDescription}`;
 }
 
 function adjustConfidence(term: DictionaryTerm, confidence: number, candidate: Variant): number {
@@ -462,6 +490,8 @@ function adjustConfidence(term: DictionaryTerm, confidence: number, candidate: V
   if (term.category === 'PERSON_NAME' && candidate.substitutions.length > 0) adjusted += 2;
   if (term.category === 'CAR_MODEL') adjusted += 2;
   if (term.category === 'CAR_BRAND' && term.priority < 70) adjusted -= 17;
+  if (term.category === 'PERFORMANCE' && ['RS', 'STO', 'SV', 'SVJ'].includes(term.text)) adjusted -= 12;
+  if (term.text === 'Porsche RS' && candidate.text === 'RS') adjusted -= 16;
   if (term.normalized.length <= 3 && candidate.text.length > term.normalized.length + 2) adjusted -= 8;
   return clampScore(adjusted);
 }
@@ -493,7 +523,215 @@ function getFuzzyConfidence(candidate: string, target: string): number {
 }
 
 function isPrefixEligible(term: DictionaryTerm): boolean {
-  return ['PERSON_NAME', 'CAR_BRAND', 'CITY', 'COMMON_WORD', 'BUSINESS', 'LUXURY', 'PERFORMANCE'].includes(term.category);
+  return ['PERSON_NAME', 'CAR_BRAND', 'CITY', 'COMMON_WORD', 'BUSINESS', 'LUXURY'].includes(term.category);
+}
+
+function detectAutomotiveContextualMeanings({
+  normalized,
+  alphaTokens,
+  numericTokens,
+  lettersOnly,
+  digitsOnly,
+}: {
+  normalized: string;
+  alphaTokens: string[];
+  numericTokens: string[];
+  lettersOnly: string;
+  digitsOnly: string;
+}): InternalMeaning[] {
+  const meanings: InternalMeaning[] = [];
+  const hasLetters = (value: string) => lettersOnly.includes(value);
+  const hasToken = (value: string) => alphaTokens.some((token) => token === value || token.startsWith(value));
+  const add = (
+    text: string,
+    category: MeaningCategory,
+    confidence: number,
+    reason: string,
+    related: string[],
+    priority = 78,
+  ) => {
+    meanings.push({
+      text,
+      category,
+      confidence: clampScore(confidence),
+      reason,
+      related,
+      normalizedText: normalizePlate(text),
+      source: 'automotive-context',
+      priority,
+    });
+  };
+
+  for (const token of numericTokens) {
+    const stripped = stripLeadingZeros(token);
+    const firstDigit = stripped[0];
+
+    if (hasLetters('BMW') && (BMW_MODEL_NUMBERS as readonly string[]).includes(stripped)) {
+      add(
+        `BMW ${stripped}`,
+        'CAR_MODEL',
+        96,
+        `BMW ir ${stripped} kartu gali priminti konkretų BMW ${stripped} modelį.`,
+        [`BMW${stripped}`, ...buildBmwRelated(stripped)],
+        96,
+      );
+    }
+
+    if (['3', '5', '7'].includes(firstDigit) && stripped.length === 3) {
+      const series = `${firstDigit} serija`;
+      add(
+        `BMW ${series}`,
+        'CAR_MODEL',
+        hasLetters('BMW') ? 93 : 66,
+        hasLetters('BMW')
+          ? `BMW ir ${stripped} kartu gali priminti BMW ${series} modelių šeimą.`
+          : `${stripped} gali priminti BMW ${series} žymėjimo stilių, tačiau be BMW raidžių ši asociacija silpnesnė.`,
+        firstDigit === '5' ? ['BMW530', 'BMW535', 'BMW540', 'BMW550', 'BMW M5'] : [`BMW${stripped}`, 'BMW M3', 'BMW M5'],
+        hasLetters('BMW') ? 88 : 54,
+      );
+    }
+
+    if (/^0(?:43|53|60|61|62|63|65)$/.test(token)) {
+      const value = stripLeadingZeros(token);
+      const isAmgNumber = ['43', '53', '63', '65'].includes(value);
+      const hasAmgSupport = hasLetters('AMG') || ['A', 'C', 'E', 'S', 'G'].some((klass) => alphaTokens.includes(klass));
+      if (isAmgNumber && hasAmgSupport) {
+        if (hasLetters('AMG')) {
+          add(
+            `Mercedes-AMG ${value}`,
+            'CAR_MODEL',
+            94,
+            `AMG ir ${token} kartu gali priminti Mercedes-AMG ${value}.`,
+            ['AMG043', 'AMG053', 'AMG063', 'C63', 'E63', 'G63'],
+            94,
+          );
+        }
+        add(
+          `Stilizuotas AMG ${value}`,
+          'CAR_MODEL',
+          88,
+          `${token} gali būti skaitomas kaip stilizuotas AMG ${value}, nes raidės ir skaičiai palaiko tą pačią Mercedes-AMG asociaciją.`,
+          ['AMG043', 'AMG053', 'AMG063', 'S063', 'G063'],
+          86,
+        );
+      } else {
+        add(
+          `Stilizuotas ${value} automobilių motyvas`,
+          'PERFORMANCE',
+          hasLetters('SVJ') || hasLetters('STO') || hasLetters('SV') ? 58 : 48,
+          `${token} gali būti interpretuojamas kaip stilizuotas ${value} / ${value[0]}.${value.slice(1)} tipo automobilių modelio ar variklio motyvas, tačiau ši asociacija silpnesnė.`,
+          [`${value}1`, `${value}7`, `${value}777`],
+          42,
+        );
+      }
+    }
+  }
+
+  if (hasLetters('AUD') && /1{2,}/.test(digitsOnly)) {
+    add(
+      'AUDI',
+      'CAR_BRAND',
+      97,
+      'AUD kartu su pasikartojančiais vienetais gali vizualiai priminti AUDI, nes 1 dažnai skaitomas kaip I.',
+      ['AUDI', 'RS6', 'S6', 'R8'],
+      97,
+    );
+  }
+
+  if (hasLetters('SVJ')) {
+    add(
+      'Lamborghini Aventador SVJ',
+      'CAR_MODEL',
+      96,
+      'SVJ dažnai siejama su Lamborghini Aventador SVJ, todėl automobilių entuziastams gali būti įdomu.',
+      ['SVJ', 'STO', 'SV', 'LAM777'],
+      96,
+    );
+  }
+
+  if (hasLetters('STO')) {
+    add(
+      'Lamborghini Huracan STO',
+      'CAR_MODEL',
+      94,
+      'STO dažnai siejama su Lamborghini Huracan STO.',
+      ['STO', 'SVJ', 'SV', 'LAM777'],
+      94,
+    );
+  }
+
+  if (hasLetters('SV') && !hasLetters('SVJ')) {
+    add(
+      'Lamborghini SuperVeloce',
+      'CAR_MODEL',
+      82,
+      'SV gali priminti Lamborghini SuperVeloce žymėjimą, tačiau trumpas fragmentas paliekamas kaip galima asociacija.',
+      ['SVJ', 'STO', 'SV'],
+      70,
+    );
+  }
+
+  if (hasToken('RS') && !AUDI_CODES.some((code) => normalized.includes(code))) {
+    add(
+      'Audi RS / Porsche RS',
+      'PERFORMANCE',
+      alphaTokens.includes('RS') ? 76 : 60,
+      'RS gali priminti Audi RS arba Porsche RS žymėjimą; be konkretaus modelio tai yra platesnė performance asociacija.',
+      ['RS3', 'RS4', 'RS5', 'RS6', 'GT3RS'],
+      64,
+    );
+  }
+
+  if (hasToken('G') && (digitsOnly.includes('063') || digitsOnly.includes('63'))) {
+    add(
+      'Mercedes-AMG G 63',
+      'CAR_MODEL',
+      90,
+      'G raidė kartu su 63 / 063 gali priminti Mercedes-AMG G 63.',
+      ['G063', 'AMG063', 'S063'],
+      90,
+    );
+  }
+
+  if (hasLetters('M') && ['2', '3', '4', '5', '6', '8'].includes(digitsOnly[0] ?? '') && normalized.length <= 4) {
+    add(
+      `BMW M${digitsOnly[0]}`,
+      'CAR_MODEL',
+      92,
+      `M${digitsOnly[0]} dažnai siejama su BMW M serijos modeliais.`,
+      ['BMW M3', 'BMW M4', 'BMW M5', 'BMW M8'],
+      88,
+    );
+  }
+
+  if (hasLetters('FER')) {
+    for (const token of numericTokens) {
+      if (['488', '458', '430', '360', '812'].includes(stripLeadingZeros(token))) {
+        add(
+          `Ferrari ${stripLeadingZeros(token)}`,
+          'CAR_MODEL',
+          95,
+          `FER ir ${stripLeadingZeros(token)} kartu gali priminti Ferrari ${stripLeadingZeros(token)}.`,
+          ['FER488', 'FER458', 'F12', 'SF90'],
+          94,
+        );
+      }
+    }
+  }
+
+  if ((hasLetters('POR') || hasLetters('PORS')) && ['911', '918', '718', '992', '991', '997', '996'].some((code) => digitsOnly.includes(code))) {
+    const code = ['911', '918', '718', '992', '991', '997', '996'].find((candidate) => digitsOnly.includes(candidate))!;
+    add(
+      `Porsche ${code}`,
+      'CAR_MODEL',
+      95,
+      `POR / PORS ir ${code} kartu gali priminti Porsche ${code}.`,
+      ['POR911', 'GT3', 'GT2', 'TARGA'],
+      94,
+    );
+  }
+
+  return meanings;
 }
 
 function detectNumberPatternMeanings({
@@ -732,15 +970,27 @@ function buildCollectorInsights({
 
   for (const meaning of topMeanings) {
     if (meaning.category === 'CAR_MODEL') {
-      if (/BMW/.test(meaning.text)) addInsight('Turi žinomo BMW modelio nuorodą.');
+      if (/Lamborghini|Ferrari|McLaren|Bugatti/.test(meaning.text)) addInsight('Turi superautomobilio modelio ar versijos asociaciją.');
+      else if (/BMW/.test(meaning.text)) addInsight('Turi žinomo BMW modelio ar serijos nuorodą.');
       else if (/Audi RS/.test(meaning.text)) addInsight('Turi sportišką Audi RS modelio nuorodą.');
       else if (/Porsche/.test(meaning.text)) addInsight('Turi atpažįstamą Porsche sportinio modelio nuorodą.');
       else if (/AMG|Mercedes/.test(meaning.text)) addInsight('Turi premium Mercedes-AMG asociaciją.');
+      else if (/Toyota|Honda|Subaru|Mitsubishi|Nissan|Lexus/.test(meaning.text)) addInsight('Turi JDM arba japoniškų automobilių kultūrai pažįstamą nuorodą.');
+      else if (/Volkswagen|Skoda|Seat|Cupra|VAG/.test(meaning.text)) addInsight('Turi VAG bendruomenei atpažįstamą modelio ar versijos motyvą.');
+      else if (/Tesla|Electric|EV|Plaid/.test(meaning.text)) addInsight('Turi elektromobilių ar modernios technikos asociaciją.');
       else addInsight('Turi atpažįstamą automobilio modelio nuorodą.');
     }
     if (meaning.category === 'CAR_BRAND') addInsight('Turi lengvai atpažįstamą automobilio markės fragmentą.');
     if (meaning.category === 'PERSON_NAME') addInsight('Turi pilną vardą arba labai aiškią jo vizualią formą.');
-    if (meaning.category === 'PERFORMANCE') addInsight('Turi automobilių entuziastams pažįstamą performance trumpinį.');
+    if (meaning.category === 'PERFORMANCE') {
+      if (/JDM|STI|EVO|NISMO|GTR|VTEC|TYPER|2JZ|RB26|SR20|4G63|K20/.test(meaning.text)) {
+        addInsight('Turi JDM ar sportinių automobilių kultūrai pažįstamą trumpinį.');
+      } else if (/V8|V10|V12|W16|Turbo|Biturbo|Twin Turbo/.test(meaning.text)) {
+        addInsight('Turi variklio ar galios architektūros motyvą.');
+      } else {
+        addInsight('Turi automobilių entuziastams pažįstamą performance trumpinį.');
+      }
+    }
     if (meaning.category === 'LUXURY') addInsight('Turi premium ar statuso asociaciją.');
     if (meaning.category === 'BUSINESS') addInsight('Gali tikti verslo ar profesinei tapatybei.');
     if (meaning.category === 'CITY') addInsight('Gali turėti vietos ar miesto tapatybės prasmę.');
@@ -770,13 +1020,42 @@ function buildAudienceInsights(topMeanings: PlateMeaning[], context: NormalizedA
 
   for (const meaning of topMeanings) {
     if (meaning.category === 'CAR_MODEL' || meaning.category === 'CAR_BRAND' || meaning.category === 'PERFORMANCE') {
+      if (/Lamborghini/.test(meaning.text)) {
+        addAudience('Lamborghini entuziastams');
+        addAudience('Superautomobilių mėgėjams');
+        addAudience('Kolekcininkams, mėgstantiems retas automobilių asociacijas');
+      }
+      if (/Ferrari/.test(meaning.text)) {
+        addAudience('Ferrari entuziastams');
+        addAudience('Superautomobilių mėgėjams');
+      }
+      if (/McLaren/.test(meaning.text)) {
+        addAudience('McLaren entuziastams');
+        addAudience('Superautomobilių mėgėjams');
+      }
+      if (/Bugatti/.test(meaning.text)) {
+        addAudience('Hypercar entuziastams');
+        addAudience('Superautomobilių mėgėjams');
+      }
       if (/BMW/.test(meaning.text)) {
         addAudience('BMW entuziastams');
         const series = meaning.text.match(/\b([1-8])\d{2}\b/)?.[1];
+        const namedSeries = meaning.text.match(/BMW ([357]) serija/)?.[1];
         if (series) addAudience(`BMW ${series} serijos savininkams`);
+        if (namedSeries) addAudience(`BMW ${namedSeries} serijos savininkams`);
       }
       if (/Audi|RS\d/.test(meaning.text)) addAudience('Audi entuziastams');
-      if (/RS|AMG|GT|Porsche|FAST|TURBO|GTR|STI|EVO/.test(meaning.text)) addAudience('Sportinių automobilių mėgėjams');
+      if (/Mercedes|AMG/.test(meaning.text)) {
+        addAudience('Mercedes-AMG entuziastams');
+        addAudience('Sportinių Mercedes modelių mėgėjams');
+      }
+      if (/Porsche/.test(meaning.text)) addAudience('Porsche entuziastams');
+      if (/Tesla|Electric|EV|Plaid/.test(meaning.text)) addAudience('Elektromobilių entuziastams');
+      if (/Volkswagen|Skoda|Seat|Cupra|VAG|GTI|R32|R36/.test(meaning.text)) addAudience('VAG bendruomenės nariams');
+      if (/Toyota|Honda|Subaru|Mitsubishi|Nissan|Lexus|JDM|STI|EVO|NISMO|GTR|VTEC|TYPER|2JZ|RB26|SR20|4G63|K20/.test(meaning.text)) {
+        addAudience('JDM kultūros mėgėjams');
+      }
+      if (/RS|AMG|GT|Porsche|FAST|TURBO|Turbo|GTR|STI|EVO|Race|Track|Sport/.test(meaning.text)) addAudience('Sportinių automobilių mėgėjams');
       addAudience('Automobilių kolekcininkams');
     }
     if (meaning.category === 'PERSON_NAME') {
@@ -990,6 +1269,10 @@ function removeOneRepeatedCharacter(value: string): string[] {
     }
   }
   return variants;
+}
+
+function stripLeadingZeros(value: string): string {
+  return value.replace(/^0+/, '') || '0';
 }
 
 function editDistanceAtMostOne(a: string, b: string): boolean {

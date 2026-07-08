@@ -1,27 +1,18 @@
-export const CAR_BRANDS = [
-  {
-    text: 'AUDI',
-    aliases: ['AUD'],
-    related: ['RS3', 'RS4', 'RS5', 'RS6', 'S6'],
-  },
-  {
-    text: 'BMW',
-    aliases: [],
-    related: ['BMW530', 'BMW535', 'BMW540', 'BMW550', 'BMW M5'],
-  },
-  {
-    text: 'MERCEDES',
-    aliases: ['MB', 'BENZ'],
-    related: ['AMG063', 'S063', 'G063'],
-  },
-  {
-    text: 'PORSCHE',
-    aliases: ['PORSCH'],
-    related: ['911', 'GT2', 'GT3', 'GT4'],
-  },
-  {
-    text: 'VOLKSWAGEN',
-    aliases: ['VW'],
-    related: ['GTI', 'R32', 'R36', 'GOLF'],
-  },
-] as const;
+// Legacy compatibility export. The launch knowledge base lives in
+// src/lib/plate-intelligence/database; keep this shape for older imports.
+import { AUTOMOTIVE_BRANDS } from '@/lib/plate-intelligence/references';
+
+const normalizeKeyword = (value: string) => value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+
+export const CAR_BRANDS = AUTOMOTIVE_BRANDS.map((brand) => {
+  const text = normalizeKeyword(brand.brandName === 'Mercedes-Benz' ? 'Mercedes' : brand.brandName);
+  const aliases = [...brand.commonAbbreviations, ...brand.knownNicknames]
+    .map(normalizeKeyword)
+    .filter((alias, index, values) => alias && alias !== text && values.indexOf(alias) === index);
+
+  return {
+    text,
+    aliases,
+    related: brand.references.slice(0, 8).map((reference) => reference.keyword),
+  };
+});

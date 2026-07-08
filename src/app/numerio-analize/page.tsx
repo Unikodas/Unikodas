@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import { LogoLink } from '@/components/LogoLink';
 import { PlatePreview } from '@/components/PlatePreview';
 import { createPageMetadata } from '@/lib/seo';
+import { createClient } from '@/lib/supabase/server';
 import { PlateAnalysisTool } from './PlateAnalysisTool';
 
 export const metadata: Metadata = createPageMetadata({
@@ -13,7 +14,10 @@ export const metadata: Metadata = createPageMetadata({
   path: '/numerio-analize',
 });
 
-export default function PlateAnalysisPage() {
+export default async function PlateAnalysisPage() {
+  const supabase = await createClient();
+  const { data: userData } = await supabase.auth.getUser();
+
   return (
     <>
       <header className="app-header sticky top-0 z-40">
@@ -50,7 +54,7 @@ export default function PlateAnalysisPage() {
           </div>
         </section>
 
-        <PlateAnalysisTool />
+        <PlateAnalysisTool isAuthenticated={Boolean(userData.user)} />
       </main>
     </>
   );

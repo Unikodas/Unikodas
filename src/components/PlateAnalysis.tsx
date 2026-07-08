@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import Link from 'next/link';
 
 import {
   analyzePlate,
@@ -13,6 +14,8 @@ type PlateAnalysisProps = {
   symbol?: PlateAnalysisContext['symbol'];
   category?: PlateAnalysisContext['category'];
   type?: PlateAnalysisContext['type'];
+  isAuthenticated?: boolean;
+  loginHref?: string;
 };
 
 const dimensionLabels = {
@@ -35,8 +38,39 @@ const meaningCategoryLabels: Record<MeaningCategory, string> = {
   LUXURY: 'Premium',
 };
 
-export function PlateAnalysis({ plate, symbol, category, type }: PlateAnalysisProps) {
+export function PlateAnalysis({
+  plate,
+  symbol,
+  category,
+  type,
+  isAuthenticated = true,
+  loginHref = '/prisijungti',
+}: PlateAnalysisProps) {
   if (!plate || !normalizePlate(plate)) return null;
+
+  if (!isAuthenticated) {
+    return (
+      <section className="app-card p-5 text-center sm:p-6" aria-labelledby="plate-analysis-title">
+        <p className="text-sm font-black uppercase text-[var(--primary)]">
+          Unikodas įžvalgos
+        </p>
+        <h2 id="plate-analysis-title" className="mt-3 text-2xl font-black text-[var(--foreground)]">
+          Aptiktos galimos įžvalgos.
+        </h2>
+        <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-[var(--muted-foreground)]">
+          Prisijunkite nemokamai, kad pamatytumėte visas Unikodas įžvalgas.
+        </p>
+        <div className="mx-auto mt-5 grid max-w-md gap-3 sm:grid-cols-2">
+          <Link href={loginHref} className="app-button-primary min-h-[52px] px-5 py-3 text-sm">
+            Prisijungti
+          </Link>
+          <Link href={loginHref} className="app-button-secondary min-h-[52px] px-5 py-3 text-sm">
+            Registruotis
+          </Link>
+        </div>
+      </section>
+    );
+  }
 
   const analysis = analyzePlate(plate, { symbol, category, type });
   const primaryInsights = analysis.collectorInsights.slice(0, 4);

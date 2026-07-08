@@ -1,0 +1,112 @@
+import { defineBrandKnowledge, reference } from './types';
+
+export const BMW_MODEL_NUMBERS = [
+  '114',
+  '116',
+  '118',
+  '120',
+  '123',
+  '125',
+  '128',
+  '130',
+  '135',
+  '140',
+  '216',
+  '218',
+  '220',
+  '225',
+  '228',
+  '230',
+  '235',
+  '240',
+  '316',
+  '318',
+  '320',
+  '323',
+  '325',
+  '328',
+  '330',
+  '335',
+  '340',
+  '418',
+  '420',
+  '425',
+  '428',
+  '430',
+  '435',
+  '440',
+  '518',
+  '520',
+  '523',
+  '525',
+  '528',
+  '530',
+  '535',
+  '540',
+  '545',
+  '550',
+  '630',
+  '635',
+  '640',
+  '645',
+  '650',
+  '730',
+  '735',
+  '740',
+  '745',
+  '750',
+  '760',
+] as const;
+
+export const BMW_M_MODELS = ['M2', 'M3', 'M4', 'M5', 'M6', 'M8'] as const;
+export const BMW_X_MODELS = ['X1', 'X2', 'X3', 'X4', 'X5', 'X6', 'X7'] as const;
+export const BMW_ELECTRIC_MODELS = ['I3', 'I4', 'I5', 'I7', 'I8', 'IX'] as const;
+
+const bmwRelated = ['BMW530', 'BMW535', 'BMW540', 'BMW550', 'M5', 'M3'];
+
+export const BMW_KNOWLEDGE = defineBrandKnowledge({
+  brandName: 'BMW',
+  commonAbbreviations: ['BMW'],
+  popularModels: ['1 Series', '2 Series', '3 Series', '4 Series', '5 Series', '6 Series', '7 Series', '8 Series'],
+  performanceModels: [...BMW_M_MODELS, 'Competition', 'CS', 'CSL'],
+  knownNicknames: ['Bimmer', 'Beemer', 'Bemas'],
+  commonEngineModelReferences: BMW_MODEL_NUMBERS,
+  collectorNotes: 'BMW modelių kodai ir M serijos žymėjimai labai lengvai atpažįstami Lietuvos automobilių entuziastų bendruomenėje.',
+  references: [
+    reference('BMW', 'BMW', 'BRAND', 99, 'BMW markė labai atpažįstama tarp automobilių entuziastų.', ['Bimmer', 'Beemer', 'Bemas'], bmwRelated, 'BMW'),
+    ...BMW_MODEL_NUMBERS.map((model) =>
+      reference(
+        `BMW${model}`,
+        `BMW ${model}`,
+        'MODEL',
+        94,
+        `BMW ${model} gali priminti konkretų BMW modelio kodą.`,
+        [`BMW ${model}`],
+        bmwRelated,
+        'BMW',
+      ),
+    ),
+    ...BMW_M_MODELS.map((model) =>
+      reference(
+        model,
+        `BMW ${model}`,
+        'PERFORMANCE',
+        98,
+        `${model} dažnai siejama su BMW M serijos sportiniais modeliais.`,
+        [`BMW${model}`, `BMW ${model}`],
+        ['M2', 'M3', 'M4', 'M5', 'M8'],
+        'BMW',
+      ),
+    ),
+    ...BMW_X_MODELS.map((model) =>
+      reference(model, `BMW ${model}`, 'MODEL', 86, `${model} gali priminti BMW X serijos visureigį.`, [`BMW${model}`, `BMW ${model}`], ['X3', 'X5', 'X6'], 'BMW'),
+    ),
+    ...BMW_ELECTRIC_MODELS.map((model) =>
+      reference(model, `BMW ${model}`, 'MODEL', 84, `${model} gali priminti BMW elektrifikuotą modelį.`, [`BMW${model}`, `BMW ${model}`], ['I4', 'I5', 'IX'], 'BMW'),
+    ),
+    reference('COMPETITION', 'BMW Competition', 'PERFORMANCE', 88, 'Competition žymėjimas BMW pasaulyje dažnai siejamas su sportiškesnėmis M versijomis.', ['COMP'], ['M3COMP', 'M4COMP', 'M5COMP'], 'BMW'),
+    reference('CS', 'BMW CS', 'PERFORMANCE', 78, 'CS gali priminti ribotesnes ir sportiškas BMW versijas.', ['BMWCS'], ['M3CS', 'M4CS'], 'BMW'),
+    reference('CSL', 'BMW CSL', 'PERFORMANCE', 92, 'CSL žymėjimas BMW entuziastams siejasi su lengvesnėmis, kolekcinėmis M versijomis.', ['BMWCSL'], ['M3CSL'], 'BMW'),
+  ],
+} as const);
+

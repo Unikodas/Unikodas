@@ -187,6 +187,8 @@ export default async function ListingDetailPage({
           plate={listing.plate_text}
           symbol={listing.flag_type}
           type={listing.plate_type}
+          isAuthenticated={Boolean(userData.user)}
+          loginHref={loginHref}
         />
 
         <section className="app-card p-5 sm:p-6">
