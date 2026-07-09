@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { lt } from '@/lib/i18n/lt';
 import { createClient } from '@/lib/supabase/server';
@@ -7,6 +8,9 @@ import { MessageForm } from '@/app/skelbimas/[id]/MessageForm';
 import { LogoLink } from '@/components/LogoLink';
 import { sendWantedMessageAction } from './actions';
 import { DeleteButton } from './redaguoti/DeleteButton';
+import { JsonLd } from '@/components/JsonLd';
+import { createPageMetadata, HOME_DESCRIPTION, SITE_NAME } from '@/lib/seo';
+import { breadcrumbJsonLd } from '@/lib/structured-data';
 
 type WantedRow = {
   id: string;
@@ -28,6 +32,37 @@ function formatDate(iso: string): string {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
+  });
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const supabase = await createClient();
+  const { data: wanted } = await supabase
+    .from('wanted_listings')
+    .select('id, plate_pattern, description')
+    .eq('id', id)
+    .eq('status', 'active')
+    .maybeSingle<Pick<WantedRow, 'id' | 'plate_pattern' | 'description'>>();
+
+  if (!wanted) {
+    return createPageMetadata({
+      title: `Ieškomas numeris nerastas | ${SITE_NAME}`,
+      description: HOME_DESCRIPTION,
+      path: `/ieskau/${id}`,
+    });
+  }
+
+  return createPageMetadata({
+    title: `Ieškoma ${wanted.plate_pattern} | Unikodas`,
+    description:
+      wanted.description ||
+      `Pirkėjas ieško numerio ${wanted.plate_pattern}. Susisiekite per Unikodas vidines žinutes, jei turite panašų derinį.`,
+    path: `/ieskau/${wanted.id}`,
   });
 }
 
@@ -62,6 +97,13 @@ export default async function WantedDetailPage({
 
   return (
     <>
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: 'Ieškomi numeriai', path: '/ieskau' },
+          { name: wanted.plate_pattern, path: `/ieskau/${wanted.id}` },
+        ])}
+      />
+
       <header className="border-b border-slate-200 bg-white">
         <nav className="max-w-3xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
           <LogoLink />

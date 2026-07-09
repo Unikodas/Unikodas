@@ -1,10 +1,12 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { JsonLd } from '@/components/JsonLd';
 import { ListingCard, type ListingCardData } from '@/components/ListingCard';
 import { LogoLink } from '@/components/LogoLink';
 import { PlatePreview } from '@/components/PlatePreview';
 import { FaqAccordion } from '@/components/FaqAccordion';
 import { createPageMetadata } from '@/lib/seo';
+import { breadcrumbJsonLd, collectionPageJsonLd, faqPageJsonLd, itemListJsonLd } from '@/lib/structured-data';
 import { createClient } from '@/lib/supabase/server';
 
 export const metadata: Metadata = createPageMetadata({
@@ -75,6 +77,27 @@ export default async function PersonalizedPlatesPage() {
 
   return (
     <>
+      <JsonLd
+        data={[
+          collectionPageJsonLd({
+            name: 'Vardiniai numeriai',
+            description:
+              'Vardinių ir išskirtinių automobilių numerių kategorija Unikodas prekyvietėje.',
+            path: '/vardiniai-numeriai',
+          }),
+          itemListJsonLd({
+            name: 'Vardiniai numeriai pardavimui',
+            path: '/vardiniai-numeriai',
+            listings,
+          }),
+          faqPageJsonLd(faqs),
+          breadcrumbJsonLd([
+            { name: 'Numeriai', path: '/' },
+            { name: 'Vardiniai numeriai', path: '/vardiniai-numeriai' },
+          ]),
+        ]}
+      />
+
       <header className="app-header sticky top-0 z-40">
         <nav className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
           <LogoLink />

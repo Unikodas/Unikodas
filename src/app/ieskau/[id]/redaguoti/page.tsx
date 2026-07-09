@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 import { lt } from '@/lib/i18n/lt';
 import { requireUser } from '@/lib/auth/require-user';
@@ -6,6 +7,7 @@ import { WantedForm } from '@/components/WantedForm';
 import { LogoLink } from '@/components/LogoLink';
 import { updateWantedAction } from './actions';
 import { DeleteButton } from './DeleteButton';
+import { createNoIndexMetadata } from '@/lib/seo';
 
 type WantedRow = {
   id: string;
@@ -14,6 +16,20 @@ type WantedRow = {
   description: string | null;
   max_price_eur: number | null;
 };
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+
+  return createNoIndexMetadata({
+    title: 'Ieškomo numerio redagavimas | Unikodas',
+    description: 'Privatus ieškomo numerio skelbimo redagavimo puslapis.',
+    path: `/ieskau/${id}/redaguoti`,
+  });
+}
 
 export default async function EditWantedPage({
   params,

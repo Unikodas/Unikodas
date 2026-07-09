@@ -16,6 +16,8 @@ import { ShareButton } from '@/components/ShareButton';
 import { CommunityCTA } from '@/components/CommunityCTA';
 import { PlateAnalysis } from '@/components/PlateAnalysis';
 import { ListingViewTracker } from './ListingViewTracker';
+import { JsonLd } from '@/components/JsonLd';
+import { breadcrumbJsonLd, productJsonLd } from '@/lib/structured-data';
 
 type ListingRow = {
   id: string;
@@ -105,6 +107,23 @@ export default async function ListingDetailPage({
   return (
     <>
       {listing.status === 'active' && <ListingViewTracker listingId={listing.id} />}
+      <JsonLd
+        data={[
+          productJsonLd({
+            id: listing.id,
+            plateText: listing.plate_text,
+            priceEur: listing.price_eur,
+            description: listing.description,
+            city: listing.city,
+            status: listing.status,
+            createdAt: listing.created_at,
+          }),
+          breadcrumbJsonLd([
+            { name: 'Numeriai', path: '/' },
+            { name: listing.plate_text, path: `/skelbimas/${listing.id}` },
+          ]),
+        ]}
+      />
 
       <header className="app-header sticky top-0 z-40">
         <nav className="mx-auto flex max-w-3xl items-center justify-between px-4 py-3 sm:px-6">

@@ -1,7 +1,35 @@
+import type { Metadata } from 'next';
+
+import { JsonLd } from '@/components/JsonLd';
+import { createPageMetadata } from '@/lib/seo';
+import { articleJsonLd, breadcrumbJsonLd } from '@/lib/structured-data';
+
+export const metadata: Metadata = createPageMetadata({
+  title: 'Privatumo politika | Unikodas',
+  description:
+    'Sužinokite, kokius duomenis Unikodas tvarko paskyroms, skelbimams, žinutėms, saugumui ir platformos veikimui užtikrinti.',
+  path: '/privatumas',
+});
+
 export default function PrivacyPage() {
   return (
-    <main className="mx-auto max-w-3xl px-4 py-10 text-slate-900">
-      <h1 className="mb-6 text-3xl font-bold">Privatumo politika</h1>
+    <>
+      <JsonLd
+        data={[
+          articleJsonLd({
+            headline: 'Privatumo politika',
+            description: 'Unikodas privatumo politikos informacija apie naudotojų duomenų tvarkymą.',
+            path: '/privatumas',
+          }),
+          breadcrumbJsonLd([
+            { name: 'Numeriai', path: '/' },
+            { name: 'Privatumo politika', path: '/privatumas' },
+          ]),
+        ]}
+      />
+
+      <main className="mx-auto max-w-3xl px-4 py-10 text-slate-900">
+        <h1 className="mb-6 text-3xl font-bold">Privatumo politika</h1>
 
       <p className="mb-4">
         unikodas.lt gerbia jūsų privatumą ir tvarko duomenis tik platformos veikimui užtikrinti.
@@ -35,6 +63,7 @@ export default function PrivacyPage() {
         Galite prašyti ištrinti arba pataisyti savo duomenis. Dėl klausimų susisiekite:
         info@unikodas.lt
       </p>
-    </main>
+      </main>
+    </>
   );
 }

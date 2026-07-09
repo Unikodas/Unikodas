@@ -16,6 +16,14 @@ import { LogoLink } from '@/components/LogoLink';
 import { PlatePreview } from '@/components/PlatePreview';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { CommunityCTA } from '@/components/CommunityCTA';
+import { JsonLd } from '@/components/JsonLd';
+import {
+  collectionPageJsonLd,
+  itemListJsonLd,
+  organizationJsonLd,
+  searchResultsPageJsonLd,
+  websiteJsonLd,
+} from '@/lib/structured-data';
 
 const BROWSE_PAGE_SIZE = 50;
 const HOME_INTERESTING_LISTINGS_LIMIT = 8;
@@ -38,6 +46,7 @@ export default async function Home({
 }) {
   const params = await searchParams;
   const filters = parseListingFilters(params);
+  const seo = getBrowseSeo(params);
 
   const supabase = await createClient();
   const { data: userData } = await supabase.auth.getUser();
@@ -96,6 +105,34 @@ export default async function Home({
 
   return (
     <>
+      <JsonLd
+        data={[
+          organizationJsonLd(),
+          websiteJsonLd(),
+          filters.q ||
+          filters.plate_type ||
+          filters.flag_type ||
+          filters.city ||
+          filters.minPrice !== null ||
+          filters.maxPrice !== null
+            ? searchResultsPageJsonLd({
+                name: seo.title,
+                description: seo.description,
+                path: seo.path,
+              })
+            : collectionPageJsonLd({
+                name: 'Unikodas numerių prekyvietė',
+                description: seo.description,
+                path: seo.path,
+              }),
+          itemListJsonLd({
+            name: 'Naujausi numeriai',
+            path: seo.path,
+            listings,
+          }),
+        ]}
+      />
+
       <header className="app-header sticky top-0 z-40">
         <nav className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
           <LogoLink />

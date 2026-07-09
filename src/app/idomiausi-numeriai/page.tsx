@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
 
+import { JsonLd } from '@/components/JsonLd';
 import { LogoLink } from '@/components/LogoLink';
 import { PlatePreview } from '@/components/PlatePreview';
 import {
@@ -9,6 +10,7 @@ import {
   type WithInterestingPlateInsight,
 } from '@/lib/interesting-plates';
 import { createPageMetadata } from '@/lib/seo';
+import { breadcrumbJsonLd, collectionPageJsonLd, itemListJsonLd } from '@/lib/structured-data';
 import { createClient } from '@/lib/supabase/server';
 import type { FlagType, PlateType } from '@/lib/validation/listing';
 
@@ -51,6 +53,26 @@ export default async function InterestingPlatesPage() {
 
   return (
     <>
+      <JsonLd
+        data={[
+          collectionPageJsonLd({
+            name: 'Įdomiausi numeriai',
+            description:
+              'Automatiškai atrinkti automobilių numeriai pagal Unikodas įžvalgas, raštus ir atpažįstamas reikšmes.',
+            path: '/idomiausi-numeriai',
+          }),
+          itemListJsonLd({
+            name: 'Įdomiausi numeriai',
+            path: '/idomiausi-numeriai',
+            listings,
+          }),
+          breadcrumbJsonLd([
+            { name: 'Numeriai', path: '/' },
+            { name: 'Įdomiausi numeriai', path: '/idomiausi-numeriai' },
+          ]),
+        ]}
+      />
+
       <header className="app-header sticky top-0 z-40">
         <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
           <LogoLink />

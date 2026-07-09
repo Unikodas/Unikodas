@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 import { lt } from '@/lib/i18n/lt';
 import { requireUser } from '@/lib/auth/require-user';
@@ -8,6 +9,7 @@ import type { PlateType, FlagType } from '@/lib/validation/listing';
 import type { LithuanianCity } from '@/lib/locations/lithuania-cities';
 import { updateListingAction } from './actions';
 import { DeleteButton } from './DeleteButton';
+import { createNoIndexMetadata } from '@/lib/seo';
 
 type ListingRow = {
   id: string;
@@ -19,6 +21,20 @@ type ListingRow = {
   price_eur?: number;
   description: string | null;
 };
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+
+  return createNoIndexMetadata({
+    title: 'Skelbimo redagavimas | Unikodas',
+    description: 'Privatus automobilio numerio skelbimo redagavimo puslapis.',
+    path: `/skelbimas/${id}/redaguoti`,
+  });
+}
 
 export default async function EditListingPage({
   params,

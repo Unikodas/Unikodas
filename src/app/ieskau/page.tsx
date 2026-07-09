@@ -1,14 +1,37 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import { lt } from '@/lib/i18n/lt';
 import { createClient } from '@/lib/supabase/server';
 import { parseWantedFilters } from '@/lib/validation/wanted';
 import { WantedCard, type WantedCardData } from '@/components/WantedCard';
 import { WantedFilters } from '@/components/WantedFilters';
 import { LogoLink } from '@/components/LogoLink';
+import { JsonLd } from '@/components/JsonLd';
+import { createPageMetadata } from '@/lib/seo';
+import { collectionPageJsonLd, searchResultsPageJsonLd } from '@/lib/structured-data';
 
 const BROWSE_PAGE_SIZE = 50;
 
 type SearchParams = Record<string, string | string[] | undefined>;
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}): Promise<Metadata> {
+  const params = await searchParams;
+  const filters = parseWantedFilters(params);
+  const path = getWantedCanonicalPath(params);
+  const hasQuery = Boolean(filters.q);
+
+  return createPageMetadata({
+    title: hasQuery ? `Ieškoma ${filters.q} | Unikodas` : 'Ieškomi numeriai | Unikodas',
+    description: hasQuery
+      ? `Peržiūrėkite pirkėjų paieškas pagal „${filters.q}“ ir susisiekite per Unikodas vidines žinutes.`
+      : 'Peržiūrėkite, kokių automobilių numerių ieško pirkėjai Lietuvoje, arba paskelbkite savo ieškomą derinį Unikodas platformoje.',
+    path,
+  });
+}
 
 export default async function WantedBrowsePage({
   searchParams,
@@ -58,9 +81,28 @@ export default async function WantedBrowsePage({
     console.error('[ieskau/browse] query failed:', error);
   }
   const items = (data ?? []) as WantedCardData[];
+  const path = getWantedCanonicalPath(params);
+  const schemaDescription =
+    'Pirkėjų ieškomi automobilių numeriai Unikodas platformoje.';
 
   return (
     <>
+      <JsonLd
+        data={
+          filters.q
+            ? searchResultsPageJsonLd({
+                name: `Ieškoma ${filters.q}`,
+                description: schemaDescription,
+                path,
+              })
+            : collectionPageJsonLd({
+                name: 'Ieškomi numeriai',
+                description: schemaDescription,
+                path,
+              })
+        }
+      />
+
       <header className="border-b border-slate-200 bg-white">
         <nav className="max-w-5xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
           <LogoLink />
@@ -112,4 +154,15 @@ export default async function WantedBrowsePage({
       </main>
     </>
   );
+}
+
+function getWantedCanonicalPath(searchParams: SearchParams): string {
+  const filters = parseWantedFilters(searchParams);
+  const params = new URLSearchParams();
+
+  if (filters.q) params.set('q', filters.q);
+  if (filters.sort && filters.sort !== 'newest') params.set('sort', filters.sort);
+
+  const query = params.toString();
+  return query ? `/ieskau?${query}` : '/ieskau';
 }

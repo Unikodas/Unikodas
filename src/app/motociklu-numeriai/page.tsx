@@ -1,10 +1,12 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { JsonLd } from '@/components/JsonLd';
 import { ListingCard, type ListingCardData } from '@/components/ListingCard';
 import { LogoLink } from '@/components/LogoLink';
 import { PlatePreview } from '@/components/PlatePreview';
 import { FaqAccordion } from '@/components/FaqAccordion';
 import { createPageMetadata } from '@/lib/seo';
+import { breadcrumbJsonLd, collectionPageJsonLd, faqPageJsonLd, itemListJsonLd } from '@/lib/structured-data';
 import { createClient } from '@/lib/supabase/server';
 
 export const metadata: Metadata = createPageMetadata({
@@ -76,6 +78,27 @@ export default async function MotorcyclePlatesPage() {
 
   return (
     <>
+      <JsonLd
+        data={[
+          collectionPageJsonLd({
+            name: 'Motociklų numeriai',
+            description:
+              'Motociklų numerių kategorija Unikodas prekyvietėje su aktyviais skelbimais ir saugaus pirkimo gairėmis.',
+            path: '/motociklu-numeriai',
+          }),
+          itemListJsonLd({
+            name: 'Motociklų numeriai pardavimui',
+            path: '/motociklu-numeriai',
+            listings,
+          }),
+          faqPageJsonLd(faqs),
+          breadcrumbJsonLd([
+            { name: 'Numeriai', path: '/' },
+            { name: 'Motociklų numeriai', path: '/motociklu-numeriai' },
+          ]),
+        ]}
+      />
+
       <header className="app-header sticky top-0 z-40">
         <nav className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
           <LogoLink />

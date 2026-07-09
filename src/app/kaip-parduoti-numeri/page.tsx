@@ -1,8 +1,10 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { JsonLd } from '@/components/JsonLd';
 import { LogoLink } from '@/components/LogoLink';
 import { FaqAccordion } from '@/components/FaqAccordion';
 import { createPageMetadata } from '@/lib/seo';
+import { articleJsonLd, breadcrumbJsonLd, faqPageJsonLd } from '@/lib/structured-data';
 
 export const metadata: Metadata = createPageMetadata({
   title: 'Kaip parduoti automobilio numerį? | Unikodas',
@@ -59,6 +61,22 @@ const faqs = [
 export default function SellPlateGuidePage() {
   return (
     <>
+      <JsonLd
+        data={[
+          articleJsonLd({
+            headline: 'Kaip parduoti automobilio numerį?',
+            description:
+              'Gidas, kaip saugiai parduoti automobilio numerį Lietuvoje per Unikodas ir sandorį užbaigti atsakingai.',
+            path: '/kaip-parduoti-numeri',
+          }),
+          faqPageJsonLd(faqs),
+          breadcrumbJsonLd([
+            { name: 'Numeriai', path: '/' },
+            { name: 'Kaip parduoti numerį', path: '/kaip-parduoti-numeri' },
+          ]),
+        ]}
+      />
+
       <header className="app-header sticky top-0 z-40">
         <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
           <LogoLink />

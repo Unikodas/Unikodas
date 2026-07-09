@@ -48,6 +48,24 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'daily',
       priority: 0.8,
     },
+    {
+      url: absoluteUrl('/ieskau'),
+      lastModified: now,
+      changeFrequency: 'daily',
+      priority: 0.7,
+    },
+    {
+      url: absoluteUrl('/privatumas'),
+      lastModified: now,
+      changeFrequency: 'yearly',
+      priority: 0.3,
+    },
+    {
+      url: absoluteUrl('/taisykles'),
+      lastModified: now,
+      changeFrequency: 'yearly',
+      priority: 0.3,
+    },
     ...SITEMAP_CATEGORY_PATHS.map((path) => ({
       url: absoluteUrl(path),
       lastModified: now,

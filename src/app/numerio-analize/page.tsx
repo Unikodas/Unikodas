@@ -1,9 +1,11 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
 
+import { JsonLd } from '@/components/JsonLd';
 import { LogoLink } from '@/components/LogoLink';
 import { PlatePreview } from '@/components/PlatePreview';
 import { createPageMetadata } from '@/lib/seo';
+import { breadcrumbJsonLd, softwareApplicationJsonLd } from '@/lib/structured-data';
 import { createClient } from '@/lib/supabase/server';
 import { PlateAnalysisTool } from './PlateAnalysisTool';
 
@@ -20,6 +22,16 @@ export default async function PlateAnalysisPage() {
 
   return (
     <>
+      <JsonLd
+        data={[
+          softwareApplicationJsonLd(),
+          breadcrumbJsonLd([
+            { name: 'Numeriai', path: '/' },
+            { name: 'Numerio analizė', path: '/numerio-analize' },
+          ]),
+        ]}
+      />
+
       <header className="app-header sticky top-0 z-40">
         <nav className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3 sm:px-6">
           <LogoLink />
