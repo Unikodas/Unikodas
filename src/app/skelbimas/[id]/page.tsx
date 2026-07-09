@@ -199,6 +199,13 @@ export default async function ListingDetailPage({
                 />
               </div>
             )}
+
+            <Link
+              href={`/numerio/${encodeURIComponent(listing.plate_text.replace(/[^A-Za-z0-9]/g, '').toUpperCase())}`}
+              className="app-button-secondary inline-flex min-h-11 px-4 py-2 text-sm"
+            >
+              Numerio reikšmė ir įžvalgos
+            </Link>
           </div>
         </article>
 

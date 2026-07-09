@@ -6,6 +6,7 @@ export const revalidate = 3600;
 
 type SitemapListing = {
   id: string;
+  plate_text: string | null;
   updated_at: string | null;
 };
 
@@ -101,7 +102,7 @@ async function getListingRoutes(): Promise<MetadataRoute.Sitemap> {
 
   const { data, error } = await supabase
     .from('listings')
-    .select('id, updated_at')
+    .select('id, plate_text, updated_at')
     .eq('status', 'active')
     .order('updated_at', { ascending: false })
     .limit(5000)
@@ -112,10 +113,31 @@ async function getListingRoutes(): Promise<MetadataRoute.Sitemap> {
     return [];
   }
 
-  return (data ?? []).map((listing) => ({
+  const listingPages = (data ?? []).map((listing) => ({
     url: absoluteUrl(`/skelbimas/${listing.id}`),
     lastModified: listing.updated_at ? new Date(listing.updated_at) : undefined,
-    changeFrequency: 'weekly',
+    changeFrequency: 'weekly' as const,
     priority: 0.7,
   }));
+
+  const seenPlates = new Set<string>();
+  const platePages = (data ?? []).flatMap((listing) => {
+    const plate = normalizePlateForSitemap(listing.plate_text ?? '');
+    if (!plate || seenPlates.has(plate)) return [];
+    seenPlates.add(plate);
+    return [
+      {
+        url: absoluteUrl(`/numerio/${plate}`),
+        lastModified: listing.updated_at ? new Date(listing.updated_at) : undefined,
+        changeFrequency: 'weekly' as const,
+        priority: 0.6,
+      },
+    ];
+  });
+
+  return [...listingPages, ...platePages];
+}
+
+function normalizePlateForSitemap(plate: string): string {
+  return plate.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 15);
 }
