@@ -72,7 +72,8 @@ export type KnowledgeCategory =
   | 'medical'
   | 'science'
   | 'weather'
-  | 'nature';
+  | 'nature'
+  | 'plate-concepts';
 
 export type KnowledgeBaseEntry = {
   keyword: string;
@@ -104,4 +105,3 @@ export type KnowledgeCategoryPack = {
 export function defineKnowledgeEntries<const T extends readonly KnowledgeBaseEntry[]>(entries: T): T {
   return entries;
 }
-

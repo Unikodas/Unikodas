@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { createClient as createSupabaseClient } from '@supabase/supabase-js';
 import { absoluteUrl, SITEMAP_CATEGORY_PATHS } from '@/lib/seo';
+import { getEncyclopediaSitemapPaths } from '@/lib/topic-encyclopedia';
 
 export const revalidate = 3600;
 
@@ -78,6 +79,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: now,
       changeFrequency: 'daily' as const,
       priority: 0.8,
+    })),
+    ...getEncyclopediaSitemapPaths().map((path) => ({
+      url: absoluteUrl(path),
+      lastModified: now,
+      changeFrequency: 'monthly' as const,
+      priority: 0.7,
     })),
   ];
 

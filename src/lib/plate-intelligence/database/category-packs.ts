@@ -70,6 +70,7 @@ import { MEDICAL_ENTRIES } from './medical';
 import { SCIENCE_ENTRIES } from './science';
 import { WEATHER_ENTRIES } from './weather';
 import { NATURE_ENTRIES } from './nature';
+import { PLATE_CONCEPTS_ENTRIES } from './plate-concepts';
 import type { KnowledgeCategoryPack } from './schema';
 
 export const KNOWLEDGE_CATEGORY_PACKS = [
@@ -145,4 +146,5 @@ export const KNOWLEDGE_CATEGORY_PACKS = [
   { category: 'science', entries: SCIENCE_ENTRIES },
   { category: 'weather', entries: WEATHER_ENTRIES },
   { category: 'nature', entries: NATURE_ENTRIES },
+  { category: 'plate-concepts', entries: PLATE_CONCEPTS_ENTRIES },
 ] as const satisfies readonly KnowledgeCategoryPack[];
