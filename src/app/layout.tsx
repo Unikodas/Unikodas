@@ -75,28 +75,14 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#f8fafc' },
-    { media: '(prefers-color-scheme: dark)', color: '#050816' },
-  ],
+  themeColor: '#050816',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="lt" suppressHydrationWarning>
+    <html lang="lt" className="dark" suppressHydrationWarning>
       <head>
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#2563eb" />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-try {
-  if (window.localStorage.getItem('unikodas-theme') === 'dark') {
-    document.documentElement.classList.add('dark');
-  }
-} catch (_) {}
-`,
-          }}
-        />
       </head>
       <body>
         {children}

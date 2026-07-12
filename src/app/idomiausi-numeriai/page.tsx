@@ -4,14 +4,10 @@ import type { Metadata } from 'next';
 import { JsonLd } from '@/components/JsonLd';
 import { LogoLink } from '@/components/LogoLink';
 import { PlatePreview } from '@/components/PlatePreview';
-import {
-  INTERESTING_LISTING_CANDIDATE_LIMIT,
-  rankInterestingListings,
-  type WithInterestingPlateInsight,
-} from '@/lib/interesting-plates';
+import type { WithInterestingPlateInsight } from '@/lib/interesting-plates';
+import { getCachedHomeInterestingListings } from '@/lib/public-listings';
 import { createPageMetadata } from '@/lib/seo';
 import { breadcrumbJsonLd, collectionPageJsonLd, itemListJsonLd } from '@/lib/structured-data';
-import { createClient } from '@/lib/supabase/server';
 import type { FlagType, PlateType } from '@/lib/validation/listing';
 
 type InterestingListingRow = {
@@ -33,23 +29,10 @@ export const metadata: Metadata = createPageMetadata({
   path: '/idomiausi-numeriai',
 });
 
+export const revalidate = 300;
+
 export default async function InterestingPlatesPage() {
-  const supabase = await createClient();
-  const { data, error } = await supabase
-    .from('listings')
-    .select(
-      'id, plate_text, plate_type, flag_type, city, price_eur, description, is_verified_listing, created_at',
-    )
-    .eq('status', 'active')
-    .order('created_at', { ascending: false })
-    .limit(INTERESTING_LISTING_CANDIDATE_LIMIT);
-
-  if (error) {
-    console.error('[interesting-plates] listings query failed:', error);
-  }
-
-  // TODO: cache or precompute Unikodas įžvalgų scores when active listing volume grows.
-  const listings = rankInterestingListings((data ?? []) as InterestingListingRow[], 24);
+  const listings = await getCachedHomeInterestingListings(24);
 
   return (
     <>

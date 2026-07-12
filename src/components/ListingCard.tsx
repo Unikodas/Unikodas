@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { lt } from '@/lib/i18n/lt';
 import type { PlateType, FlagType } from '@/lib/validation/listing';
-import { getPlateInsight } from '@/lib/interesting-plates';
+import type { InterestingPlateInsight } from '@/lib/interesting-plates';
 import { PlatePreview } from '@/components/PlatePreview';
 
 export type ListingCardData = {
@@ -28,18 +28,19 @@ function truncate(s: string, max: number): string {
 
 export function ListingCard({
   listing,
+  insight = null,
   isSignedIn = false,
 }: {
   listing: ListingCardData;
+  insight?: InterestingPlateInsight | null;
   isSignedIn?: boolean;
 }) {
   const typeLabel = lt.listings.types[listing.plate_type] ?? listing.plate_type;
   const flagLabel = lt.listings.flagTypes[listing.flag_type] ?? listing.flag_type;
   const loginHref = `/prisijungti?redirect=${encodeURIComponent(`/skelbimas/${listing.id}`)}`;
-  const insight = getPlateInsight(listing);
 
   return (
-    <article className="group app-card relative flex h-full min-h-[24rem] flex-col overflow-hidden transition hover:-translate-y-0.5 hover:border-[var(--border-strong)]">
+    <article className="group app-card relative flex h-full min-h-[24rem] flex-col overflow-hidden [contain-intrinsic-size:24rem] [content-visibility:auto] transition hover:-translate-y-0.5 hover:border-[var(--border-strong)]">
       <div className="absolute right-4 top-4 z-10">
         {isSignedIn ? (
           <button
@@ -82,7 +83,7 @@ export function ListingCard({
             </div>
 
             <div className="flex shrink-0 flex-col items-end gap-2">
-              {insight.label && (
+              {insight?.label && (
                 <span
                   className="inline-flex items-center rounded-full border border-[var(--primary)]/30 bg-[color:color-mix(in_srgb,var(--primary)_12%,transparent)] px-2 py-0.5 text-xs font-black text-[var(--primary)]"
                   title={`Unikodas įžvalgos: ${insight.score}/100`}

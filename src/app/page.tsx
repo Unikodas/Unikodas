@@ -1,21 +1,18 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { cookies } from 'next/headers';
 import { lt } from '@/lib/i18n/lt';
 import { createClient } from '@/lib/supabase/server';
 import { parseListingFilters } from '@/lib/validation/listing';
 import { createPageMetadata, getBrowseSeo } from '@/lib/seo';
-import {
-  INTERESTING_LISTING_CANDIDATE_LIMIT,
-  rankInterestingListings,
-} from '@/lib/interesting-plates';
-import { ListingCard, type ListingCardData } from '@/components/ListingCard';
+import { ListingCard } from '@/components/ListingCard';
 import { ListingFilters } from '@/components/ListingFilters';
 import { ListingCategoryCards } from '@/components/ListingCategoryCards';
 import { HomeInfoSections } from '@/components/HomeInfoSections';
 import { LogoLink } from '@/components/LogoLink';
 import { PlatePreview } from '@/components/PlatePreview';
-import { ThemeToggle } from '@/components/ThemeToggle';
 import { CommunityCTA } from '@/components/CommunityCTA';
+import { PartnerProductCard } from '@/components/PartnerProductCard';
 import { JsonLd } from '@/components/JsonLd';
 import {
   collectionPageJsonLd,
@@ -24,11 +21,25 @@ import {
   searchResultsPageJsonLd,
   websiteJsonLd,
 } from '@/lib/structured-data';
+import { hasSupabaseAuthCookie } from '@/lib/auth/cookies';
+import {
+  getCachedActiveListings,
+  getCachedHomeInterestingListings,
+} from '@/lib/public-listings';
 
-const BROWSE_PAGE_SIZE = 50;
+const BROWSE_PAGE_SIZE = 24;
 const HOME_INTERESTING_LISTINGS_LIMIT = 8;
 
 type SearchParams = Record<string, string | string[] | undefined>;
+
+async function getIsSignedIn(): Promise<boolean> {
+  const cookieStore = await cookies();
+  if (!hasSupabaseAuthCookie(cookieStore.getAll())) return false;
+
+  const supabase = await createClient();
+  const { data } = await supabase.auth.getUser();
+  return !!data.user;
+}
 
 export async function generateMetadata({
   searchParams,
@@ -48,55 +59,11 @@ export default async function Home({
   const filters = parseListingFilters(params);
   const seo = getBrowseSeo(params);
 
-  const supabase = await createClient();
-  const { data: userData } = await supabase.auth.getUser();
-  const isSignedIn = !!userData.user;
-
-  let query = supabase
-    .from('listings')
-    .select(
-      'id, plate_text, plate_type, flag_type, city, price_eur, description, is_verified_listing, created_at',
-    )
-    .eq('status', 'active')
-    .order('created_at', { ascending: false })
-    .limit(BROWSE_PAGE_SIZE);
-
-  const stripWildcards = (s: string) => s.replace(/[%_]/g, '');
-
-  if (filters.q) {
-    const sanitized = stripWildcards(filters.q);
-    if (sanitized.length > 0) {
-      query = query.ilike('plate_text', `%${sanitized}%`);
-    }
-  }
-  if (filters.plate_type) query = query.eq('plate_type', filters.plate_type);
-  if (filters.flag_type) query = query.eq('flag_type', filters.flag_type);
-  if (filters.city) query = query.eq('city', filters.city);
-  if (filters.minPrice !== null) query = query.gte('price_eur', filters.minPrice);
-  if (filters.maxPrice !== null) query = query.lte('price_eur', filters.maxPrice);
-
-  const { data, error } = await query;
-  if (error) {
-    console.error('[browse] listings query failed:', error);
-  }
-  const listings = (data ?? []) as ListingCardData[];
-
-  const { data: interestingData, error: interestingError } = await supabase
-    .from('listings')
-    .select(
-      'id, plate_text, plate_type, flag_type, city, price_eur, description, is_verified_listing, created_at',
-    )
-    .eq('status', 'active')
-    .order('created_at', { ascending: false })
-    .limit(INTERESTING_LISTING_CANDIDATE_LIMIT);
-  if (interestingError) {
-    console.error('[home] interesting listings query failed:', interestingError);
-  }
-  // TODO: move Unikodas įžvalgų scores to a cached/precomputed field once listing volume grows.
-  const interestingListings = rankInterestingListings(
-    (interestingData ?? []) as ListingCardData[],
-    HOME_INTERESTING_LISTINGS_LIMIT,
-  );
+  const [isSignedIn, listings, interestingListings] = await Promise.all([
+    getIsSignedIn(),
+    getCachedActiveListings(filters, BROWSE_PAGE_SIZE),
+    getCachedHomeInterestingListings(HOME_INTERESTING_LISTINGS_LIMIT),
+  ]);
 
   const hasSparseListings = listings.length > 0 && listings.length <= 3;
   const listingsGridClass = hasSparseListings
@@ -173,7 +140,6 @@ export default async function Home({
                 <path d="M5 21a7 7 0 0 1 14 0" />
               </svg>
             </Link>
-            <ThemeToggle />
           </div>
         </nav>
       </header>
@@ -239,6 +205,8 @@ export default async function Home({
           </div>
         </section>
 
+        <PartnerProductCard className="max-w-3xl" />
+
         <ListingCategoryCards current={filters} />
 
         {interestingListings.length > 0 && (
@@ -259,7 +227,12 @@ export default async function Home({
 
             <div className="grid auto-rows-fr grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {interestingListings.map((listing) => (
-                <ListingCard key={listing.id} listing={listing} isSignedIn={isSignedIn} />
+                <ListingCard
+                  key={listing.id}
+                  listing={listing}
+                  insight={listing.insight}
+                  isSignedIn={isSignedIn}
+                />
               ))}
             </div>
           </section>
