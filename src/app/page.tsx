@@ -27,7 +27,7 @@ import {
   getCachedHomeInterestingListings,
 } from '@/lib/public-listings';
 
-const BROWSE_PAGE_SIZE = 24;
+const BROWSE_PAGE_SIZE = 120;
 const HOME_INTERESTING_LISTINGS_LIMIT = 8;
 
 type SearchParams = Record<string, string | string[] | undefined>;
@@ -165,6 +165,14 @@ export default async function Home({
               </Link>
             </div>
             <CommunityCTA placement="hero" className="mt-5" variant="embedded" />
+            <aside className="mt-4 rounded-3xl border border-[var(--border)] bg-[color:color-mix(in_srgb,var(--primary)_8%,var(--muted))] p-4">
+              <p className="text-sm font-black text-[var(--foreground)]">
+                {lt.home.complianceTitle}
+              </p>
+              <p className="mt-1 text-sm leading-6 text-[var(--muted-foreground)]">
+                {lt.home.complianceLead}
+              </p>
+            </aside>
             <Link
               href="/numerio-analize"
               className="mt-4 block rounded-3xl border border-[var(--border)] bg-[var(--muted)] p-4 transition hover:border-[var(--primary)]"

@@ -92,6 +92,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <a href="/" className="mx-2 inline-flex min-h-11 items-center hover:text-[var(--text)]">
             Numeriai
           </a>
+          <a href="/apie" className="mx-2 inline-flex min-h-11 items-center hover:text-[var(--text)]">
+            Apie
+          </a>
           <a href="/parduoti" className="mx-2 inline-flex min-h-11 items-center hover:text-[var(--text)]">
             Parduoti
           </a>

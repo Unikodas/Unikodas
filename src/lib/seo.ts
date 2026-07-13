@@ -3,9 +3,9 @@ import { parseListingFilters, type FlagType, type PlateType } from '@/lib/valida
 
 export const SITE_NAME = 'Unikodas';
 export const DEFAULT_SITE_URL = 'https://unikodas.lt';
-export const HOME_TITLE = 'Unikodas – Lietuvos automobilių numerių prekyvietė';
+export const HOME_TITLE = 'Unikodas – automobilių numerių skelbimų platforma';
 export const HOME_DESCRIPTION =
-  'Raskite ar parduokite išskirtinį automobilio numerį Lietuvoje. Naršykite aktyvius skelbimus, naudokite Unikodas įžvalgas ir bendraukite per vidines žinutes.';
+  'Naršykite automobilių numerių kombinacijų skelbimus Lietuvoje, naudokite Unikodas įžvalgas, bendraukite per vidines žinutes ir formalumus tvarkykite oficialia tvarka.';
 export const OG_IMAGE_PATH = '/og-image.png';
 
 export const SITE_URL = getSiteUrl();
@@ -201,7 +201,7 @@ export function getBrowseSeo(searchParams: SearchParams): SeoDefinition {
     title: HOME_TITLE,
     description: HOME_DESCRIPTION,
     path: canonicalPath,
-    keywords: ['automobilių numeriai', 'valstybiniai numeriai', 'vardiniai numeriai', 'unikalūs numeriai'],
+    keywords: ['automobilių numeriai', 'numerių skelbimai', 'vardiniai numeriai', 'unikalūs numeriai'],
   };
 }
 

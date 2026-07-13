@@ -80,7 +80,7 @@ async function fetchActiveListings(
 
 export const getCachedActiveListings = unstable_cache(
   async (filters: ListingFilters, limit: number) => fetchActiveListings(filters, limit),
-  ['public-active-listings-v1'],
+  ['public-active-listings-v2'],
   { revalidate: PUBLIC_LISTINGS_REVALIDATE_SECONDS },
 );
 

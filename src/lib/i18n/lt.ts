@@ -6,12 +6,15 @@
 
 export const lt = {
   appName: 'Unikodas',
-  tagline: 'Lietuvos automobilių numerių prekyvietė',
+  tagline: 'Lietuvos automobilių numerių skelbimų platforma',
 
   home: {
     heroTitle: 'Unikalūs numeriai vienoje vietoje',
     heroLead:
-      'Naršykite parduodamus numerius, filtruokite pagal simbolį, miestą ar kainą ir susisiekite su pardavėju Unikodo žinutėse.',
+      'Naršykite aktyvius numerių kombinacijų skelbimus, filtruokite pagal simbolį, miestą ar kainą ir susisiekite per Unikodo žinutes.',
+    complianceTitle: 'Tik teisėtas perregistravimas',
+    complianceLead:
+      'Unikodas nėra AB „Regitra“ ir negamina valstybinių numerių. Platforma skirta skelbimams bei pradiniam susisiekimui, o visi registravimo, rezervavimo ar perleidimo formalumai turi būti tvarkomi oficialia teisės aktų nustatyta tvarka.',
     listingsTitle: 'Naujausi skelbimai',
     listingsLead:
       'Čia rodomi tik aktyvūs skelbimai. Pasinaudokite filtrais, kad greičiau rastumėte tinkamą numerį.',
