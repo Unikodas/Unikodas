@@ -1,4 +1,7 @@
+'use client';
+
 import Link from 'next/link';
+import { useMemo, useState } from 'react';
 import { lt } from '@/lib/i18n/lt';
 import {
   FLAG_TYPES,
@@ -14,11 +17,23 @@ import { LITHUANIAN_CITIES } from '@/lib/locations/lithuania-cities';
  * them to its Supabase query.
  */
 export function ListingFilters({ current }: { current: Filters }) {
+  const activeFilterCount = useMemo(
+    () =>
+      [
+        current.plate_type,
+        current.flag_type,
+        current.city,
+        current.minPrice,
+        current.maxPrice,
+      ].filter((value) => value !== null && value !== undefined).length,
+    [current.city, current.flag_type, current.maxPrice, current.minPrice, current.plate_type],
+  );
+  const [showFilters, setShowFilters] = useState(activeFilterCount > 0);
   const fieldClassName =
     'w-full app-search-field px-3 py-3 text-base focus:outline-none focus:ring-2 focus:ring-[var(--ring)]';
   const chipFieldClassName =
-    'h-11 w-full rounded-full border border-[var(--border)] bg-[color:color-mix(in_srgb,var(--input)_86%,transparent)] px-4 text-sm font-bold text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--ring)]';
-  const labelClassName = 'block min-w-[10.75rem] shrink-0 text-sm sm:min-w-0';
+    'h-12 w-full rounded-2xl border border-[var(--border)] bg-[color:color-mix(in_srgb,var(--input)_86%,transparent)] px-4 text-sm font-bold text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--ring)] sm:h-11 sm:rounded-full';
+  const labelClassName = 'block min-w-0 text-sm';
   const labelTextClassName = 'mb-1 block text-xs font-bold uppercase text-[var(--muted-soft)]';
   const optionClassName = 'bg-[var(--input)] text-[var(--foreground)]';
 
@@ -26,7 +41,7 @@ export function ListingFilters({ current }: { current: Filters }) {
     <form
       method="GET"
       action="/"
-      className="app-card space-y-4 p-4 sm:grid sm:grid-cols-2 sm:gap-3 sm:space-y-0 lg:grid-cols-7"
+      className="app-card space-y-3 p-4 sm:grid sm:grid-cols-2 sm:gap-3 sm:space-y-0 lg:grid-cols-7"
     >
       <label className="block text-sm lg:col-span-2">
         <span className="sr-only">{lt.listings.filters.plateText}</span>
@@ -60,7 +75,41 @@ export function ListingFilters({ current }: { current: Filters }) {
         </div>
       </label>
 
-      <div className="-mx-4 flex gap-3 overflow-x-auto px-4 pb-1 sm:contents">
+      <button
+        type="button"
+        className="app-button-secondary flex min-h-12 w-full items-center justify-between px-4 py-3 text-sm sm:hidden"
+        aria-expanded={showFilters}
+        onClick={() => setShowFilters((value) => !value)}
+      >
+        <span>Filtrai</span>
+        <span className="inline-flex items-center gap-2 text-[var(--primary)]">
+          {activeFilterCount > 0 && (
+            <span className="rounded-full bg-[var(--primary)] px-2 py-0.5 text-xs font-black text-[var(--primary-foreground)]">
+              {activeFilterCount}
+            </span>
+          )}
+          <svg
+            className={[
+              'h-4 w-4 transition-transform',
+              showFilters ? 'rotate-180' : '',
+            ].join(' ')}
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            aria-hidden="true"
+          >
+            <path d="m6 9 6 6 6-6" />
+          </svg>
+        </span>
+      </button>
+
+      <div
+        className={[
+          showFilters ? 'grid' : 'hidden',
+          'grid-cols-2 gap-3 sm:contents',
+        ].join(' ')}
+      >
         <label className={labelClassName}>
           <span className={labelTextClassName}>{lt.listings.filters.plateType}</span>
           <select
@@ -142,7 +191,12 @@ export function ListingFilters({ current }: { current: Filters }) {
         </label>
       </div>
 
-      <div className="flex gap-2 sm:col-span-2 lg:col-span-7">
+      <div
+        className={[
+          showFilters ? 'flex' : 'hidden',
+          'gap-2 sm:col-span-2 sm:flex lg:col-span-7',
+        ].join(' ')}
+      >
         <button
           type="submit"
           className="app-button-primary flex-1 px-4 py-3 text-sm hover:bg-[var(--primary-hover)] sm:flex-none"

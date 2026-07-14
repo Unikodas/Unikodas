@@ -145,8 +145,8 @@ export default async function Home({
       </header>
 
       <main className="app-shell mx-auto max-w-6xl space-y-8 px-4 py-6 sm:px-6 sm:py-9">
-        <section className="app-card grid max-w-full gap-6 overflow-hidden p-5 sm:p-8 lg:grid-cols-[minmax(0,1fr)_24rem] lg:items-center">
-          <div className="min-w-0">
+        <section className="app-card grid max-w-full gap-5 overflow-hidden p-5 sm:gap-6 sm:p-8 lg:grid-cols-[minmax(0,1fr)_24rem] lg:items-center">
+          <div className="order-1 min-w-0 lg:col-start-1">
             <p className="max-w-full text-sm font-black uppercase text-[var(--primary)] [overflow-wrap:anywhere]">
               {lt.tagline}
             </p>
@@ -164,8 +164,21 @@ export default async function Home({
                 Ieškoti numerio
               </Link>
             </div>
-            <CommunityCTA placement="hero" className="mt-5" variant="embedded" />
-            <aside className="mt-4 rounded-3xl border border-[var(--border)] bg-[color:color-mix(in_srgb,var(--primary)_8%,var(--muted))] p-4">
+          </div>
+
+          <div className="order-2 flex min-w-0 justify-center overflow-hidden rounded-[1.5rem] bg-[linear-gradient(145deg,color-mix(in_srgb,var(--primary)_18%,var(--muted)),var(--background))] p-3 sm:justify-end sm:rounded-[2rem] sm:p-5 lg:col-start-2 lg:row-span-2">
+            <PlatePreview
+              plateText="UN1K0D"
+              plateType="personalized"
+              flagType="eu_symbol"
+              size="lg"
+              className="plate-preview--hero"
+            />
+          </div>
+
+          <div className="order-3 min-w-0 lg:col-start-1">
+            <CommunityCTA placement="hero" className="mt-1 sm:mt-5" variant="embedded" />
+            <aside className="mt-3 rounded-2xl border border-[var(--border)] bg-[color:color-mix(in_srgb,var(--primary)_8%,var(--muted))] p-4 sm:mt-4 sm:rounded-3xl">
               <p className="text-sm font-black text-[var(--foreground)]">
                 {lt.home.complianceTitle}
               </p>
@@ -175,41 +188,32 @@ export default async function Home({
             </aside>
             <Link
               href="/numerio-analize"
-              className="mt-4 block rounded-3xl border border-[var(--border)] bg-[var(--muted)] p-4 transition hover:border-[var(--primary)]"
+              className="mt-3 block rounded-2xl border border-[var(--border)] bg-[var(--muted)] p-4 transition hover:border-[var(--primary)] sm:mt-4 sm:rounded-3xl"
             >
-              <span className="block text-lg font-black text-[var(--foreground)]">
+              <span className="block text-base font-black text-[var(--foreground)] sm:text-lg">
                 Patikrinkite savo numerį
               </span>
               <span className="mt-1 block text-sm leading-6 text-[var(--muted-foreground)]">
                 Sužinokite, ar numeris turi paslėptą reikšmę, vardą ar automobilių asociaciją.
               </span>
-              <span className="mt-3 inline-flex text-sm font-black text-[var(--primary)]">
+              <span className="mt-2 inline-flex text-sm font-black text-[var(--primary)] sm:mt-3">
                 Analizuoti numerį
               </span>
             </Link>
             <Link
               href="/idomiausi-numeriai"
-              className="mt-3 block rounded-3xl border border-[var(--border)] bg-[var(--muted)] p-4 transition hover:border-[var(--primary)]"
+              className="mt-3 block rounded-2xl border border-[var(--border)] bg-[var(--muted)] p-4 transition hover:border-[var(--primary)] sm:rounded-3xl"
             >
-              <span className="block text-lg font-black text-[var(--foreground)]">
+              <span className="block text-base font-black text-[var(--foreground)] sm:text-lg">
                 Atraskite įdomiausius numerius
               </span>
               <span className="mt-1 block text-sm leading-6 text-[var(--muted-foreground)]">
                 Peržiūrėkite skelbimus, kuriuos Unikodas įžvalgos įvertino kaip stipriausius.
               </span>
-              <span className="mt-3 inline-flex text-sm font-black text-[var(--primary)]">
+              <span className="mt-2 inline-flex text-sm font-black text-[var(--primary)] sm:mt-3">
                 Žiūrėti reitingą
               </span>
             </Link>
-          </div>
-          <div className="flex min-w-0 justify-center overflow-hidden rounded-[2rem] bg-[linear-gradient(145deg,color-mix(in_srgb,var(--primary)_18%,var(--muted)),var(--background))] p-4 sm:justify-end sm:p-5">
-            <PlatePreview
-              plateText="UN1K0D"
-              plateType="personalized"
-              flagType="eu_symbol"
-              size="lg"
-              className="plate-preview--hero"
-            />
           </div>
         </section>
 
@@ -246,7 +250,7 @@ export default async function Home({
           </section>
         )}
 
-        <section id="paieska" className="scroll-mt-24">
+        <section id="paieska" className="scroll-mb-36 scroll-mt-24">
           <ListingFilters current={filters} />
         </section>
 

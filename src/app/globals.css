@@ -64,6 +64,11 @@ body {
   overflow-x: hidden;
 }
 
+html {
+  scroll-padding-bottom: calc(7rem + env(safe-area-inset-bottom));
+  scroll-padding-top: 5.5rem;
+}
+
 body {
   background:
     linear-gradient(180deg, var(--background) 0%, var(--page-bg) 48%, var(--background) 100%);
@@ -118,6 +123,10 @@ body {
 @media (max-width: 639px) {
   .app-shell {
     padding-bottom: calc(7.5rem + env(safe-area-inset-bottom));
+  }
+
+  .app-shell.app-shell--detail {
+    padding-bottom: calc(12rem + env(safe-area-inset-bottom));
   }
 }
 
@@ -178,6 +187,13 @@ body {
 
 .app-search-field::placeholder {
   color: var(--muted-soft);
+}
+
+.listing-card__description {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
 .faq-answer,

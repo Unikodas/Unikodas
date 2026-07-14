@@ -40,14 +40,14 @@ export function ListingCard({
   const loginHref = `/prisijungti?redirect=${encodeURIComponent(`/skelbimas/${listing.id}`)}`;
 
   return (
-    <article className="group app-card relative flex h-full min-h-[24rem] flex-col overflow-hidden [contain-intrinsic-size:24rem] [content-visibility:auto] transition hover:-translate-y-0.5 hover:border-[var(--border-strong)]">
+    <article className="group app-card relative flex h-full min-h-[21rem] flex-col overflow-hidden [contain-intrinsic-size:21rem] [content-visibility:auto] transition hover:-translate-y-0.5 hover:border-[var(--border-strong)] sm:min-h-[24rem] sm:[contain-intrinsic-size:24rem]">
       <div className="absolute right-4 top-4 z-10">
         {isSignedIn ? (
           <button
             type="button"
             disabled
             aria-label="Išsaugoti"
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-black/25 text-xl text-white/80 opacity-90 backdrop-blur"
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-black/25 text-lg text-white/80 opacity-90 backdrop-blur sm:h-11 sm:w-11 sm:text-xl"
             title="Išsaugojimo funkcija ruošiama"
           >
             ♡
@@ -56,7 +56,7 @@ export function ListingCard({
           <Link
             href={loginHref}
             aria-label="Prisijunkite, kad išsaugotumėte"
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-black/25 text-xl text-white backdrop-blur transition hover:border-[var(--primary)] hover:text-[var(--primary)]"
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-black/25 text-lg text-white backdrop-blur transition hover:border-[var(--primary)] hover:text-[var(--primary)] sm:h-11 sm:w-11 sm:text-xl"
           >
             ♡
           </Link>
@@ -64,7 +64,7 @@ export function ListingCard({
       </div>
 
       <Link href={`/skelbimas/${listing.id}`} className="flex flex-1 flex-col">
-        <div className="flex min-h-48 items-center justify-center bg-[linear-gradient(145deg,color-mix(in_srgb,var(--primary)_18%,var(--muted)),var(--background))] px-4 py-8">
+        <div className="flex min-h-36 items-center justify-center bg-[linear-gradient(145deg,color-mix(in_srgb,var(--primary)_18%,var(--muted)),var(--background))] px-4 py-6 sm:min-h-48 sm:py-8">
           <PlatePreview
             plateText={listing.plate_text}
             plateType={listing.plate_type}
@@ -73,13 +73,13 @@ export function ListingCard({
           />
         </div>
 
-        <div className="flex flex-1 flex-col p-5">
+        <div className="flex flex-1 flex-col p-4 sm:p-5">
           <div className="flex items-start justify-between gap-3">
             <div>
-              <div className="text-3xl font-black tracking-tight text-[var(--primary)]">
+              <div className="text-2xl font-black tracking-tight text-[var(--primary)] sm:text-3xl">
                 {formatPrice(listing.price_eur)}
               </div>
-              <div className="mt-1 text-base font-bold text-[var(--foreground)]">{listing.city}</div>
+              <div className="mt-1 text-sm font-bold text-[var(--foreground)] sm:text-base">{listing.city}</div>
             </div>
 
             <div className="flex shrink-0 flex-col items-end gap-2">
@@ -99,18 +99,18 @@ export function ListingCard({
             </div>
           </div>
 
-          <p className="mt-3 min-h-10 text-base leading-6 text-[var(--muted-foreground)]">
+          <p className="listing-card__description mt-3 text-sm leading-6 text-[var(--muted-foreground)] sm:min-h-10 sm:text-base">
             {listing.description ? truncate(listing.description, 88) : `${typeLabel} · ${flagLabel}`}
           </p>
 
-          <dl className="mt-auto grid grid-cols-2 gap-3 pt-5 text-sm">
-            <div className="rounded-2xl bg-[var(--muted)] p-3">
+          <dl className="mt-auto grid grid-cols-2 gap-2 pt-4 text-xs sm:gap-3 sm:pt-5 sm:text-sm">
+            <div className="rounded-2xl bg-[var(--muted)] p-2.5 sm:p-3">
               <dt className="text-xs font-bold uppercase text-[var(--muted-soft)]">
                 {lt.listings.plateType}
               </dt>
               <dd className="mt-1 font-bold text-[var(--foreground)]">{typeLabel}</dd>
             </div>
-            <div className="rounded-2xl bg-[var(--muted)] p-3">
+            <div className="rounded-2xl bg-[var(--muted)] p-2.5 sm:p-3">
               <dt className="text-xs font-bold uppercase text-[var(--muted-soft)]">
                 {lt.listings.flagType}
               </dt>

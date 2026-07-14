@@ -11,6 +11,7 @@ import { ReportButton } from '@/components/ReportButton';
 import { LogoLink } from '@/components/LogoLink';
 import { PlatePreview } from '@/components/PlatePreview';
 import { DeleteButton } from './redaguoti/DeleteButton';
+import { MobileListingActionBar } from './MobileListingActionBar';
 import { LoginPrompt } from '@/components/LoginPrompt';
 import { ShareButton } from '@/components/ShareButton';
 import { CommunityCTA } from '@/components/CommunityCTA';
@@ -103,6 +104,8 @@ export default async function ListingDetailPage({
   const flagLabel = lt.listings.flagTypes[listing.flag_type] ?? listing.flag_type;
   const detailPath = `/skelbimas/${listing.id}`;
   const loginHref = `/prisijungti?redirect=${encodeURIComponent(detailPath)}`;
+  const sellerActionHref = canMessageSeller ? '#zinute' : loginHref;
+  const sellerActionLabel = canMessageSeller ? 'Rašyti pardavėjui' : 'Prisijungti ir rašyti';
 
   return (
     <>
@@ -134,7 +137,7 @@ export default async function ListingDetailPage({
         </nav>
       </header>
 
-      <main className="app-shell mx-auto max-w-3xl space-y-5 px-4 py-5 sm:px-6">
+      <main className="app-shell app-shell--detail mx-auto max-w-3xl space-y-5 px-4 py-5 sm:px-6">
         <article className="app-card overflow-hidden">
           <div className="flex min-h-64 items-center justify-center bg-[linear-gradient(145deg,color-mix(in_srgb,var(--primary)_20%,var(--muted)),var(--background))] px-4 py-10">
             <PlatePreview
@@ -175,11 +178,11 @@ export default async function ListingDetailPage({
             {!isOwner && listing.status === 'active' && (
               <div className="grid gap-3 sm:grid-cols-[1fr_auto_auto]">
                 {canMessageSeller ? (
-                  <a href="#zinute" className="app-button-primary px-5 py-3 text-center text-sm">
+                  <a href="#zinute" className="app-button-primary px-5 py-3 text-center text-sm" data-mobile-primary-action="true">
                     Rašyti pardavėjui
                   </a>
                 ) : (
-                  <Link href={loginHref} className="app-button-primary px-5 py-3 text-center text-sm">
+                  <Link href={loginHref} className="app-button-primary px-5 py-3 text-center text-sm" data-mobile-primary-action="true">
                     Rašyti pardavėjui
                   </Link>
                 )}
@@ -288,6 +291,15 @@ export default async function ListingDetailPage({
           </div>
         )}
       </main>
+
+      {!isOwner && listing.status === 'active' && (
+        <MobileListingActionBar
+          href={sellerActionHref}
+          label={sellerActionLabel}
+          price={formatPrice(listing.price_eur)}
+          meta={`${listing.plate_text} · ${listing.city}`}
+        />
+      )}
     </>
   );
 }

@@ -64,7 +64,7 @@ export function CommunityCTA({
       className={[
         variant === 'standalone'
           ? 'app-card-soft overflow-hidden p-4 sm:p-5'
-          : 'border-t border-[var(--border)] pt-5',
+          : 'border-t border-[var(--border)] pt-4 sm:pt-5',
         placement === 'footer' ? 'mx-auto max-w-3xl text-left' : '',
         className,
       ]
@@ -76,7 +76,10 @@ export function CommunityCTA({
         <div className="min-w-0">
           <p
             id={`community-cta-${placement}`}
-            className="text-xl font-black leading-tight text-[var(--foreground)]"
+            className={[
+              'font-black leading-tight text-[var(--foreground)]',
+              variant === 'embedded' ? 'text-lg sm:text-xl' : 'text-xl',
+            ].join(' ')}
           >
             Prisijunkite prie Unikodas bendruomenės
           </p>
@@ -96,7 +99,12 @@ export function CommunityCTA({
         </a>
       </div>
 
-      <ul className="mt-4 grid gap-2 text-sm font-semibold leading-6 text-[var(--foreground)] sm:grid-cols-2">
+      <ul
+        className={[
+          'mt-4 gap-2 text-sm font-semibold leading-6 text-[var(--foreground)] sm:grid-cols-2',
+          variant === 'embedded' ? 'hidden sm:grid' : 'grid',
+        ].join(' ')}
+      >
         {bullets.map((bullet) => (
           <li key={bullet} className="rounded-2xl bg-[var(--muted)] px-3 py-2">
             {bullet}
