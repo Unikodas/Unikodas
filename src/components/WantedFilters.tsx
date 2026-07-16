@@ -14,25 +14,25 @@ export function WantedFilters({ current }: { current: WantedListingsFilters }) {
     <form
       method="GET"
       action="/ieskau"
-      className="rounded-2xl border border-slate-200 bg-white p-4 grid grid-cols-1 sm:grid-cols-4 gap-3"
+      className="app-card grid grid-cols-1 gap-4 p-5 sm:grid-cols-4"
     >
       <label className="sm:col-span-2 text-sm">
-        <span className="block text-slate-600 mb-1">{lt.wanted.filters.q}</span>
+        <span className="mb-1.5 block font-bold text-[var(--foreground)]">{lt.wanted.filters.q}</span>
         <input
           type="text"
           name="q"
           defaultValue={current.q ?? ''}
           maxLength={60}
-          className="w-full rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-900"
+          className="app-search-field min-h-12 w-full px-4 py-2 outline-none focus:ring-2 focus:ring-[var(--ring)]"
         />
       </label>
 
       <label className="text-sm">
-        <span className="block text-slate-600 mb-1">{lt.wanted.filters.sort}</span>
+        <span className="mb-1.5 block font-bold text-[var(--foreground)]">{lt.wanted.filters.sort}</span>
         <select
           name="sort"
           defaultValue={current.sort}
-          className="w-full rounded-lg border border-slate-300 px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-slate-900"
+          className="app-search-field min-h-12 w-full px-4 py-2 outline-none focus:ring-2 focus:ring-[var(--ring)]"
         >
           {WANTED_SORT_OPTIONS.map((value) => (
             <option key={value} value={value}>
@@ -44,16 +44,16 @@ export function WantedFilters({ current }: { current: WantedListingsFilters }) {
         </select>
       </label>
 
-      <div className="flex gap-2 items-end">
+      <div className="flex items-end gap-2">
         <button
           type="submit"
-          className="rounded-lg bg-slate-900 text-white px-4 py-2 text-sm font-medium hover:bg-slate-800"
+          className="app-button-primary min-h-12 flex-1 px-4 py-2 text-sm sm:flex-none"
         >
           {lt.wanted.filters.apply}
         </button>
         <Link
           href="/ieskau"
-          className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+          className="app-button-secondary min-h-12 flex-1 px-4 py-2 text-sm sm:flex-none"
         >
           {lt.wanted.filters.reset}
         </Link>

@@ -6,6 +6,7 @@ import { parseWantedFilters } from '@/lib/validation/wanted';
 import { WantedCard, type WantedCardData } from '@/components/WantedCard';
 import { WantedFilters } from '@/components/WantedFilters';
 import { LogoLink } from '@/components/LogoLink';
+import { MarketplaceTabs } from '@/components/MarketplaceTabs';
 import { JsonLd } from '@/components/JsonLd';
 import { createPageMetadata } from '@/lib/seo';
 import { collectionPageJsonLd, searchResultsPageJsonLd } from '@/lib/structured-data';
@@ -103,30 +104,30 @@ export default async function WantedBrowsePage({
         }
       />
 
-      <header className="border-b border-slate-200 bg-white">
-        <nav className="max-w-5xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
+      <header className="app-header sticky top-0 z-40">
+        <nav className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
           <LogoLink />
-          <div className="flex items-center gap-4 text-sm">
-            <Link href="/" className="text-slate-700 hover:text-slate-900 hidden sm:inline">
+          <div className="flex items-center gap-3 text-sm sm:gap-4">
+            <Link href="/" className="hidden text-[var(--muted-foreground)] hover:text-[var(--foreground)] sm:inline">
               {lt.nav.browse}
             </Link>
             {isSignedIn && (
-              <Link href="/zinutes" className="text-slate-700 hover:text-slate-900 hidden sm:inline">
+              <Link href="/zinutes" className="hidden text-[var(--muted-foreground)] hover:text-[var(--foreground)] sm:inline">
                 {lt.nav.messages}
               </Link>
             )}
             <Link
               href="/ieskau/naujas"
-              className="rounded-lg bg-slate-900 text-white px-3 py-1.5 font-medium hover:bg-slate-800"
+              className="app-button-primary min-h-11 px-3 py-2 text-center text-xs sm:px-4 sm:text-sm"
             >
               {lt.wanted.sellCta}
             </Link>
             {isSignedIn ? (
-              <Link href="/profilis" className="text-slate-700 hover:text-slate-900">
+              <Link href="/profilis" className="hidden text-[var(--muted-foreground)] hover:text-[var(--foreground)] sm:inline">
                 {lt.nav.profile}
               </Link>
             ) : (
-              <Link href="/prisijungti" className="text-slate-700 hover:text-slate-900">
+              <Link href="/prisijungti" className="hidden text-[var(--muted-foreground)] hover:text-[var(--foreground)] sm:inline">
                 {lt.nav.login}
               </Link>
             )}
@@ -134,16 +135,17 @@ export default async function WantedBrowsePage({
         </nav>
       </header>
 
-      <main className="max-w-5xl mx-auto px-4 sm:px-6 py-6 space-y-6">
+      <main className="app-shell mx-auto max-w-6xl space-y-7 px-4 py-6 sm:px-6 sm:py-9">
+        <MarketplaceTabs active="wanted" />
         <div>
-          <h1 className="text-2xl font-semibold mb-1">{lt.wanted.title}</h1>
-          <p className="text-sm text-slate-600">{lt.tagline}</p>
+          <h1 className="mb-1 text-3xl font-black tracking-tight text-[var(--foreground)] sm:text-5xl">{lt.wanted.title}</h1>
+          <p className="text-sm text-[var(--muted-foreground)]">{lt.tagline}</p>
         </div>
 
         <WantedFilters current={filters} />
 
         {items.length === 0 ? (
-          <p className="text-center text-slate-500 py-12">{lt.wanted.empty}</p>
+          <p className="py-12 text-center text-[var(--muted-foreground)]">{lt.wanted.empty}</p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {items.map((w) => (

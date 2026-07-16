@@ -23,22 +23,22 @@ export function WantedCard({ wanted }: { wanted: WantedCardData }) {
   return (
     <Link
       href={`/ieskau/${wanted.id}`}
-      className="block rounded-2xl border border-slate-200 bg-white hover:border-slate-300 hover:shadow-sm transition p-4"
+      className="app-card block min-w-0 overflow-hidden p-5 transition hover:-translate-y-0.5 hover:border-[var(--border-strong)]"
     >
-      <div className="font-mono text-xl font-semibold tracking-wider mb-2 break-words">
+      <div className="mb-3 break-words font-mono text-xl font-black tracking-wider text-[var(--foreground)]">
         {wanted.plate_pattern}
       </div>
 
       {wanted.description && (
-        <p className="text-sm text-slate-600 mb-3">
+        <p className="mb-4 text-sm leading-6 text-[var(--muted-foreground)]">
           {truncate(wanted.description, 140)}
         </p>
       )}
 
-      <dl className="text-sm text-slate-600">
+      <dl className="text-sm text-[var(--muted-foreground)]">
         <div className="flex gap-2">
-          <dt className="text-slate-400 w-24">{lt.wanted.maxPrice}</dt>
-          <dd className="font-medium text-slate-900">{formatBudget(wanted.max_price_eur)}</dd>
+          <dt className="w-24 shrink-0 text-[var(--muted-soft)]">{lt.wanted.maxPrice}</dt>
+          <dd className="min-w-0 font-bold text-[var(--foreground)]">{formatBudget(wanted.max_price_eur)}</dd>
         </div>
       </dl>
     </Link>
