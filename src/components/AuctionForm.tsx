@@ -30,6 +30,7 @@ export function AuctionForm({ action }: { action: (state: AuctionFormState, data
       </div>
       <label className="block"><span className="mb-1 block text-sm font-bold">Trukmė</span><select name="duration_days" defaultValue="5" className={field}><option value="3">3 dienos</option><option value="5">5 dienos</option><option value="7">7 dienos</option></select></label>
       <div className="rounded-2xl border border-amber-500/25 bg-amber-500/10 p-4 text-sm leading-6 text-[var(--muted-foreground)]">Pateikimas aukciono iškart nepaskelbia. Komanda patikrins numerį, nuosavybę ir suderins tikslią pradžios datą.</div>
+      <label className="flex items-start gap-3 rounded-xl bg-[var(--muted)] p-3 text-xs leading-5 text-[var(--muted-foreground)]"><input type="checkbox" name="contact_consent" required className="mt-1" /><span>Sutinku, kad administracija matytų mano patvirtintą telefono numerį ir el. paštą, susisiektų dėl nuosavybės patikros ir koordinuotų sandorį su laimėtoju.</span></label>
       {state.error && <p role="alert" className="text-sm font-bold text-red-500">{state.error}</p>}
       {state.error?.includes('profilyje') && <a href="/profilis#pranesimai" className="app-button-secondary flex min-h-11 items-center justify-center px-4 text-sm">Atidaryti profilio nustatymus</a>}
       <button disabled={pending} className="app-button-primary min-h-12 w-full px-5">{pending ? 'Pateikiama…' : 'Pateikti peržiūrai'}</button>

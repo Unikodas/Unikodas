@@ -50,6 +50,7 @@ export default function TermsPage() {
         <li>Visi numerio rezervavimo, registravimo, perleidimo ar perregistravimo formalumai turi būti atliekami oficialia teisės aktų nustatyta tvarka.</li>
         <li>Administracija pasilieka teisę pašalinti skelbimus ar apriboti vartotojų prieigą be išankstinio įspėjimo.</li>
         <li>Vartotojų duomenys naudojami tik platformos veikimui, saugumui ir komunikacijai užtikrinti.</li>
+        <li>Aukcionuose gali dalyvauti tik SMS patvirtinę, el. paštą patvirtinę ir pranešimus įjungę vartotojai. Pateikdamas numerį ar statymą vartotojas sutinka, kad administracija matytų jo kontaktus, patikrintų tapatybę ir koordinuotų sandorį.</li>
       </ol>
       </main>
     </>

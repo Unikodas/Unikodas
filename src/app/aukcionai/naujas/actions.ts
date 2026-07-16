@@ -10,11 +10,13 @@ export type AuctionFormState = { error: string | null };
 
 export async function createAuctionAction(_: AuctionFormState, formData: FormData): Promise<AuctionFormState> {
   const { supabase, user } = await requireUser('/aukcionai/naujas');
+  if (formData.get('contact_consent') !== 'on') return { error: 'Patvirtinkite sutikimą dėl kontakto ir nuosavybės patikros.' };
   const { data: profile } = await supabase.from('profiles')
-    .select('email, email_verified_at, email_notifications_enabled')
+    .select('phone, email, email_verified_at, email_notifications_enabled')
     .eq('id', user.id)
-    .maybeSingle<{ email: string | null; email_verified_at: string | null; email_notifications_enabled: boolean }>();
-  if (!profile?.email || !profile.email_verified_at) {
+    .maybeSingle<{ phone: string | null; email: string | null; email_verified_at: string | null; email_notifications_enabled: boolean }>();
+  if (!profile?.phone) return { error: 'Prieš pateikdami aukcioną patvirtinkite telefono numerį SMS kodu.' };
+  if (!profile.email || !profile.email_verified_at) {
     return { error: 'Prieš pateikdami aukcioną profilyje pridėkite ir patvirtinkite el. paštą.' };
   }
   if (profile.email_notifications_enabled !== true) {

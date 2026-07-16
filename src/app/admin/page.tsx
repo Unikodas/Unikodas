@@ -77,6 +77,9 @@ export default async function AdminPage() {
   const { data: pendingAuctions } = await admin.from('auctions')
     .select('id,plate_text,city,start_price_eur,reserve_price_eur,created_at')
     .eq('status','pending').order('created_at',{ascending:true});
+  const { data: activeAuctions } = await admin.from('auctions')
+    .select('id,plate_text,status,bid_count,ends_at')
+    .in('status',['scheduled','live','ended']).order('updated_at',{ascending:false}).limit(30);
 
   // Bucket target ids by type for batched lookup.
   const listingIds = new Set<string>();
@@ -154,7 +157,12 @@ export default async function AdminPage() {
           {(pendingAuctions ?? []).map((a) => <article key={a.id} className="rounded-2xl border border-slate-200 bg-white p-4">
             <div className="mb-3 flex flex-wrap justify-between gap-2"><strong className="font-mono text-xl">{a.plate_text}</strong><span>{a.city} · nuo €{a.start_price_eur}{a.reserve_price_eur ? ` · rezervas €${a.reserve_price_eur}` : ''}</span></div>
             <AuctionRowActions id={a.id} />
+            <Link href={`/admin/aukcionai/${a.id}`} className="mt-3 inline-block text-sm font-bold text-blue-600 underline">Pardavėjo kontaktai</Link>
           </article>)}
+        </section>
+        <section className="space-y-3 pt-5">
+          <h2 className="text-xl font-semibold">Aktyvūs ir pasibaigę aukcionai</h2>
+          {(activeAuctions ?? []).map((a) => <Link key={a.id} href={`/admin/aukcionai/${a.id}`} className="flex justify-between rounded-xl border bg-white p-3 hover:border-blue-400"><strong className="font-mono">{a.plate_text}</strong><span>{a.status} · {a.bid_count} statymų</span></Link>)}
         </section>
         <hr className="my-8" />
         <h1 className="text-2xl font-semibold">{lt.admin.reportsTitle}</h1>

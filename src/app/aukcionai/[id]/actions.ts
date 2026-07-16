@@ -15,11 +15,13 @@ const messages: Record<string, string> = {
 
 export async function placeBidAction(auctionId: string, _: BidState, formData: FormData): Promise<BidState> {
   const { supabase, user } = await requireUser(`/aukcionai/${auctionId}`);
+  if (formData.get('contact_consent') !== 'on') return { error: 'Patvirtinkite sutikimą dėl kontakto ir sandorio koordinavimo.', success: null };
   const { data: profile } = await supabase.from('profiles')
-    .select('email, email_verified_at, email_notifications_enabled')
+    .select('phone, email, email_verified_at, email_notifications_enabled')
     .eq('id', user.id)
-    .maybeSingle<{ email: string | null; email_verified_at: string | null; email_notifications_enabled: boolean }>();
-  if (!profile?.email || !profile.email_verified_at || profile.email_notifications_enabled !== true) {
+    .maybeSingle<{ phone: string | null; email: string | null; email_verified_at: string | null; email_notifications_enabled: boolean }>();
+  if (!profile?.phone) return { error: 'Prieš statydami patvirtinkite telefono numerį SMS kodu.', success: null };
+  if (!profile.email || !profile.email_verified_at || profile.email_notifications_enabled !== true) {
     return { error: 'Prieš statydami patvirtinkite el. paštą ir įjunkite pranešimus profilyje.', success: null };
   }
   const amount = Number(String(formData.get('max_amount_eur') ?? '').trim());
