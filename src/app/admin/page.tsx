@@ -4,6 +4,7 @@ import { requireAdmin } from '@/lib/auth/require-admin';
 import type { ReportReason, ReportTargetType } from '@/lib/validation/report';
 import { LogoLink } from '@/components/LogoLink';
 import { ReportRowActions } from './ReportRowActions';
+import { AuctionRowActions } from './AuctionRowActions';
 
 const PAGE_SIZE = 50;
 
@@ -73,6 +74,9 @@ export default async function AdminPage() {
     console.error('[admin] reports fetch failed:', reportsError);
   }
   const reports = (reportsData ?? []) as ReportRow[];
+  const { data: pendingAuctions } = await admin.from('auctions')
+    .select('id,plate_text,city,start_price_eur,reserve_price_eur,created_at')
+    .eq('status','pending').order('created_at',{ascending:true});
 
   // Bucket target ids by type for batched lookup.
   const listingIds = new Set<string>();
@@ -145,6 +149,14 @@ export default async function AdminPage() {
       </header>
 
       <main className="max-w-5xl mx-auto px-4 sm:px-6 py-6 space-y-4">
+        <section className="space-y-3">
+          <h1 className="text-2xl font-semibold">Laukiantys aukcionai ({pendingAuctions?.length ?? 0})</h1>
+          {(pendingAuctions ?? []).map((a) => <article key={a.id} className="rounded-2xl border border-slate-200 bg-white p-4">
+            <div className="mb-3 flex flex-wrap justify-between gap-2"><strong className="font-mono text-xl">{a.plate_text}</strong><span>{a.city} · nuo €{a.start_price_eur}{a.reserve_price_eur ? ` · rezervas €${a.reserve_price_eur}` : ''}</span></div>
+            <AuctionRowActions id={a.id} />
+          </article>)}
+        </section>
+        <hr className="my-8" />
         <h1 className="text-2xl font-semibold">{lt.admin.reportsTitle}</h1>
 
         {reports.length === 0 ? (

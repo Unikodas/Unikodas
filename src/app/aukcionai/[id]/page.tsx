@@ -10,6 +10,7 @@ import { minimumBid } from '@/lib/validation/auction';
 import type { FlagType, PlateType } from '@/lib/validation/listing';
 import { placeBidAction } from './actions';
 import { lt } from '@/lib/i18n/lt';
+import { finalizeExpiredAuctions } from '@/lib/auctions/finalize';
 
 type Auction = { id:string; seller_id:string; plate_text:string; plate_type:string; flag_type:string; city:string; description:string|null; start_price_eur:number; current_price_eur:number; starts_at:string; ends_at:string; status:string; reserve_met:boolean; bid_count:number };
 
@@ -17,6 +18,7 @@ async function getAuction(id: string) { const supabase = await createClient(); c
 export async function generateMetadata({ params }: { params: Promise<{id:string}> }): Promise<Metadata> { const { id } = await params; const auction = await getAuction(id); return auction ? { title: `${auction.plate_text} aukcionas`, description: `Dalyvaukite numerio ${auction.plate_text} aukcione.`, alternates: { canonical: `/aukcionai/${id}` } } : {}; }
 
 export default async function AuctionDetail({ params }: { params: Promise<{id:string}> }) {
+  await finalizeExpiredAuctions();
   const { id } = await params; const supabase = await createClient();
   const [{ data: auction }, { data: auth }] = await Promise.all([supabase.from('public_auctions').select('*').eq('id', id).single<Auction>(), supabase.auth.getUser()]);
   if (!auction) notFound();

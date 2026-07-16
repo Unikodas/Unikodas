@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 import { LogoLink } from '@/components/LogoLink';
 import { MarketplaceTabs } from '@/components/MarketplaceTabs';
 import { AuctionCard, type AuctionSummary } from '@/components/AuctionCard';
+import { finalizeExpiredAuctions } from '@/lib/auctions/finalize';
 
 export const metadata: Metadata = {
   title: 'Numerių aukcionai',
@@ -14,6 +15,7 @@ export const metadata: Metadata = {
 export const revalidate = 30;
 
 export default async function AuctionsPage() {
+  await finalizeExpiredAuctions();
   const supabase = await createClient();
   const { data, error } = await supabase
     .from('public_auctions')
