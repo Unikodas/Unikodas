@@ -38,6 +38,25 @@ export async function bumpRateLimit(args: {
   return { allowed: data === true };
 }
 
+export async function refundRateLimit(args: {
+  bucket: string;
+  key: string;
+  windowMs: number;
+}): Promise<void> {
+  const { bucket, key, windowMs } = args;
+  const windowStart = new Date(Math.floor(Date.now() / windowMs) * windowMs);
+  const admin = createServiceRoleClient();
+  const { error } = await admin.rpc('refund_rate_limit', {
+    p_bucket: bucket,
+    p_key: key,
+    p_window: windowStart.toISOString(),
+  });
+
+  if (error) {
+    console.error('[rate-limit] refund_rate_limit failed:', error);
+  }
+}
+
 /**
  * Rate-limit budgets used by the auth flow. Keep them here so they're
  * easy to find and tune.

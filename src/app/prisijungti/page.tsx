@@ -80,6 +80,10 @@ export default function SignInPage() {
       case 'captcha_required':
       case 'captcha_failed':
         return lt.auth.captchaRequired;
+      case 'sms_failed':
+        return lt.auth.smsFailed;
+      case 'server_error':
+        return lt.auth.passwordErrors.server_error;
       default:
         return lt.common.error;
     }
@@ -304,6 +308,11 @@ export default function SignInPage() {
               key={`password-${captchaVersion}`}
               onToken={handleCaptchaToken}
             />
+            {captchaToken && (
+              <p className="text-xs font-semibold text-emerald-400" role="status">
+                ✓ {lt.auth.captchaVerified}
+              </p>
+            )}
 
             {error && (
               <p className="text-sm text-red-600" role="alert">
@@ -360,6 +369,11 @@ export default function SignInPage() {
               key={`otp-${captchaVersion}`}
               onToken={handleCaptchaToken}
             />
+            {captchaToken && (
+              <p className="text-xs font-semibold text-emerald-400" role="status">
+                ✓ {lt.auth.captchaVerified}
+              </p>
+            )}
 
             {error && (
               <p className="text-sm text-red-600" role="alert">
@@ -380,6 +394,10 @@ export default function SignInPage() {
         {/* OTP tab — code step */}
         {tab === 'otp' && otpStep === 'code' && (
           <form onSubmit={handleOtpVerify} className="space-y-4">
+            <div className="rounded-2xl bg-[var(--muted)] p-3 text-sm">
+              <p className="text-[var(--muted-foreground)]">{lt.auth.codeSent}</p>
+              <p className="mt-0.5 font-bold">{otpPhone}</p>
+            </div>
             {devOtpCode && (
               <div className="rounded-2xl border border-emerald-500/40 bg-emerald-500/10 p-3 text-sm">
                 <p className="font-semibold text-emerald-400">Lokalus testavimo kodas</p>
@@ -406,6 +424,7 @@ export default function SignInPage() {
                 pattern="\d{6}"
                 maxLength={6}
                 autoComplete="one-time-code"
+                autoFocus
                 placeholder={lt.auth.codePlaceholder}
                 value={otpCode}
                 onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, ''))}
@@ -413,7 +432,6 @@ export default function SignInPage() {
                 disabled={submitting}
                 required
               />
-              <p className="mt-1 text-xs text-[var(--muted-foreground)]">{otpPhone}</p>
             </div>
 
             {error && (
@@ -436,13 +454,16 @@ export default function SignInPage() {
                 setOtpStep('phone');
                 setOtpCode('');
                 setDevOtpCode(null);
+                setCaptchaToken(null);
+                setCaptchaVersion((version) => version + 1);
                 clearError();
               }}
-              className="inline-flex min-h-11 w-full items-center justify-center text-sm font-semibold text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
+              className="inline-flex min-h-11 w-full items-center justify-center text-sm font-semibold text-[var(--primary)]"
               disabled={submitting}
             >
-              {lt.common.back}
+              {lt.auth.changePhone}
             </button>
+
           </form>
         )}
       </div>

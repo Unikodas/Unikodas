@@ -3,7 +3,11 @@ import { z } from 'zod';
 
 import { normalizeLithuanianMobile } from '@/lib/validation/phone';
 import { generateOtpCode, hashOtpCode, OTP_CONSTANTS } from '@/lib/auth/otp';
-import { bumpRateLimit, RATE_LIMITS } from '@/lib/auth/rate-limit';
+import {
+  bumpRateLimit,
+  refundRateLimit,
+  RATE_LIMITS,
+} from '@/lib/auth/rate-limit';
 import { getClientIp } from '@/lib/http/ip';
 import { getSmsProvider } from '@/lib/sms/provider';
 import { getCaptchaProvider } from '@/lib/captcha/provider';
@@ -128,6 +132,25 @@ export async function POST(request: NextRequest) {
     await getSmsProvider().sendOtp(phone, code);
   } catch (err) {
     console.error('[otp/request] sms send failed:', err);
+    if (!isLocalOtpDev) {
+      await Promise.all([
+        refundRateLimit({
+          bucket: 'otp_request_cooldown_phone',
+          key: phone,
+          ...RATE_LIMITS.OTP_REQUEST_COOLDOWN_PHONE,
+        }),
+        refundRateLimit({
+          bucket: 'otp_request_ip',
+          key: ip,
+          ...RATE_LIMITS.OTP_REQUEST_PER_IP,
+        }),
+        refundRateLimit({
+          bucket: 'otp_request_phone',
+          key: phone,
+          ...RATE_LIMITS.OTP_REQUEST_PER_PHONE,
+        }),
+      ]);
+    }
     return NextResponse.json({ error: 'sms_failed' }, { status: 502 });
   }
 
