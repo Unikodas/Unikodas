@@ -129,6 +129,7 @@ export const lt = {
     signupHint: 'Neturite paskyros? Sukurkite ją įvesdami telefono numerį.',
     resetHint: 'Įveskite telefono numerį ir gausite SMS kodą slaptažodžiui pakeisti.',
     captchaRequired: 'Patvirtinkite, kad nesate robotas.',
+    captchaChecking: 'Tikrinama apsauga…',
     captchaVerified: 'Apsauga patvirtinta.',
     smsFailed: 'SMS išsiųsti nepavyko. Patikrinkite numerį ir bandykite dar kartą po minutės.',
     codeSent: 'Kodą išsiuntėme numeriu',

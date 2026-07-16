@@ -56,7 +56,10 @@ export default function SignInPage() {
   const [captchaVersion, setCaptchaVersion] = useState(0);
   // Stable identity so Turnstile's internal effect doesn't re-render.
   const handleCaptchaToken = useCallback(
-    (token: string | null) => setCaptchaToken(token),
+    (token: string | null) => {
+      setCaptchaToken(token);
+      if (token) setError(null);
+    },
     [],
   );
 
@@ -322,10 +325,14 @@ export default function SignInPage() {
 
             <button
               type="submit"
-              disabled={submitting}
+              disabled={submitting || !captchaToken}
               className="w-full rounded-2xl bg-[var(--primary)] py-3 font-bold text-[var(--primary-foreground)] hover:bg-[var(--primary-hover)] disabled:opacity-60"
             >
-              {submitting ? lt.common.loading : lt.auth.signIn}
+              {submitting
+                ? lt.common.loading
+                : !captchaToken
+                  ? lt.auth.captchaChecking
+                  : lt.auth.signIn}
             </button>
 
             <button
@@ -383,10 +390,14 @@ export default function SignInPage() {
 
             <button
               type="submit"
-              disabled={submitting}
+              disabled={submitting || !captchaToken}
               className="w-full rounded-2xl bg-[var(--primary)] py-3 font-bold text-[var(--primary-foreground)] hover:bg-[var(--primary-hover)] disabled:opacity-60"
             >
-              {submitting ? lt.common.loading : lt.auth.sendCode}
+              {submitting
+                ? lt.common.loading
+                : !captchaToken
+                  ? lt.auth.captchaChecking
+                  : lt.auth.sendCode}
             </button>
           </form>
         )}
