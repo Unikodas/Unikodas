@@ -35,6 +35,7 @@ export default function SignInPage() {
   const [otpStep, setOtpStep] = useState<OtpStep>('phone');
   const [otpPhone, setOtpPhone] = useState('');
   const [otpCode, setOtpCode] = useState('');
+  const [devOtpCode, setDevOtpCode] = useState<string | null>(null);
   /**
    * True when the user got to the SMS tab via "Pamiršote slaptažodį?"
    * In that case, after a successful OTP verify we route them to
@@ -52,6 +53,7 @@ export default function SignInPage() {
   // user switches tabs so a stale token from one form doesn't get
   // submitted by the other.
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const [captchaVersion, setCaptchaVersion] = useState(0);
   // Stable identity so Turnstile's internal effect doesn't re-render.
   const handleCaptchaToken = useCallback(
     (token: string | null) => setCaptchaToken(token),
@@ -119,8 +121,13 @@ export default function SignInPage() {
         setError(body.error ?? 'server_error');
         // Token is single-use; force the user to solve again on retry.
         setCaptchaToken(null);
+        setCaptchaVersion((version) => version + 1);
         return;
       }
+      const successBody = (await res.json().catch(() => ({}))) as {
+        dev_code?: string;
+      };
+      setDevOtpCode(successBody.dev_code ?? null);
       setOtpStep('code');
       // Clear the consumed token so the next form (which doesn't show
       // the widget) can't accidentally submit it.
@@ -192,6 +199,7 @@ export default function SignInPage() {
         setError(body.error ?? 'server_error');
         // Token is single-use — force the user to re-solve on retry.
         setCaptchaToken(null);
+        setCaptchaVersion((version) => version + 1);
         return;
       }
       router.push(getPostLoginTarget());
@@ -292,7 +300,10 @@ export default function SignInPage() {
               />
             </div>
 
-            <Turnstile onToken={handleCaptchaToken} />
+            <Turnstile
+              key={`password-${captchaVersion}`}
+              onToken={handleCaptchaToken}
+            />
 
             {error && (
               <p className="text-sm text-red-600" role="alert">
@@ -345,7 +356,10 @@ export default function SignInPage() {
               {resetMode ? lt.auth.resetHint : lt.auth.signupHint}
             </p>
 
-            <Turnstile onToken={handleCaptchaToken} />
+            <Turnstile
+              key={`otp-${captchaVersion}`}
+              onToken={handleCaptchaToken}
+            />
 
             {error && (
               <p className="text-sm text-red-600" role="alert">
@@ -366,6 +380,21 @@ export default function SignInPage() {
         {/* OTP tab — code step */}
         {tab === 'otp' && otpStep === 'code' && (
           <form onSubmit={handleOtpVerify} className="space-y-4">
+            {devOtpCode && (
+              <div className="rounded-2xl border border-emerald-500/40 bg-emerald-500/10 p-3 text-sm">
+                <p className="font-semibold text-emerald-400">Lokalus testavimo kodas</p>
+                <button
+                  type="button"
+                  onClick={() => setOtpCode(devOtpCode)}
+                  className="mt-1 text-xl font-black tracking-[0.25em] text-[var(--foreground)]"
+                >
+                  {devOtpCode}
+                </button>
+                <p className="mt-1 text-xs text-[var(--muted-foreground)]">
+                  Paspauskite kodą, kad jis būtų įrašytas automatiškai.
+                </p>
+              </div>
+            )}
             <div>
               <label htmlFor="otp-code" className="mb-1 block text-sm font-semibold">
                 {lt.auth.codeLabel}
@@ -406,6 +435,7 @@ export default function SignInPage() {
               onClick={() => {
                 setOtpStep('phone');
                 setOtpCode('');
+                setDevOtpCode(null);
                 clearError();
               }}
               className="inline-flex min-h-11 w-full items-center justify-center text-sm font-semibold text-[var(--muted-foreground)] hover:text-[var(--foreground)]"

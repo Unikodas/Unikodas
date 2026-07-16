@@ -98,6 +98,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <a href="/parduoti" className="mx-2 inline-flex min-h-11 items-center hover:text-[var(--text)]">
             Parduoti
           </a>
+          <a href="/aukcionai" className="mx-2 inline-flex min-h-11 items-center hover:text-[var(--text)]">
+            Aukcionai
+          </a>
           <a href="/kaip-parduoti-numeri" className="mx-2 inline-flex min-h-11 items-center hover:text-[var(--text)]">
             Kaip parduoti
           </a>

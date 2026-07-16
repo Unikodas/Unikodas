@@ -11,6 +11,7 @@ import {
 type EmailSettingsFormProps = {
   initialEmail: string | null;
   initialEmailNotificationsEnabled: boolean;
+  initialEmailVerified: boolean;
 };
 
 function errorMessage(code: string | null): string | null {
@@ -27,6 +28,7 @@ const initialEmailSettingsFormState = {
 export function EmailSettingsForm({
   initialEmail,
   initialEmailNotificationsEnabled,
+  initialEmailVerified,
 }: EmailSettingsFormProps) {
   const [state, formAction, pending] = useActionState<EmailSettingsFormState, FormData>(
     updateEmailSettingsAction,
@@ -55,6 +57,10 @@ export function EmailSettingsForm({
         />
       </label>
 
+      <div className={`rounded-2xl border p-3 text-sm font-bold ${initialEmailVerified ? 'border-emerald-500/25 bg-emerald-500/10 text-emerald-400' : 'border-amber-500/25 bg-amber-500/10 text-amber-400'}`}>
+        {initialEmailVerified ? 'El. paštas patvirtintas' : 'El. paštas nepatvirtintas. Išsaugojus išsiųsime patvirtinimo nuorodą.'}
+      </div>
+
       <label className="flex items-start gap-3 rounded-2xl bg-[var(--muted)] p-3 text-sm font-semibold text-[var(--foreground)]">
         <input
           type="checkbox"
@@ -72,7 +78,7 @@ export function EmailSettingsForm({
       )}
       {state.success && (
         <p className="text-sm text-emerald-700" role="status">
-          {lt.profile.saved}
+          {state.verificationSent ? 'Patvirtinimo nuoroda išsiųsta į jūsų el. paštą.' : lt.profile.saved}
         </p>
       )}
 

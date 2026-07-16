@@ -8,6 +8,7 @@ import {
   parseDisplayNameFormData,
   parseEmailSettingsFormData,
 } from '@/lib/validation/profile';
+import { sendEmailVerification } from '@/lib/email/verification';
 
 export type DisplayNameFormState = {
   error: string | null;
@@ -17,6 +18,7 @@ export type DisplayNameFormState = {
 export type EmailSettingsFormState = {
   error: string | null;
   success: boolean;
+  verificationSent?: boolean;
 };
 
 /**
@@ -88,11 +90,17 @@ export async function updateEmailSettingsAction(
     return { error: 'validation_error', success: false };
   }
 
+  const { data: currentProfile } = await supabase
+    .from('profiles').select('email, email_verified_at').eq('id', user.id)
+    .maybeSingle<{ email: string | null; email_verified_at: string | null }>();
+  const emailChanged = (currentProfile?.email?.toLowerCase() ?? null) !== parsed.email;
+
   const { error } = await supabase
     .from('profiles')
     .update({
       email: parsed.email,
       email_notifications_enabled: parsed.emailNotificationsEnabled,
+      ...(emailChanged ? { email_verified_at: null } : {}),
     })
     .eq('id', user.id);
 
@@ -101,6 +109,18 @@ export async function updateEmailSettingsAction(
     return { error: 'server_error', success: false };
   }
 
+  let verificationSent = false;
+  const needsVerification = Boolean(parsed.email) && (emailChanged || !currentProfile?.email_verified_at);
+  if (parsed.email && needsVerification) {
+    try {
+      await sendEmailVerification(user.id, parsed.email);
+      verificationSent = true;
+    } catch (verificationError) {
+      console.error('[profilis] email verification send failed:', verificationError);
+      return { error: 'verification_send_failed', success: false };
+    }
+  }
+
   revalidatePath('/profilis');
-  return { error: null, success: true };
+  return { error: null, success: true, verificationSent };
 }

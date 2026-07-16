@@ -13,6 +13,7 @@ import { LogoLink } from '@/components/LogoLink';
 import { PlatePreview } from '@/components/PlatePreview';
 import { CommunityCTA } from '@/components/CommunityCTA';
 import { PartnerProductCard } from '@/components/PartnerProductCard';
+import { MarketplaceTabs } from '@/components/MarketplaceTabs';
 import { JsonLd } from '@/components/JsonLd';
 import {
   collectionPageJsonLd,
@@ -145,6 +146,7 @@ export default async function Home({
       </header>
 
       <main className="app-shell mx-auto max-w-6xl space-y-8 px-4 py-6 sm:px-6 sm:py-9">
+        <MarketplaceTabs active="listings" />
         <section className="app-card grid max-w-full gap-5 overflow-hidden p-5 sm:gap-6 sm:p-8 lg:grid-cols-[minmax(0,1fr)_24rem] lg:items-center">
           <div className="order-1 min-w-0 lg:col-start-1">
             <p className="max-w-full text-sm font-black uppercase text-[var(--primary)] [overflow-wrap:anywhere]">

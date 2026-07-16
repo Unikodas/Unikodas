@@ -34,6 +34,10 @@ export async function POST(request: NextRequest) {
   }
 
   const ip = getClientIp(request);
+  const isLocalOtpDev =
+    process.env.NODE_ENV === 'development' &&
+    process.env.SMS_PROVIDER === 'stub' &&
+    process.env.OTP_DEV_MODE === 'true';
 
   // 2. Verify CAPTCHA before any DB calls. A bot that fails the
   //    challenge never touches our DB or rate-limit counters. The stub
@@ -54,7 +58,7 @@ export async function POST(request: NextRequest) {
 
   // 3. Phone cooldown (≤1 request per 30s).
   //    Short-circuits "spam resend" attempts before any other work.
-  const cooldownOk = await bumpRateLimit({
+  const cooldownOk = isLocalOtpDev ? { allowed: true } : await bumpRateLimit({
     bucket: 'otp_request_cooldown_phone',
     key: phone,
     ...RATE_LIMITS.OTP_REQUEST_COOLDOWN_PHONE,
@@ -64,7 +68,7 @@ export async function POST(request: NextRequest) {
   }
 
   // 4. Hourly IP limit.
-  const ipOk = await bumpRateLimit({
+  const ipOk = isLocalOtpDev ? { allowed: true } : await bumpRateLimit({
     bucket: 'otp_request_ip',
     key: ip,
     ...RATE_LIMITS.OTP_REQUEST_PER_IP,
@@ -74,7 +78,7 @@ export async function POST(request: NextRequest) {
   }
 
   // 5. Hourly phone limit.
-  const phoneOk = await bumpRateLimit({
+  const phoneOk = isLocalOtpDev ? { allowed: true } : await bumpRateLimit({
     bucket: 'otp_request_phone',
     key: phone,
     ...RATE_LIMITS.OTP_REQUEST_PER_PHONE,
@@ -128,5 +132,9 @@ export async function POST(request: NextRequest) {
   }
 
   // Uniform success response — never leaks whether the phone is registered.
+  if (isLocalOtpDev) {
+    return NextResponse.json({ ok: true, dev_code: code });
+  }
+
   return NextResponse.json({ ok: true });
 }

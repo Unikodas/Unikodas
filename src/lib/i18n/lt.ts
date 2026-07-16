@@ -366,10 +366,10 @@ export const lt = {
       'Šis vardas matomas kitiems vartotojams žinutėse. 2–30 simbolių, be telefono numerio.',
     emailSettingsTitle: 'El. pašto pranešimai',
     emailSettingsHint:
-      'El. paštas naudojamas tik pranešimams apie naujas žinutes.',
+      'Patvirtintas el. paštas naudojamas žinučių ir aukcionų pranešimams.',
     emailLabel: 'El. pašto adresas',
     emailPlaceholder: 'vardas@example.com',
-    emailNotificationsToggle: 'Gauti pranešimus apie naujas žinutes',
+    emailNotificationsToggle: 'Gauti pranešimus apie žinutes ir aukcionus',
     saved: 'Išsaugota.',
     navigation: {
       browseListings: 'Naršyti skelbimus',
@@ -382,6 +382,7 @@ export const lt = {
       display_name_contains_phone: 'Varde negalima naudoti telefono numerio.',
       display_name_taken: 'Toks vardas jau užimtas. Pasirinkite kitą.',
       email_invalid: 'Įveskite teisingą el. pašto adresą arba palikite lauką tuščią.',
+      verification_send_failed: 'Nepavyko išsiųsti patvirtinimo laiško. Bandykite vėliau.',
       validation_error: 'Patikrinkite įvestus duomenis.',
       server_error: 'Įvyko klaida. Bandykite vėliau.',
     },

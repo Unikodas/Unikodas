@@ -26,6 +26,15 @@ type RecipientEmailSettings = {
   email_notifications_enabled: boolean | null;
 };
 
+type AuctionBidNotificationParams = {
+  sellerId: string;
+  bidderId: string;
+  outbidBidderId: string | null;
+  auctionId: string;
+  plateText: string;
+  currentPriceEur: number;
+};
+
 function logContext({ recipientId, senderId }: NewMessageNotificationParams) {
   return { recipientId, senderId };
 }
@@ -91,5 +100,47 @@ export async function sendNewMessageNotification({
     console.info('[email/new-message] sent', context);
   } catch (err) {
     console.error('[email] new message notification failed:', err);
+  }
+}
+
+async function sendTransactionalNotification(recipientId: string, subject: string, text: string) {
+  const supabase = createServiceRoleClient();
+  const { data: recipient, error } = await supabase.from('profiles')
+    .select('email, email_verified_at, email_notifications_enabled')
+    .eq('id', recipientId)
+    .maybeSingle<RecipientEmailSettings & { email_verified_at: string | null }>();
+  if (error) throw new Error(`Recipient email lookup failed: ${error.message}`);
+  if (!recipient?.email || !recipient.email_verified_at || recipient.email_notifications_enabled !== true) return;
+  await sendEmail({ to: recipient.email, subject, text });
+}
+
+export function queueAuctionBidNotifications(params: AuctionBidNotificationParams): void {
+  try {
+    after(async () => {
+      const auctionUrl = `https://unikodas.lt/aukcionai/${params.auctionId}`;
+      const price = params.currentPriceEur.toLocaleString('lt-LT');
+      try {
+        await sendTransactionalNotification(
+          params.sellerId,
+          `Naujas statymas už ${params.plateText}`,
+          `Sveiki,\n\nJūsų numerio ${params.plateText} aukcione atliktas naujas statymas.\nDabartinė kaina: €${price}\n\nPeržiūrėti aukcioną:\n${auctionUrl}`,
+        );
+      } catch (error) {
+        console.error('[email/auction] seller notification failed:', error);
+      }
+      if (params.outbidBidderId && params.outbidBidderId !== params.bidderId) {
+        try {
+          await sendTransactionalNotification(
+            params.outbidBidderId,
+            `Jūsų statymas už ${params.plateText} aplenktas`,
+            `Sveiki,\n\nKitas dalyvis aplenkė jūsų statymą numerio ${params.plateText} aukcione.\nDabartinė kaina: €${price}\n\nJei norite tęsti, pateikite naują maksimalų statymą:\n${auctionUrl}`,
+          );
+        } catch (error) {
+          console.error('[email/auction] outbid notification failed:', error);
+        }
+      }
+    });
+  } catch (error) {
+    console.error('[email/auction] scheduling failed:', error);
   }
 }

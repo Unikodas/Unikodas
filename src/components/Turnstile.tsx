@@ -63,6 +63,14 @@ export function Turnstile({ onToken }: TurnstileProps) {
   useEffect(() => {
     const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
     if (!siteKey) {
+      // Local development uses the server-side CAPTCHA stub. Supplying a
+      // non-empty development token keeps the sign-in flow usable without
+      // weakening production, where NODE_ENV is "production" and a real
+      // Turnstile key remains mandatory.
+      if (process.env.NODE_ENV === 'development') {
+        onTokenRef.current('local-development-captcha');
+        return;
+      }
       // eslint-disable-next-line no-console
       console.warn(
         '[Turnstile] NEXT_PUBLIC_TURNSTILE_SITE_KEY is not set; widget will not render.',

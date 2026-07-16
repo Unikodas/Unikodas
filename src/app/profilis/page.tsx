@@ -58,7 +58,7 @@ export default async function ProfilePage() {
 
   const { data: profile, error: profileErr } = await supabase
     .from('profiles')
-    .select('phone, display_name, has_password, email, email_notifications_enabled, created_at')
+    .select('phone, display_name, has_password, email, email_verified_at, email_notifications_enabled, created_at')
     .eq('id', user.id)
     .maybeSingle();
 
@@ -128,6 +128,7 @@ export default async function ProfilePage() {
           <EmailSettingsForm
             initialEmail={profile?.email ?? null}
             initialEmailNotificationsEnabled={profile?.email_notifications_enabled ?? true}
+            initialEmailVerified={Boolean(profile?.email_verified_at)}
           />
         </section>
 
