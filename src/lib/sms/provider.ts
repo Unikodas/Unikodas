@@ -20,7 +20,10 @@ let cached: SmsProvider | null = null;
 export function getSmsProvider(): SmsProvider {
   if (cached) return cached;
 
-  const which = (process.env.SMS_PROVIDER ?? 'stub').toLowerCase();
+  const which = (process.env.SMS_PROVIDER ?? 'stub')
+    .replace(/^\uFEFF/, '')
+    .trim()
+    .toLowerCase();
   switch (which) {
     case 'stub':
       cached = stubSmsProvider;

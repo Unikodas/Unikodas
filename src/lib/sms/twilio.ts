@@ -27,9 +27,11 @@ interface TwilioConfig {
  * generic `sms_failed` response, so the client never sees this message.
  */
 function readTwilioConfig(): TwilioConfig {
-  const accountSid = process.env.TWILIO_ACCOUNT_SID;
-  const authToken = process.env.TWILIO_AUTH_TOKEN;
-  const fromNumber = process.env.TWILIO_PHONE_NUMBER;
+  const clean = (value: string | undefined) =>
+    value?.replace(/^\uFEFF/, '').trim();
+  const accountSid = clean(process.env.TWILIO_ACCOUNT_SID);
+  const authToken = clean(process.env.TWILIO_AUTH_TOKEN);
+  const fromNumber = clean(process.env.TWILIO_PHONE_NUMBER);
 
   if (!accountSid || !authToken || !fromNumber) {
     throw new Error(
