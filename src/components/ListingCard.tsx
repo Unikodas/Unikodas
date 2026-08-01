@@ -13,6 +13,7 @@ export type ListingCardData = {
   price_eur: number | null;
   description: string | null;
   is_verified_listing: boolean;
+  partner_tier?: 'nightrider' | null;
   created_at: string;
 };
 
@@ -47,7 +48,7 @@ export function ListingCard({
             type="button"
             disabled
             aria-label="Išsaugoti"
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-black/25 text-lg text-white/80 opacity-90 backdrop-blur sm:h-11 sm:w-11 sm:text-xl"
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-black/25 text-lg text-white/80 opacity-90 backdrop-blur sm:text-xl"
             title="Išsaugojimo funkcija ruošiama"
           >
             ♡
@@ -56,7 +57,7 @@ export function ListingCard({
           <Link
             href={loginHref}
             aria-label="Prisijunkite, kad išsaugotumėte"
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-black/25 text-lg text-white backdrop-blur transition hover:border-[var(--primary)] hover:text-[var(--primary)] sm:h-11 sm:w-11 sm:text-xl"
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-black/25 text-lg text-white backdrop-blur transition hover:border-[var(--primary)] hover:text-[var(--primary)] sm:text-xl"
           >
             ♡
           </Link>
@@ -83,6 +84,11 @@ export function ListingCard({
             </div>
 
             <div className="flex shrink-0 flex-col items-end gap-2">
+              {listing.partner_tier === 'nightrider' && (
+                <span className="inline-flex items-center gap-1 rounded-full border border-fuchsia-300/50 bg-[linear-gradient(110deg,rgba(168,85,247,.22),rgba(34,211,238,.20),rgba(250,204,21,.18))] px-2.5 py-1 text-[0.68rem] font-black tracking-wide text-[var(--foreground)] shadow-[0_0_18px_rgba(168,85,247,.16)]">
+                  <span aria-hidden="true">✦</span> NIGHTRIDER
+                </span>
+              )}
               {insight?.label && (
                 <span
                   className="inline-flex items-center rounded-full border border-[var(--primary)]/30 bg-[color:color-mix(in_srgb,var(--primary)_12%,transparent)] px-2 py-0.5 text-xs font-black text-[var(--primary)]"

@@ -110,7 +110,7 @@ export function MobileBottomNav() {
                 key={item.href}
                 href={item.href}
                 aria-current={active ? 'page' : undefined}
-                className="flex flex-col items-center gap-1 text-[0.68rem] font-black text-[var(--primary)]"
+                className="flex flex-col items-center gap-1 text-[0.72rem] font-black text-[var(--primary)]"
               >
                 <span className="flex h-16 w-16 -translate-y-4 items-center justify-center rounded-full bg-[linear-gradient(180deg,var(--primary),#1557d8)] text-[var(--primary-foreground)] shadow-[0_18px_40px_rgba(47,125,246,0.42)] ring-4 ring-[#050a18]">
                   {item.icon}
@@ -126,7 +126,7 @@ export function MobileBottomNav() {
               href={item.href}
               aria-current={active ? 'page' : undefined}
               className={[
-                'flex min-h-14 flex-col items-center justify-center gap-1 rounded-2xl px-1 text-[0.68rem] font-bold transition',
+                'flex min-h-14 flex-col items-center justify-center gap-1 rounded-2xl px-1 text-[0.72rem] font-bold transition',
                 active
                   ? 'bg-white/8 text-[var(--primary)]'
                   : 'text-slate-400 hover:text-white',

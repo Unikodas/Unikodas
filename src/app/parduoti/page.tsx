@@ -53,6 +53,7 @@ export default async function NewListingPage({
               initial={initialPlate ? { plate_text: initialPlate } : undefined}
               action={createListingAction}
               submitLabel={lt.listings.form.submitCreate}
+              showPartnerCode
             />
           </>
         )}

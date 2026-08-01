@@ -281,7 +281,7 @@ export function PlateAnalysisTool({ isAuthenticated }: PlateAnalysisToolProps) {
               key={example}
               type="button"
               onClick={() => analyzeExample(example)}
-              className="rounded-full border border-[var(--border)] bg-[var(--muted)] px-3 py-2 text-xs font-black text-[var(--foreground)] transition hover:border-[var(--primary)] hover:text-[var(--primary)]"
+              className="min-h-11 rounded-full border border-[var(--border)] bg-[var(--muted)] px-3 py-2 text-xs font-black text-[var(--foreground)] transition hover:border-[var(--primary)] hover:text-[var(--primary)]"
             >
               {example}
             </button>

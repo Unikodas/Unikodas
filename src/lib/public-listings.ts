@@ -12,7 +12,7 @@ import {
 import type { ListingFilters } from '@/lib/validation/listing';
 
 const LISTING_SELECT =
-  'id, plate_text, plate_type, flag_type, city, price_eur, description, is_verified_listing, created_at';
+  'id, plate_text, plate_type, flag_type, city, price_eur, description, is_verified_listing, partner_tier, created_at';
 
 const PUBLIC_LISTINGS_REVALIDATE_SECONDS = 120;
 const INTERESTING_LISTINGS_REVALIDATE_SECONDS = 300;
@@ -54,6 +54,7 @@ async function fetchActiveListings(
     .from('listings')
     .select(LISTING_SELECT)
     .eq('status', 'active')
+    .order('partner_tier', { ascending: false, nullsFirst: false })
     .order('created_at', { ascending: false })
     .limit(limit);
 

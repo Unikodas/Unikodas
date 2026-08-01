@@ -20,6 +20,8 @@ interface ListingFormProps {
   /** Bound Server Action. Both create + edit pages pass a function with this shape. */
   action: ListingFormAction;
   submitLabel: string;
+  /** Promotion codes are accepted only while creating a listing. */
+  showPartnerCode?: boolean;
 }
 
 function errorMessage(code: string | null): string | null {
@@ -49,7 +51,7 @@ function StepHeader({ number, title }: { number: number; title: string }) {
   );
 }
 
-export function ListingForm({ initial, action, submitLabel }: ListingFormProps) {
+export function ListingForm({ initial, action, submitLabel, showPartnerCode = false }: ListingFormProps) {
   const [state, formAction, pending] = useActionState<ListingFormState, FormData>(
     action,
     initialListingFormState,
@@ -124,6 +126,25 @@ export function ListingForm({ initial, action, submitLabel }: ListingFormProps) 
               ))}
             </select>
           </label>
+
+          {showPartnerCode && (
+            <label className="block rounded-2xl border border-violet-400/30 bg-[linear-gradient(135deg,rgba(168,85,247,0.10),rgba(34,211,238,0.08),rgba(250,204,21,0.08))] p-4">
+              <span className="mb-1 block text-sm font-black text-[var(--foreground)]">
+                Partnerio kodas
+              </span>
+              <input
+                type="text"
+                name="partner_code"
+                maxLength={32}
+                autoComplete="off"
+                placeholder="Įveskite kodą"
+                className={plateTextFieldClassName}
+              />
+              <span className="mt-2 block text-xs leading-5 text-[var(--muted-foreground)]">
+                Turite NIGHTRIDER kodą? Jūsų skelbimas bus rodomas sąrašo viršuje ir pažymėtas išskirtiniu ženkleliu.
+              </span>
+            </label>
+          )}
         </div>
       </section>
 

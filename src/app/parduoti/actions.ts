@@ -38,6 +38,11 @@ export async function createListingAction(
     return { error: 'validation_error' };
   }
 
+  const partnerCode = String(formData.get('partner_code') ?? '').trim().toUpperCase();
+  if (partnerCode && partnerCode !== 'NIGHTRIDER') {
+    return { error: 'partner_code_invalid' };
+  }
+
   const { data, error } = await supabase
     .from('listings')
     .insert({
@@ -48,6 +53,7 @@ export async function createListingAction(
       city: parsed.city,
       description: parsed.description,
       price_eur: parsed.price_eur,
+      partner_tier: partnerCode === 'NIGHTRIDER' ? 'nightrider' : null,
     })
     .select('id')
     .single();
