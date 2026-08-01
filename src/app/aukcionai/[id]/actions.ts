@@ -9,13 +9,16 @@ export type BidState = { error: string | null; success: string | null };
 const messages: Record<string, string> = {
   seller_cannot_bid: 'Negalite statyti savo aukcione.',
   auction_not_live: 'Šis aukcionas šiuo metu nevyksta.',
+  auction_payment_required: 'Prieš statydami sumokėkite €2 dalyvavimo mokestį.',
   bid_too_low: 'Maksimali suma per maža. Patikrinkite mažiausią galimą statymą.',
   invalid_bid: 'Įveskite tinkamą sumą.',
 };
 
 export async function placeBidAction(auctionId: string, _: BidState, formData: FormData): Promise<BidState> {
   const { supabase, user } = await requireUser(`/aukcionai/${auctionId}`);
-  if (formData.get('contact_consent') !== 'on') return { error: 'Patvirtinkite sutikimą dėl kontakto ir sandorio koordinavimo.', success: null };
+  if (formData.get('contact_consent') !== 'on') {
+    return { error: 'Patvirtinkite sutikimą dėl kontakto ir sandorio koordinavimo.', success: null };
+  }
   const { data: profile } = await supabase.from('profiles')
     .select('phone, email, email_verified_at, email_notifications_enabled')
     .eq('id', user.id)
@@ -24,14 +27,24 @@ export async function placeBidAction(auctionId: string, _: BidState, formData: F
   if (!profile.email || !profile.email_verified_at || profile.email_notifications_enabled !== true) {
     return { error: 'Prieš statydami patvirtinkite el. paštą ir įjunkite pranešimus profilyje.', success: null };
   }
+
+  const { data: participation } = await supabase.from('auction_participations')
+    .select('status').eq('auction_id', auctionId).eq('user_id', user.id).maybeSingle();
+  if (participation?.status !== 'paid') {
+    return { error: 'Prieš statydami sumokėkite €2 dalyvavimo mokestį.', success: null };
+  }
+
   const amount = Number(String(formData.get('max_amount_eur') ?? '').trim());
-  if (!Number.isInteger(amount) || amount < 1 || amount > 999999) return { error: 'Įveskite tinkamą sumą.', success: null };
+  if (!Number.isInteger(amount) || amount < 1 || amount > 999999) {
+    return { error: 'Įveskite tinkamą sumą.', success: null };
+  }
   const { data, error } = await supabase.rpc('place_auction_bid', { p_auction_id: auctionId, p_max_amount_eur: amount });
   if (error) {
     const code = Object.keys(messages).find((key) => error.message.includes(key));
     return { error: code ? messages[code] : 'Statymo pateikti nepavyko. Bandykite dar kartą.', success: null };
   }
-  revalidatePath('/aukcionai'); revalidatePath(`/aukcionai/${auctionId}`);
+  revalidatePath('/aukcionai');
+  revalidatePath(`/aukcionai/${auctionId}`);
   const result = Array.isArray(data) ? data[0] : null;
   const winning = result?.bidder_is_winning;
   if (result?.seller_id && result?.plate_text) {
@@ -44,5 +57,8 @@ export async function placeBidAction(auctionId: string, _: BidState, formData: F
       currentPriceEur: result.current_price_eur,
     });
   }
-  return { error: null, success: winning ? 'Jūs šiuo metu pirmaujate.' : 'Statymas priimtas, tačiau kitas dalyvis turi didesnį automatinį statymą.' };
+  return {
+    error: null,
+    success: winning ? 'Jūs šiuo metu pirmaujate.' : 'Statymas priimtas, tačiau kitas dalyvis turi didesnį automatinį statymą.',
+  };
 }

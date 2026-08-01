@@ -51,6 +51,9 @@ export default function TermsPage() {
         <li>Administracija pasilieka teisę pašalinti skelbimus ar apriboti vartotojų prieigą be išankstinio įspėjimo.</li>
         <li>Vartotojų duomenys naudojami tik platformos veikimui, saugumui ir komunikacijai užtikrinti.</li>
         <li>Aukcionuose gali dalyvauti tik SMS patvirtinę, el. paštą patvirtinę ir pranešimus įjungę vartotojai. Pateikdamas numerį ar statymą vartotojas sutinka, kad administracija matytų jo kontaktus, patikrintų tapatybę ir koordinuotų sandorį.</li>
+        <li>Prieš statydamas aukcione dalyvis sumoka vienkartinį €2 dalyvavimo mokestį už konkretų aukcioną. Sumokėjus tame aukcione galima statyti neribotą skaičių kartų.</li>
+        <li>€2 dalyvavimo mokestis įprastai negrąžinamas, net jei dalyvis nepateikia statymo arba nelaimi. Mokestis grąžinamas, jei aukcioną atšaukia Unikodas arba dalyvauti nepavyksta dėl patvirtintos platformos techninės klaidos.</li>
+        <li>Aukciono statymai yra įpareigojantys. Laimėtojas įsipareigoja sąžiningai užbaigti sandorį, o piktnaudžiavimo ar atsisakymo atveju paskyros dalyvavimas aukcionuose gali būti apribotas.</li>
       </ol>
       </main>
     </>

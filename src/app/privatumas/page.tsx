@@ -64,6 +64,10 @@ export default function PrivacyPage() {
         Galite prašyti ištrinti arba pataisyti savo duomenis. Dėl klausimų susisiekite:
         info@unikodas.lt
       </p>
+        <h2 className="mt-6 mb-2 text-xl font-semibold">Aukcionų mokėjimai</h2>
+        <p className="mb-4">
+          €2 aukciono dalyvavimo mokėjimus apdoroja „Stripe“. Unikodas nesaugo visų mokėjimo kortelės duomenų. Mokėjimo būsenai patvirtinti saugome mokėjimo sesijos ir operacijos identifikatorius, aukciono bei vartotojo identifikatorius, sumą ir mokėjimo laiką.
+        </p>
       </main>
     </>
   );
