@@ -141,7 +141,7 @@ export function ListingForm({ initial, action, submitLabel, showPartnerCode = fa
                 className={plateTextFieldClassName}
               />
               <span className="mt-2 block text-xs leading-5 text-[var(--muted-foreground)]">
-                Turite NIGHTRIDER kodą? Jūsų skelbimas bus rodomas sąrašo viršuje ir pažymėtas išskirtiniu ženkleliu.
+                Jei turite partnerio kodą, įveskite jį čia.
               </span>
             </label>
           )}
