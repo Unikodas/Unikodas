@@ -167,7 +167,7 @@ export default async function ListingDetailPage({
               <div className="mt-3 flex flex-wrap items-center gap-2">
                 {listing.partner_tier === 'nightrider' && (
                   <span className="inline-flex items-center gap-1.5 rounded-full border border-fuchsia-300/50 bg-[linear-gradient(110deg,rgba(168,85,247,.22),rgba(34,211,238,.20),rgba(250,204,21,.18))] px-3 py-1 text-xs font-black tracking-wide text-[var(--foreground)] shadow-[0_0_20px_rgba(168,85,247,.18)]">
-                    <span aria-hidden="true">✦</span> NIGHTRIDER partneris
+                    <span aria-hidden="true">✦</span> NIGHTRIDERS
                   </span>
                 )}
                 <span className="rounded-full border border-[var(--border)] bg-[var(--muted)] px-3 py-1 text-xs font-bold text-[var(--muted-foreground)]">

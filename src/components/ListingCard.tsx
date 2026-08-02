@@ -86,7 +86,7 @@ export function ListingCard({
             <div className="flex shrink-0 flex-col items-end gap-2">
               {listing.partner_tier === 'nightrider' && (
                 <span className="inline-flex items-center gap-1 rounded-full border border-fuchsia-300/50 bg-[linear-gradient(110deg,rgba(168,85,247,.22),rgba(34,211,238,.20),rgba(250,204,21,.18))] px-2.5 py-1 text-[0.68rem] font-black tracking-wide text-[var(--foreground)] shadow-[0_0_18px_rgba(168,85,247,.16)]">
-                  <span aria-hidden="true">✦</span> NIGHTRIDER
+                  <span aria-hidden="true">✦</span> NIGHTRIDERS
                 </span>
               )}
               {insight?.label && (
