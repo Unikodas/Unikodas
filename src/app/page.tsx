@@ -42,6 +42,20 @@ async function getIsSignedIn(): Promise<boolean> {
   return !!data.user;
 }
 
+async function getActiveAuctionCount(): Promise<number> {
+  const supabase = await createClient();
+  const { count, error } = await supabase
+    .from('public_auctions')
+    .select('id', { count: 'exact', head: true })
+    .in('status', ['scheduled', 'live'])
+    .gt('ends_at', new Date().toISOString());
+  if (error) {
+    console.error('[home] auction count failed:', error);
+    return 0;
+  }
+  return count ?? 0;
+}
+
 export async function generateMetadata({
   searchParams,
 }: {
@@ -60,10 +74,11 @@ export default async function Home({
   const filters = parseListingFilters(params);
   const seo = getBrowseSeo(params);
 
-  const [isSignedIn, listings, interestingListings] = await Promise.all([
+  const [isSignedIn, listings, interestingListings, activeAuctionCount] = await Promise.all([
     getIsSignedIn(),
     getCachedActiveListings(filters, BROWSE_PAGE_SIZE),
     getCachedHomeInterestingListings(HOME_INTERESTING_LISTINGS_LIMIT),
+    getActiveAuctionCount(),
   ]);
 
   const hasSparseListings = listings.length > 0 && listings.length <= 3;
@@ -146,7 +161,7 @@ export default async function Home({
       </header>
 
       <main className="app-shell mx-auto max-w-6xl space-y-8 px-4 py-6 sm:px-6 sm:py-9">
-        <MarketplaceTabs active="listings" />
+        <MarketplaceTabs active="listings" auctionCount={activeAuctionCount} />
         <section className="app-card grid max-w-full gap-5 overflow-hidden p-5 sm:gap-6 sm:p-8 lg:grid-cols-[minmax(0,1fr)_24rem] lg:items-center">
           <div className="order-1 min-w-0 lg:col-start-1">
             <p className="max-w-full text-sm font-black uppercase text-[var(--primary)] [overflow-wrap:anywhere]">
