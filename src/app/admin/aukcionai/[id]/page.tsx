@@ -17,10 +17,10 @@ type Participation = {
 };
 
 const callLabels: Record<Participation['call_status'], string> = {
-  not_called: 'Dar neskambinta',
-  qualified: 'Rimtas pirkėjas',
+  not_called: 'Patikros nereikia',
+  qualified: 'Patikrintas telefonu',
   unreachable: 'Nepavyko susisiekti',
-  not_serious: 'Nerimtas / nedalyvaus',
+  not_serious: 'Įtartinas / nedalyvaus',
 };
 
 export default async function AdminAuctionContacts({ params }: { params: Promise<{ id: string }> }) {
@@ -54,7 +54,7 @@ export default async function AdminAuctionContacts({ params }: { params: Promise
     </section>
 
     <section className="rounded-2xl border bg-white p-5">
-      <div className="mb-3 flex items-center justify-between gap-3"><h2 className="text-xl font-bold">Sumokėję dalyviai ({paid.length})</h2><span className="text-sm text-slate-500">Skambinkite prieš aukcioną</span></div>
+      <div className="mb-3 flex items-center justify-between gap-3"><h2 className="text-xl font-bold">Sumokėję dalyviai ({paid.length})</h2><span className="text-sm text-slate-500">Skambinkite tik kilus įtarimui</span></div>
       <div className="space-y-3">
         {paid.length === 0 && <p className="text-sm text-slate-500">Kol kas nėra sumokėjusių dalyvių.</p>}
         {paid.map((entry, index) => {
