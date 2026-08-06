@@ -12,6 +12,11 @@ export type AuctionSummary = {
 export function AuctionCard({ auction }: { auction: AuctionSummary }) {
   const upcoming = new Date(auction.starts_at).getTime() > Date.now();
   const ended = auction.status === 'ended' || new Date(auction.ends_at).getTime() <= Date.now();
+  const startsLabel = new Intl.DateTimeFormat('lt-LT', {
+    dateStyle: 'short',
+    timeStyle: 'short',
+    timeZone: 'Europe/Vilnius',
+  }).format(new Date(auction.starts_at));
   return (
     <Link href={`/aukcionai/${auction.id}`} className="app-card group flex h-full flex-col overflow-hidden p-4 transition hover:border-[var(--primary)]">
       <div className="flex min-h-40 items-center justify-center rounded-2xl bg-[var(--muted)] p-4">
@@ -29,7 +34,7 @@ export function AuctionCard({ auction }: { auction: AuctionSummary }) {
         <div className="mt-auto flex items-center justify-between gap-3 pt-4 text-sm">
           <span className="text-[var(--muted-foreground)]">{auction.city}</span>
           <strong className={ended ? 'text-[var(--muted-foreground)]' : 'text-amber-400'}>
-            {upcoming ? 'Netrukus' : <AuctionCountdown endsAt={auction.ends_at} />}
+            {upcoming ? `Pradžia ${startsLabel}` : <AuctionCountdown endsAt={auction.ends_at} />}
           </strong>
         </div>
       </div>

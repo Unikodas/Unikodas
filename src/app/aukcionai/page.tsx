@@ -53,7 +53,7 @@ export default async function AuctionsPage() {
           </div>
           <h1 className="mt-2 text-3xl font-black tracking-tight text-[var(--foreground)] sm:text-5xl">Numerių aukcionai</h1>
           <p className="mt-3 max-w-2xl leading-7 text-[var(--muted-foreground)]">Įrašykite didžiausią sumą, kurią sutinkate mokėti. Sistema statys už jus tik tiek, kiek reikia pirmavimui. Jūsų maksimali suma lieka slapta.</p>
-          <p className="mt-3 max-w-2xl rounded-2xl border border-[var(--border)] bg-[var(--muted)] p-3 text-sm leading-6 text-[var(--muted-foreground)]">BETA testavimo metu aukciono pateikimas ir dalyvavimas nemokami. Reikalingas patvirtintas telefono numeris, patvirtintas el. paštas ir įjungti aukcionų pranešimai.</p>
+          <p className="mt-3 max-w-2xl rounded-2xl border border-[var(--border)] bg-[var(--muted)] p-3 text-sm leading-6 text-[var(--muted-foreground)]">Dalyvavimas konkrečiame aukcione kainuoja vienkartinį €2 mokestį. Sumokėjus tame aukcione galima statyti neribotai. Reikalingas patvirtintas telefono numeris, patvirtintas el. paštas ir įjungti aukcionų pranešimai.</p>
           <div className="mt-5 grid gap-3 text-sm sm:grid-cols-3">
             <div className="app-card-soft p-4"><strong className="block text-[var(--foreground)]">1. Pasirinkite maksimumą</strong><span className="text-[var(--muted-foreground)]">Kiti dalyviai jo nematys.</span></div>
             <div className="app-card-soft p-4"><strong className="block text-[var(--foreground)]">2. Sistema varžosi už jus</strong><span className="text-[var(--muted-foreground)]">Kaina kyla nustatytais žingsniais.</span></div>
@@ -66,13 +66,13 @@ export default async function AuctionsPage() {
             <div><h2 className="text-2xl font-black text-[var(--foreground)]">Vyksta dabar</h2><p className="text-sm text-[var(--muted-foreground)]">Paskutinės 2 minutės statymas pratęsia aukcioną 2 minutėmis.</p></div>
             <div className="grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-3">{live.map((auction) => <AuctionCard key={auction.id} auction={auction} />)}</div>
           </section>
-        ) : (
+        ) : upcoming.length === 0 ? (
           <section className="app-card border-dashed p-8 text-center">
             <h2 className="text-xl font-black text-[var(--foreground)]">Ruošiame pirmuosius aukcionus</h2>
             <p className="mx-auto mt-2 max-w-xl text-sm leading-6 text-[var(--muted-foreground)]">Kiekvieną numerį patikrinsime prieš paskelbdami. Turite išskirtinį numerį? Pateikite jį peržiūrai ir padėkite pradėti pirmąją aukcionų savaitę.</p>
             <Link href="/aukcionai/naujas" className="app-button-primary mt-5 inline-flex min-h-11 items-center px-5">Pateikti numerį</Link>
           </section>
-        )}
+        ) : null}
         {upcoming.length > 0 && <section className="space-y-4"><h2 className="text-2xl font-black text-[var(--foreground)]">Netrukus prasidės</h2><div className="grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-3">{upcoming.map((auction) => <AuctionCard key={auction.id} auction={auction} />)}</div></section>}
       </main>
     </>

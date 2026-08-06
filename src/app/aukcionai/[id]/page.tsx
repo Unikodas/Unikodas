@@ -81,6 +81,11 @@ export default async function AuctionDetail({
   const openForEntry = ['scheduled', 'live'].includes(auction.status) && !ended;
   const paid = participation?.status === 'paid';
   const bidAction = placeBidAction.bind(null, auction.id);
+  const startsLabel = new Intl.DateTimeFormat('lt-LT', {
+    dateStyle: 'long',
+    timeStyle: 'short',
+    timeZone: 'Europe/Vilnius',
+  }).format(new Date(auction.starts_at));
 
   return <>
     <header className="app-header sticky top-0 z-40">
@@ -111,7 +116,7 @@ export default async function AuctionDetail({
           <div className="mt-3 flex items-center justify-between gap-3 text-sm">
             <span className="text-[var(--muted-foreground)]">{auction.bid_count} statymų · {auction.participant_count ?? 0} dalyvių</span>
             <strong className={ended ? 'text-[var(--muted-foreground)]' : 'text-amber-400'}>
-              {ended ? 'Baigėsi' : live ? <AuctionCountdown endsAt={auction.ends_at} /> : 'Dar neprasidėjo'}
+              {ended ? 'Baigėsi' : live ? <AuctionCountdown endsAt={auction.ends_at} /> : `Pradžia ${startsLabel}`}
             </strong>
           </div>
           <p className={`mt-3 rounded-xl p-3 text-sm font-bold ${auction.reserve_met ? 'bg-emerald-500/10 text-emerald-400' : 'bg-amber-500/10 text-amber-400'}`}>
