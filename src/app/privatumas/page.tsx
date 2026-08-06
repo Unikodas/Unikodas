@@ -50,7 +50,7 @@ export default function PrivacyPage() {
         <li>Skelbimų publikavimui</li>
         <li>Žinučių sistemai</li>
         <li>Saugumui ir piktnaudžiavimo prevencijai</li>
-        <li>Aukcionų tapatybės, nuosavybės ir sandorio koordinavimui. Administracija gali matyti patvirtintus pardavėjų ir statytojų telefono numerius bei el. paštus; šie kontaktai viešai nerodomi.</li>
+        <li>Aukcionų dalyvių ketinimo, tapatybės, nuosavybės ir sandorio koordinavimui. Gavusi aiškų sutikimą administracija gali matyti patvirtintus pardavėjų ir sumokėjusių dalyvių telefono numerius bei el. paštus ir susisiekti dėl konkretaus aukciono; šie kontaktai viešai nerodomi.</li>
       </ul>
 
       <h2 className="mt-6 mb-2 text-xl font-semibold">Trečiųjų šalių paslaugos</h2>

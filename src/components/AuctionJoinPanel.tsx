@@ -40,7 +40,11 @@ export function AuctionJoinPanel(props: Props) {
       const response = await fetch(`/api/auctions/${props.auctionId}/checkout`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ captcha_token: captchaToken, terms_accepted: true }),
+        body: JSON.stringify({
+          captcha_token: captchaToken,
+          terms_accepted: true,
+          contact_consent: true,
+        }),
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error ?? 'payment_unavailable');
@@ -74,7 +78,7 @@ export function AuctionJoinPanel(props: Props) {
       </div>
       <label className="flex items-start gap-3 rounded-2xl bg-[var(--muted)] p-4 text-sm leading-6 text-[var(--muted-foreground)]">
         <input type="checkbox" checked={accepted} onChange={(event) => setAccepted(event.target.checked)} className="mt-1" />
-        <span>Prašau iš karto aktyvuoti dalyvavimą šiame aukcione. Suprantu, kad statymai yra įpareigojantys, paslauga pradedama teikti iš karto, o €2 mokestis įprastai negrąžinamas.</span>
+        <span>Prašau iš karto aktyvuoti dalyvavimą šiame aukcione. Sutinku, kad aukciono administracija telefonu arba el. paštu susisiektų dėl mano ketinimo dalyvauti ir galimo sandorio. Suprantu, kad statymai yra įpareigojantys, paslauga pradedama teikti iš karto, o €2 mokestis įprastai negrąžinamas.</span>
       </label>
       <Turnstile key={captchaVersion} onToken={setCaptchaToken} />
       {error && <p role="alert" className="rounded-xl bg-red-500/10 p-3 text-sm font-bold text-red-400">{error}</p>}

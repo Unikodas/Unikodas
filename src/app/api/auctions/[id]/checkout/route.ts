@@ -14,6 +14,7 @@ export const runtime = 'nodejs';
 const BodySchema = z.object({
   captcha_token: z.string().min(1).max(4096),
   terms_accepted: z.literal(true),
+  contact_consent: z.literal(true),
 });
 
 export async function POST(request: Request, { params }: { params: Promise<{ id: string }> }) {
@@ -69,6 +70,11 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
     if (existing?.provider_session_id) {
       const oldSession = await stripe.checkout.sessions.retrieve(existing.provider_session_id);
       if (oldSession.status === 'open' && oldSession.url) {
+        await admin.from('auction_participations').update({
+          contact_consent_at: new Date().toISOString(),
+          terms_accepted_at: new Date().toISOString(),
+          captcha_verified_at: new Date().toISOString(),
+        }).eq('provider_session_id', oldSession.id).eq('auction_id', auctionId).eq('user_id', auth.user.id);
         return NextResponse.json({ checkout_url: oldSession.url });
       }
     }
@@ -102,6 +108,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
       provider: 'stripe',
       provider_session_id: session.id,
       terms_accepted_at: new Date().toISOString(),
+      contact_consent_at: new Date().toISOString(),
       captcha_verified_at: new Date().toISOString(),
     }, { onConflict: 'auction_id,user_id' });
     if (error) throw error;
