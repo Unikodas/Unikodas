@@ -54,6 +54,7 @@ export default function TermsPage() {
         <li>Prieš statydamas aukcione dalyvis sumoka vienkartinį €2 dalyvavimo mokestį už konkretų aukcioną. Sumokėjus tame aukcione galima statyti neribotą skaičių kartų.</li>
         <li>€2 dalyvavimo mokestis įprastai negrąžinamas, net jei dalyvis nepateikia statymo arba nelaimi. Mokestis grąžinamas, jei aukcioną atšaukia Unikodas arba dalyvauti nepavyksta dėl patvirtintos platformos techninės klaidos.</li>
         <li>Aukciono statymai yra įpareigojantys. Laimėtojas įsipareigoja sąžiningai užbaigti sandorį, o piktnaudžiavimo ar atsisakymo atveju paskyros dalyvavimas aukcionuose gali būti apribotas.</li>
+        <li>Kiekvieno naujo statymo maksimali suma turi būti bent €50 didesnė už tuo metu viešai rodomą aukciono kainą. Automatinio statymo sistema kainą kelia €50 žingsniais tik tiek, kiek reikia pirmauti.</li>
       </ol>
       </main>
     </>

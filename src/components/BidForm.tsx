@@ -13,6 +13,6 @@ export function BidForm({ action, minimum }: { action: (state: BidState, data: F
     {state.success && <p role="status" className="rounded-xl bg-emerald-500/10 p-3 text-sm font-bold text-emerald-400">{state.success}</p>}
     <label className="flex items-start gap-3 rounded-xl bg-[var(--muted)] p-3 text-xs leading-5 text-[var(--muted-foreground)]"><input type="checkbox" name="contact_consent" required className="mt-1" /><span>Sutinku, kad aukciono administracija matytų mano patvirtintą telefono numerį ir el. paštą bei susisiektų dėl aukciono ir sandorio.</span></label>
     <button disabled={pending} className="app-button-primary min-h-12 w-full px-5">{pending ? 'Statoma…' : 'Pateikti automatinį statymą'}</button>
-    <p className="text-xs leading-5 text-[var(--muted-foreground)]">Pateikdami statymą įsipareigojate užbaigti sandorį, jei laimėsite.</p>
+    <p className="text-xs leading-5 text-[var(--muted-foreground)]">Kiekvienas naujas statymas turi būti bent €50 didesnis už rodomą kainą. Pateikdami statymą įsipareigojate užbaigti sandorį, jei laimėsite.</p>
   </form>;
 }

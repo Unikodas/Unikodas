@@ -36,10 +36,5 @@ export function parseAuctionFormData(formData: FormData) {
 }
 
 export function minimumBid(currentPrice: number) {
-  if (currentPrice < 100) return currentPrice + 5;
-  if (currentPrice < 500) return currentPrice + 10;
-  if (currentPrice < 2000) return currentPrice + 25;
-  if (currentPrice < 5000) return currentPrice + 50;
-  return currentPrice + 100;
+  return currentPrice + 50;
 }
-

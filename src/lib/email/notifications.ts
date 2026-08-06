@@ -35,6 +35,15 @@ type AuctionBidNotificationParams = {
   currentPriceEur: number;
 };
 
+export type AuctionFinalizedNotificationParams = {
+  auctionId: string;
+  sellerId: string;
+  winnerId: string | null;
+  plateText: string;
+  finalPriceEur: number;
+  sold: boolean;
+};
+
 function logContext({ recipientId, senderId }: NewMessageNotificationParams) {
   return { recipientId, senderId };
 }
@@ -142,5 +151,39 @@ export function queueAuctionBidNotifications(params: AuctionBidNotificationParam
     });
   } catch (error) {
     console.error('[email/auction] scheduling failed:', error);
+  }
+}
+
+export function queueAuctionFinalizedNotifications(params: AuctionFinalizedNotificationParams): void {
+  try {
+    after(async () => {
+      const auctionUrl = `https://unikodas.lt/aukcionai/${params.auctionId}`;
+      const price = params.finalPriceEur.toLocaleString('lt-LT');
+      try {
+        await sendTransactionalNotification(
+          params.sellerId,
+          params.sold ? `${params.plateText} aukcionas baigėsi` : `${params.plateText} rezervinė kaina nepasiekta`,
+          params.sold
+            ? `Sveiki,\n\nNumerio ${params.plateText} aukcionas baigėsi. Galutinė kaina: €${price}. Administracija padės suderinti sandorį.\n\n${auctionUrl}`
+            : `Sveiki,\n\nNumerio ${params.plateText} aukcionas baigėsi nepasiekus rezervinės kainos.\n\n${auctionUrl}`,
+        );
+      } catch (error) {
+        console.error('[email/auction] final seller notification failed:', error);
+      }
+
+      if (params.sold && params.winnerId) {
+        try {
+          await sendTransactionalNotification(
+            params.winnerId,
+            `Laimėjote ${params.plateText} aukcioną`,
+            `Sveikiname!\n\nLaimėjote numerio ${params.plateText} aukcioną už €${price}. Administracija susisieks dėl sandorio užbaigimo.\n\n${auctionUrl}`,
+          );
+        } catch (error) {
+          console.error('[email/auction] winner notification failed:', error);
+        }
+      }
+    });
+  } catch (error) {
+    console.error('[email/auction] final notification scheduling failed:', error);
   }
 }
