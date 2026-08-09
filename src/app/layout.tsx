@@ -42,7 +42,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     title: SITE_NAME,
-    statusBarStyle: 'default',
+    statusBarStyle: 'black-translucent',
   },
   formatDetection: {
     telephone: false,
@@ -75,7 +75,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#ffffff',
+  themeColor: '#0f1012',
 };
 
 const footerLinks = [
@@ -94,7 +94,7 @@ const footerLinks = [
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="lt" suppressHydrationWarning>
+    <html lang="lt" className="dark" suppressHydrationWarning>
       <head>
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#2563eb" />
       </head>

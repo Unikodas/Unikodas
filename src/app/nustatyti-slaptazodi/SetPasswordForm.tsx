@@ -78,7 +78,7 @@ export function SetPasswordForm({ hasPassword }: SetPasswordFormProps) {
             autoComplete="current-password"
             required
             maxLength={PASSWORD_MAX}
-            className="w-full rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-900"
+            className="app-search-field w-full px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--ring)]"
             disabled={submitting}
           />
         </label>
@@ -94,7 +94,7 @@ export function SetPasswordForm({ hasPassword }: SetPasswordFormProps) {
           required
           minLength={PASSWORD_MIN}
           maxLength={PASSWORD_MAX}
-          className="w-full rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-900"
+          className="app-search-field w-full px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--ring)]"
           disabled={submitting}
         />
         <span className="block mt-1 text-xs text-slate-500">{lt.auth.passwordHint}</span>
@@ -112,7 +112,7 @@ export function SetPasswordForm({ hasPassword }: SetPasswordFormProps) {
           required
           minLength={PASSWORD_MIN}
           maxLength={PASSWORD_MAX}
-          className="w-full rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-900"
+          className="app-search-field w-full px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--ring)]"
           disabled={submitting}
         />
       </label>
@@ -126,7 +126,7 @@ export function SetPasswordForm({ hasPassword }: SetPasswordFormProps) {
       <button
         type="submit"
         disabled={submitting}
-        className="w-full sm:w-auto rounded-lg bg-slate-900 text-white px-4 py-2 font-medium hover:bg-slate-800 disabled:opacity-50"
+        className="app-button-primary w-full px-4 py-2 sm:w-auto disabled:opacity-50"
       >
         {submitting ? lt.common.loading : lt.common.save}
       </button>

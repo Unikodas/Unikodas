@@ -32,30 +32,132 @@
 
 html.dark {
   color-scheme: dark;
-  --background: #050816;
-  --foreground: #f8fafc;
-  --card: #0f172a;
-  --card-foreground: #f8fafc;
-  --muted: #111827;
-  --muted-foreground: #cbd5e1;
-  --muted-soft: #94a3b8;
-  --border: #1f2937;
-  --border-strong: #334155;
-  --primary: #2f7df6;
-  --primary-hover: #60a5fa;
+  --background: #0f1012;
+  --foreground: #f3f4f6;
+  --card: #18191c;
+  --card-foreground: #f3f4f6;
+  --muted: #202226;
+  --muted-foreground: #b4b8c0;
+  --muted-soft: #858b96;
+  --border: #2c2f35;
+  --border-strong: #41454e;
+  --primary: #3b82f6;
+  --primary-hover: #2563eb;
   --primary-foreground: #ffffff;
-  --input: #111827;
+  --input: #141518;
   --ring: #60a5fa;
   --page-bg: var(--background);
   --surface: var(--card);
   --surface-muted: var(--muted);
-  --surface-soft: #172033;
+  --surface-soft: #1d1f23;
   --text: var(--foreground);
   --primary-contrast: var(--primary-foreground);
   --focus: var(--ring);
-  --app-elevated: #111c31;
-  --app-glass: rgba(8, 13, 30, 0.82);
-  --app-shadow: 0 1px 2px rgba(0, 0, 0, 0.28);
+  --app-elevated: #1b1c20;
+  --app-glass: #18191c;
+  --app-shadow: 0 1px 2px rgba(0, 0, 0, 0.42);
+}
+
+/* Keep older utility-based screens readable while the shared theme is dark. */
+html.dark .bg-white {
+  background-color: var(--card);
+}
+
+html.dark .border-slate-200 {
+  border-color: var(--border);
+}
+
+html.dark .border-slate-100,
+html.dark .border-slate-300 {
+  border-color: var(--border-strong);
+}
+
+html.dark .bg-slate-50 {
+  background-color: var(--muted);
+}
+
+html.dark .text-slate-900,
+html.dark .text-slate-800 {
+  color: var(--foreground);
+}
+
+html.dark .text-slate-700,
+html.dark .text-slate-600,
+html.dark .text-slate-500,
+html.dark .text-slate-400 {
+  color: var(--muted-foreground);
+}
+
+html.dark .hover\:bg-slate-50:hover {
+  background-color: var(--muted);
+}
+
+html.dark .hover\:text-slate-900:hover {
+  color: var(--foreground);
+}
+
+html.dark .bg-blue-50 {
+  background-color: color-mix(in srgb, var(--primary) 14%, transparent);
+}
+
+html.dark .border-blue-200 {
+  border-color: color-mix(in srgb, var(--primary) 34%, transparent);
+}
+
+html.dark .bg-emerald-50,
+html.dark .bg-emerald-100 {
+  background-color: rgba(16, 185, 129, 0.13);
+}
+
+html.dark .border-emerald-200,
+html.dark .border-emerald-300 {
+  border-color: rgba(52, 211, 153, 0.32);
+}
+
+html.dark .text-emerald-700,
+html.dark .text-emerald-800 {
+  color: #6ee7b7;
+}
+
+html.dark .bg-fuchsia-50 {
+  background-color: rgba(217, 70, 239, 0.13);
+}
+
+html.dark .border-fuchsia-200 {
+  border-color: rgba(232, 121, 249, 0.3);
+}
+
+html.dark .text-fuchsia-800 {
+  color: #f0abfc;
+}
+
+html.dark .bg-red-50,
+html.dark .bg-red-100 {
+  background-color: rgba(239, 68, 68, 0.13);
+}
+
+html.dark .border-red-200,
+html.dark .border-red-300 {
+  border-color: rgba(248, 113, 113, 0.32);
+}
+
+html.dark .text-red-600,
+html.dark .text-red-700 {
+  color: #fca5a5;
+}
+
+html.dark .bg-amber-50,
+html.dark .bg-amber-100 {
+  background-color: rgba(245, 158, 11, 0.13);
+}
+
+html.dark .border-amber-200 {
+  border-color: rgba(251, 191, 36, 0.32);
+}
+
+html.dark .text-amber-800,
+html.dark .text-amber-900 {
+  color: #fcd34d;
 }
 
 html,

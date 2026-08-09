@@ -104,7 +104,7 @@ export default async function WantedDetailPage({
         ])}
       />
 
-      <header className="border-b border-slate-200 bg-white">
+      <header className="app-header">
         <nav className="max-w-3xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
           <LogoLink />
           <Link href="/ieskau" className="text-sm text-slate-600 hover:text-slate-900">
@@ -113,8 +113,8 @@ export default async function WantedDetailPage({
         </nav>
       </header>
 
-      <main className="max-w-3xl mx-auto px-4 sm:px-6 py-6 space-y-6">
-        <div className="rounded-2xl border border-slate-200 bg-white p-6">
+      <main className="app-shell max-w-3xl mx-auto px-4 sm:px-6 py-6 space-y-6">
+        <div className="app-card p-6">
           <div className="font-mono text-3xl sm:text-4xl font-bold tracking-wider mb-4 break-words">
             {wanted.plate_pattern}
           </div>
@@ -147,16 +147,16 @@ export default async function WantedDetailPage({
         </div>
 
         {canMessageAuthor && (
-          <div className="rounded-2xl border border-slate-200 bg-white p-6">
+          <div className="app-card p-6">
             <h2 className="text-lg font-semibold mb-3">{lt.messages.contactWantedAuthor}</h2>
             <MessageForm action={boundSendMessage} submitLabel={lt.messages.writeMessage} />
           </div>
         )}
         {!userData.user && (
-          <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 text-sm text-slate-600">
+          <div className="rounded-xl border border-dashed border-[var(--border-strong)] bg-[var(--muted)] p-6 text-sm text-[var(--muted-foreground)]">
             <Link
               href={`/prisijungti?redirect=${encodeURIComponent(signInRedirect)}`}
-              className="underline hover:text-slate-900"
+              className="underline hover:text-[var(--foreground)]"
             >
               {lt.messages.signInToContactWanted}
             </Link>

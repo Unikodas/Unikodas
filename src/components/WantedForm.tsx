@@ -41,7 +41,7 @@ export function WantedForm({ initial, action, submitLabel }: WantedFormProps) {
           maxLength={50}
           autoComplete="off"
           placeholder={lt.wanted.form.patternHint}
-          className="w-full rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-900"
+          className="app-search-field w-full px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--ring)]"
         />
         <span className="block mt-1 text-xs text-slate-500">
           {lt.wanted.form.patternHint} —{' '}
@@ -59,7 +59,7 @@ export function WantedForm({ initial, action, submitLabel }: WantedFormProps) {
           max={999999}
           step={1}
           inputMode="numeric"
-          className="w-full rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-900"
+          className="app-search-field w-full px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--ring)]"
         />
         <span className="block mt-1 text-xs text-slate-500">{lt.wanted.form.maxPriceHint}</span>
       </label>
@@ -71,7 +71,7 @@ export function WantedForm({ initial, action, submitLabel }: WantedFormProps) {
           defaultValue={initial?.description ?? ''}
           maxLength={2000}
           rows={5}
-          className="w-full rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-900"
+          className="app-search-field w-full px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--ring)]"
         />
         <span className="block mt-1 text-xs text-slate-500">{lt.wanted.form.descriptionHint}</span>
       </label>
@@ -85,7 +85,7 @@ export function WantedForm({ initial, action, submitLabel }: WantedFormProps) {
       <button
         type="submit"
         disabled={pending}
-        className="w-full sm:w-auto rounded-lg bg-slate-900 text-white px-4 py-2 font-medium hover:bg-slate-800 disabled:opacity-50"
+        className="app-button-primary w-full px-4 py-2 sm:w-auto disabled:opacity-50"
       >
         {pending ? lt.common.loading : submitLabel}
       </button>

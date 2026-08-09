@@ -10,7 +10,7 @@ export default async function NewWantedPage() {
 
   return (
     <>
-      <header className="border-b border-slate-200 bg-white">
+      <header className="app-header">
         <nav className="max-w-2xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
           <LogoLink />
           <Link href="/ieskau" className="text-sm text-slate-600 hover:text-slate-900">
