@@ -41,7 +41,7 @@ export function ListingFilters({ current }: { current: Filters }) {
     <form
       method="GET"
       action="/"
-      className="app-card space-y-3 p-4 sm:grid sm:grid-cols-2 sm:gap-3 sm:space-y-0 lg:grid-cols-7"
+      className="space-y-3 sm:grid sm:grid-cols-2 sm:gap-3 sm:space-y-0 lg:grid-cols-7"
     >
       <label className="block text-sm lg:col-span-2">
         <span className="sr-only">{lt.listings.filters.plateText}</span>

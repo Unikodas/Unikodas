@@ -17,7 +17,7 @@ export function MarketplaceTabs({ active, auctionCount = 0 }: { active: Tab; auc
           href={tab.href}
           aria-current={active === tab.id ? 'page' : undefined}
           className={[
-            'flex min-h-11 items-center justify-center rounded-xl px-2 text-center text-sm font-black transition',
+            'flex min-h-11 min-w-0 items-center justify-center rounded-xl px-1 text-center text-xs font-black transition sm:px-2 sm:text-sm',
             active === tab.id
               ? 'bg-[var(--card)] text-[var(--primary)] shadow-sm'
               : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]',
@@ -26,7 +26,7 @@ export function MarketplaceTabs({ active, auctionCount = 0 }: { active: Tab; auc
           <span>{tab.label}</span>
           {tab.id === 'auctions' && auctionCount > 0 && (
             <span
-              className="ml-1.5 inline-flex min-h-5 min-w-5 items-center justify-center rounded-full bg-red-500 px-1 text-[11px] font-black leading-none text-white shadow-sm"
+              className="ml-1 inline-flex min-h-[1.125rem] min-w-[1.125rem] items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-black leading-none text-white shadow-sm sm:ml-1.5 sm:min-h-5 sm:min-w-5 sm:text-[11px]"
               aria-label={`${auctionCount} aktyvus aukcionas`}
             >
               {auctionCount > 99 ? '99+' : auctionCount}

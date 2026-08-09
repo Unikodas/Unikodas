@@ -10,8 +10,6 @@ import { ListingFilters } from '@/components/ListingFilters';
 import { ListingCategoryCards } from '@/components/ListingCategoryCards';
 import { HomeInfoSections } from '@/components/HomeInfoSections';
 import { LogoLink } from '@/components/LogoLink';
-import { PlatePreview } from '@/components/PlatePreview';
-import { CommunityCTA } from '@/components/CommunityCTA';
 import { PartnerProductCard } from '@/components/PartnerProductCard';
 import { MarketplaceTabs } from '@/components/MarketplaceTabs';
 import { JsonLd } from '@/components/JsonLd';
@@ -160,124 +158,40 @@ export default async function Home({
         </nav>
       </header>
 
-      <main className="app-shell mx-auto max-w-6xl space-y-8 px-4 py-6 sm:px-6 sm:py-9">
+      <main className="app-shell mx-auto max-w-6xl px-4 py-5 sm:px-6 sm:py-8">
         <MarketplaceTabs active="listings" auctionCount={activeAuctionCount} />
-        <section className="app-card grid max-w-full gap-5 overflow-hidden p-5 sm:gap-6 sm:p-8 lg:grid-cols-[minmax(0,1fr)_24rem] lg:items-center">
-          <div className="order-1 min-w-0 lg:col-start-1">
-            <p className="max-w-full text-sm font-black uppercase text-[var(--primary)] [overflow-wrap:anywhere]">
-              {lt.tagline}
-            </p>
-            <h1 className="mt-3 max-w-full text-[clamp(2rem,9vw,3rem)] font-black leading-tight tracking-tight text-[var(--foreground)] [overflow-wrap:anywhere] sm:text-5xl">
-              {lt.home.heroTitle}
-            </h1>
-            <p className="mt-3 max-w-full text-base leading-7 text-[var(--muted-foreground)] [overflow-wrap:anywhere] sm:max-w-2xl">
-              {lt.home.heroLead}
-            </p>
-            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-              <Link href="/parduoti" className="app-button-primary flex min-h-[52px] w-full items-center justify-center px-5 py-3 text-center text-sm sm:w-auto">
-                Įdėti skelbimą
-              </Link>
-              <Link href="#paieska" className="app-button-secondary flex min-h-[52px] w-full items-center justify-center px-5 py-3 text-center text-sm sm:w-auto">
-                Ieškoti numerio
-              </Link>
+        <section className="border-b border-[var(--border)] pb-7 pt-8 sm:pb-9 sm:pt-12">
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+            <div className="max-w-3xl">
+              <p className="text-xs font-bold uppercase tracking-[0.16em] text-[var(--muted-soft)]">
+                {lt.tagline}
+              </p>
+              <h1 className="mt-3 text-[clamp(2.25rem,7vw,4.5rem)] font-black leading-[0.98] tracking-[-0.045em] text-[var(--foreground)]">
+                Parduodami automobilių numeriai
+              </h1>
+              <p className="mt-4 max-w-2xl text-base leading-7 text-[var(--muted-foreground)] sm:text-lg">
+                Raskite norimą derinį arba įkelkite savo skelbimą. Susisiekimas su pardavėju – tiesiogiai per Unikodas.
+              </p>
             </div>
-          </div>
-
-          <div className="order-2 flex min-w-0 justify-center overflow-hidden rounded-[1.5rem] bg-[linear-gradient(145deg,color-mix(in_srgb,var(--primary)_18%,var(--muted)),var(--background))] p-3 sm:justify-end sm:rounded-[2rem] sm:p-5 lg:col-start-2 lg:row-span-2">
-            <PlatePreview
-              plateText="UN1K0D"
-              plateType="personalized"
-              flagType="eu_symbol"
-              size="lg"
-              className="plate-preview--hero"
-            />
-          </div>
-
-          <div className="order-3 min-w-0 lg:col-start-1">
-            <CommunityCTA placement="hero" className="mt-1 sm:mt-5" variant="embedded" />
-            <aside className="mt-3 rounded-2xl border border-[var(--border)] bg-[color:color-mix(in_srgb,var(--primary)_8%,var(--muted))] p-4 sm:mt-4 sm:rounded-3xl">
-              <p className="text-sm font-black text-[var(--foreground)]">
-                {lt.home.complianceTitle}
-              </p>
-              <p className="mt-1 text-sm leading-6 text-[var(--muted-foreground)]">
-                {lt.home.complianceLead}
-              </p>
-            </aside>
-            <Link
-              href="/numerio-analize"
-              className="mt-3 block rounded-2xl border border-[var(--border)] bg-[var(--muted)] p-4 transition hover:border-[var(--primary)] sm:mt-4 sm:rounded-3xl"
-            >
-              <span className="block text-base font-black text-[var(--foreground)] sm:text-lg">
-                Patikrinkite savo numerį
-              </span>
-              <span className="mt-1 block text-sm leading-6 text-[var(--muted-foreground)]">
-                Sužinokite, ar numeris turi paslėptą reikšmę, vardą ar automobilių asociaciją.
-              </span>
-              <span className="mt-2 inline-flex text-sm font-black text-[var(--primary)] sm:mt-3">
-                Analizuoti numerį
-              </span>
-            </Link>
-            <Link
-              href="/idomiausi-numeriai"
-              className="mt-3 block rounded-2xl border border-[var(--border)] bg-[var(--muted)] p-4 transition hover:border-[var(--primary)] sm:rounded-3xl"
-            >
-              <span className="block text-base font-black text-[var(--foreground)] sm:text-lg">
-                Atraskite įdomiausius numerius
-              </span>
-              <span className="mt-1 block text-sm leading-6 text-[var(--muted-foreground)]">
-                Peržiūrėkite skelbimus, kuriuos Unikodas įžvalgos įvertino kaip stipriausius.
-              </span>
-              <span className="mt-2 inline-flex text-sm font-black text-[var(--primary)] sm:mt-3">
-                Žiūrėti reitingą
-              </span>
+            <Link href="/parduoti" className="app-button-primary inline-flex min-h-12 w-full shrink-0 items-center justify-center px-5 py-3 text-sm sm:w-auto">
+              Įdėti skelbimą
             </Link>
           </div>
         </section>
 
-        <PartnerProductCard className="max-w-3xl" />
-
-        <ListingCategoryCards current={filters} />
-
-        {interestingListings.length > 0 && (
-          <section className="space-y-4" aria-labelledby="interesting-listings-title">
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-              <div>
-                <h2 id="interesting-listings-title" className="text-2xl font-black text-[var(--foreground)]">
-                  Įdomiausi numeriai
-                </h2>
-                <p className="mt-1 max-w-2xl text-sm leading-6 text-[var(--muted-foreground)]">
-                  Automatiškai atrinkti deriniai pagal raštus, paslėptas reikšmes ir automobilių asociacijas.
-                </p>
-              </div>
-              <Link href="/idomiausi-numeriai" className="app-button-secondary min-h-11 px-4 py-2 text-sm">
-                Visi įdomiausi
-              </Link>
-            </div>
-
-            <div className="grid auto-rows-fr grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {interestingListings.map((listing) => (
-                <ListingCard
-                  key={listing.id}
-                  listing={listing}
-                  insight={listing.insight}
-                  isSignedIn={isSignedIn}
-                />
-              ))}
-            </div>
-          </section>
-        )}
-
-        <section id="paieska" className="scroll-mb-36 scroll-mt-24">
+        <section id="paieska" className="scroll-mb-36 scroll-mt-24 py-6 sm:py-8">
           <ListingFilters current={filters} />
         </section>
 
-        <section className="space-y-4" aria-labelledby="listings-title">
+        <ListingCategoryCards current={filters} />
+
+        <section className="mt-8 space-y-4 sm:mt-10" aria-labelledby="listings-title">
           <div className="flex items-end justify-between gap-3">
             <div>
               <h2 id="listings-title" className="text-2xl font-black text-[var(--foreground)]">
                 {lt.home.listingsTitle}
               </h2>
-              <p className="mt-1 text-sm text-[var(--muted-foreground)]">{lt.home.listingsLead}</p>
+              <p className="mt-1 text-sm text-[var(--muted-foreground)]">Aktyvūs pardavėjų skelbimai, naujausi rodomi pirmiausia.</p>
             </div>
             <span className="shrink-0 rounded-full border border-[var(--border)] bg-[var(--card)] px-3 py-1 text-xs font-bold text-[var(--primary)]">
               {listings.length}
@@ -287,7 +201,9 @@ export default async function Home({
           {listings.length === 0 ? (
             <div className="app-card space-y-5 border-dashed px-4 py-8 text-center sm:px-6">
               <p className="text-sm text-[var(--muted-foreground)]">{lt.listings.empty}</p>
-              <CommunityCTA placement="empty_search" className="text-left" variant="embedded" />
+              <Link href="/parduoti" className="app-button-primary inline-flex min-h-11 items-center px-5 py-2 text-sm">
+                Įdėti pirmą skelbimą
+              </Link>
             </div>
           ) : (
             <div
@@ -304,6 +220,46 @@ export default async function Home({
               </div>
             </div>
           )}
+        </section>
+
+        {interestingListings.length > 0 && (
+          <section className="mt-14 border-t border-[var(--border)] pt-9" aria-labelledby="interesting-listings-title">
+            <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.14em] text-[var(--muted-soft)]">Atrinkta</p>
+                <h2 id="interesting-listings-title" className="mt-1 text-2xl font-black text-[var(--foreground)]">Įdomesni deriniai</h2>
+              </div>
+              <Link href="/idomiausi-numeriai" className="text-sm font-bold text-[var(--primary)] hover:underline">Peržiūrėti visus</Link>
+            </div>
+            <div className="grid auto-rows-fr grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {interestingListings.slice(0, 4).map((listing) => (
+                <ListingCard key={listing.id} listing={listing} insight={listing.insight} isSignedIn={isSignedIn} />
+              ))}
+            </div>
+          </section>
+        )}
+
+        <section className="mt-14 grid border-y border-[var(--border)] py-2 sm:grid-cols-3" aria-label="Papildomos Unikodas funkcijos">
+          <Link href="/numerio-analize" className="group border-b border-[var(--border)] py-5 sm:border-b-0 sm:border-r sm:px-5 sm:first:pl-0">
+            <span className="block font-bold text-[var(--foreground)] group-hover:text-[var(--primary)]">Numerio analizė</span>
+            <span className="mt-1 block text-sm leading-6 text-[var(--muted-foreground)]">Patikrinkite derinio reikšmę ir asociacijas.</span>
+          </Link>
+          <Link href="/ieskau" className="group border-b border-[var(--border)] py-5 sm:border-b-0 sm:border-r sm:px-5">
+            <span className="block font-bold text-[var(--foreground)] group-hover:text-[var(--primary)]">Ieškomi numeriai</span>
+            <span className="mt-1 block text-sm leading-6 text-[var(--muted-foreground)]">Paskelbkite, kokio derinio ieškote.</span>
+          </Link>
+          <a href="https://t.me/+xweru-k3heRlMjY0" target="_blank" rel="noopener noreferrer" className="group py-5 sm:pl-5">
+            <span className="block font-bold text-[var(--foreground)] group-hover:text-[var(--primary)]">Telegram bendruomenė</span>
+            <span className="mt-1 block text-sm leading-6 text-[var(--muted-foreground)]">Nauji skelbimai ir numerių entuziastų diskusijos.</span>
+          </a>
+        </section>
+
+        <section className="mt-8 grid gap-6 border-b border-[var(--border)] pb-10 lg:grid-cols-[minmax(0,1fr)_28rem] lg:items-start">
+          <div className="text-sm leading-6 text-[var(--muted-foreground)]">
+            <p className="font-bold text-[var(--foreground)]">{lt.home.complianceTitle}</p>
+            <p>{lt.home.complianceLead}</p>
+          </div>
+          <PartnerProductCard />
         </section>
 
         <HomeInfoSections />
