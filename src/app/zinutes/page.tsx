@@ -195,7 +195,7 @@ async function SignedInInbox({
       </div>
 
       {conversations.length === 0 ? (
-        <div className="rounded-3xl border border-dashed border-[var(--border-strong)] bg-[var(--card)] px-4 py-12 text-center">
+        <div className="rounded-xl border border-dashed border-[var(--border-strong)] bg-[var(--card)] px-4 py-12 text-center">
           <p className="text-sm text-[var(--muted-foreground)]">{lt.messages.empty}</p>
         </div>
       ) : (
@@ -306,11 +306,11 @@ function ConversationView({
 
   return (
     <div className="flex min-h-[70vh] flex-col">
-      <div className="sticky top-[3.75rem] z-10 border-b border-[var(--border)] bg-[color:color-mix(in_srgb,var(--card)_94%,transparent)] px-4 py-3 backdrop-blur lg:top-0">
+      <div className="sticky top-[3.75rem] z-10 border-b border-[var(--border)] bg-[var(--card)] px-4 py-3 lg:top-0">
         <div className="flex items-center gap-3">
           <Link
             href="/zinutes"
-            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--border)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] lg:hidden"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-[var(--border)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] lg:hidden"
             aria-label={lt.common.back}
           >
             <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
@@ -337,7 +337,7 @@ function ConversationView({
         <div className="border-b border-[var(--border)] px-4 py-3">
           <Link
             href={contextHref}
-            className="flex items-center justify-between gap-3 rounded-3xl bg-[var(--muted)] p-3 text-sm font-bold text-[var(--foreground)] hover:bg-[var(--surface-soft)]"
+            className="flex items-center justify-between gap-3 rounded-lg bg-[var(--muted)] p-3 text-sm font-bold text-[var(--foreground)] hover:bg-[var(--surface-soft)]"
           >
             <span>
               {conversation.listingId ? lt.messages.viewListing : lt.messages.viewWanted}
@@ -357,7 +357,7 @@ function ConversationView({
             >
               <div
                 className={[
-                  'max-w-[82%] rounded-3xl px-4 py-3 text-sm shadow-sm',
+                  'max-w-[82%] rounded-xl px-4 py-3 text-sm',
                   isSent
                     ? 'rounded-br-lg bg-[var(--primary)] text-[var(--primary-foreground)]'
                     : 'rounded-bl-lg border border-[var(--border)] bg-[var(--muted)] text-[var(--foreground)]',
@@ -379,7 +379,7 @@ function ConversationView({
         })}
       </div>
 
-      <div className="sticky bottom-[calc(5.5rem+env(safe-area-inset-bottom))] border-t border-[var(--border)] bg-[color:color-mix(in_srgb,var(--card)_95%,transparent)] p-3 backdrop-blur sm:bottom-0">
+      <div className="sticky bottom-[calc(5.5rem+env(safe-area-inset-bottom))] border-t border-[var(--border)] bg-[var(--card)] p-3 sm:bottom-0">
         <ConversationComposer threadKey={conversation.key} />
       </div>
     </div>

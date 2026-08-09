@@ -41,14 +41,14 @@ export function ListingCard({
   const loginHref = `/prisijungti?redirect=${encodeURIComponent(`/skelbimas/${listing.id}`)}`;
 
   return (
-    <article className="group app-card relative flex h-full min-h-[21rem] flex-col overflow-hidden [contain-intrinsic-size:21rem] [content-visibility:auto] transition hover:-translate-y-0.5 hover:border-[var(--border-strong)] sm:min-h-[24rem] sm:[contain-intrinsic-size:24rem]">
-      <div className="absolute right-4 top-4 z-10">
+    <article className="group app-card relative flex h-full min-h-[19rem] flex-col overflow-hidden [contain-intrinsic-size:19rem] [content-visibility:auto] transition-colors hover:border-[var(--border-strong)] sm:min-h-[21rem] sm:[contain-intrinsic-size:21rem]">
+      <div className="absolute right-3 top-3 z-10">
         {isSignedIn ? (
           <button
             type="button"
             disabled
             aria-label="Išsaugoti"
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-black/25 text-lg text-white/80 opacity-90 backdrop-blur sm:text-xl"
+            className="flex h-9 w-9 items-center justify-center rounded-lg border border-[var(--border)] bg-white text-lg text-slate-600 sm:text-xl"
             title="Išsaugojimo funkcija ruošiama"
           >
             ♡
@@ -57,7 +57,7 @@ export function ListingCard({
           <Link
             href={loginHref}
             aria-label="Prisijunkite, kad išsaugotumėte"
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-black/25 text-lg text-white backdrop-blur transition hover:border-[var(--primary)] hover:text-[var(--primary)] sm:text-xl"
+            className="flex h-9 w-9 items-center justify-center rounded-lg border border-[var(--border)] bg-white text-lg text-slate-600 transition hover:border-[var(--primary)] hover:text-[var(--primary)] sm:text-xl"
           >
             ♡
           </Link>
@@ -65,7 +65,7 @@ export function ListingCard({
       </div>
 
       <Link href={`/skelbimas/${listing.id}`} className="flex flex-1 flex-col">
-        <div className="flex min-h-36 items-center justify-center bg-[linear-gradient(145deg,color-mix(in_srgb,var(--primary)_18%,var(--muted)),var(--background))] px-4 py-6 sm:min-h-48 sm:py-8">
+        <div className="flex min-h-36 items-center justify-center border-b border-[var(--border)] bg-[var(--muted)] px-4 py-6 sm:min-h-44 sm:py-7">
           <PlatePreview
             plateText={listing.plate_text}
             plateType={listing.plate_type}
@@ -74,31 +74,31 @@ export function ListingCard({
           />
         </div>
 
-        <div className="flex flex-1 flex-col p-4 sm:p-5">
+        <div className="flex flex-1 flex-col p-4">
           <div className="flex items-start justify-between gap-3">
             <div>
-              <div className="text-2xl font-black tracking-tight text-[var(--primary)] sm:text-3xl">
+              <div className="text-2xl font-bold tracking-tight text-[var(--foreground)] sm:text-[1.7rem]">
                 {formatPrice(listing.price_eur)}
               </div>
-              <div className="mt-1 text-sm font-bold text-[var(--foreground)] sm:text-base">{listing.city}</div>
+              <div className="mt-1 text-sm font-medium text-[var(--muted-foreground)]">{listing.city}</div>
             </div>
 
             <div className="flex shrink-0 flex-col items-end gap-2">
               {listing.partner_tier === 'nightrider' && (
-                <span className="inline-flex items-center gap-1 rounded-full border border-fuchsia-300/50 bg-[linear-gradient(110deg,rgba(168,85,247,.22),rgba(34,211,238,.20),rgba(250,204,21,.18))] px-2.5 py-1 text-[0.68rem] font-black tracking-wide text-[var(--foreground)] shadow-[0_0_18px_rgba(168,85,247,.16)]">
+                <span className="inline-flex items-center gap-1 rounded-md border border-fuchsia-200 bg-fuchsia-50 px-2 py-1 text-[0.65rem] font-bold tracking-wide text-fuchsia-800">
                   <span aria-hidden="true">✦</span> NIGHTRIDERS
                 </span>
               )}
               {insight?.label && (
                 <span
-                  className="inline-flex items-center rounded-full border border-[var(--primary)]/30 bg-[color:color-mix(in_srgb,var(--primary)_12%,transparent)] px-2 py-0.5 text-xs font-black text-[var(--primary)]"
+                  className="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-semibold text-[var(--primary)]"
                   title={`Unikodas įžvalgos: ${insight.score}/100`}
                 >
                   {insight.label}
                 </span>
               )}
               {listing.is_verified_listing && (
-                <span className="inline-flex items-center rounded-full border border-emerald-400/30 bg-emerald-400/10 px-2 py-0.5 text-xs font-bold text-emerald-300">
+                <span className="inline-flex items-center rounded-md bg-emerald-50 px-2 py-1 text-xs font-semibold text-emerald-700">
                   {lt.listings.verifiedBadge}
                 </span>
               )}
@@ -109,20 +109,9 @@ export function ListingCard({
             {listing.description ? truncate(listing.description, 88) : `${typeLabel} · ${flagLabel}`}
           </p>
 
-          <dl className="mt-auto grid grid-cols-2 gap-2 pt-4 text-xs sm:gap-3 sm:pt-5 sm:text-sm">
-            <div className="rounded-2xl bg-[var(--muted)] p-2.5 sm:p-3">
-              <dt className="text-xs font-bold uppercase text-[var(--muted-soft)]">
-                {lt.listings.plateType}
-              </dt>
-              <dd className="mt-1 font-bold text-[var(--foreground)]">{typeLabel}</dd>
-            </div>
-            <div className="rounded-2xl bg-[var(--muted)] p-2.5 sm:p-3">
-              <dt className="text-xs font-bold uppercase text-[var(--muted-soft)]">
-                {lt.listings.flagType}
-              </dt>
-              <dd className="mt-1 font-bold text-[var(--foreground)]">{flagLabel}</dd>
-            </div>
-          </dl>
+          <p className="mt-auto border-t border-[var(--border)] pt-3 text-xs font-medium text-[var(--muted-soft)] sm:text-sm">
+            {typeLabel} <span aria-hidden="true">·</span> {flagLabel}
+          </p>
         </div>
       </Link>
     </article>

@@ -140,7 +140,7 @@ export default async function ListingDetailPage({
 
       <main className="app-shell app-shell--detail mx-auto max-w-3xl space-y-5 px-4 py-5 sm:px-6">
         <article className="app-card overflow-hidden">
-          <div className="flex min-h-64 items-center justify-center bg-[linear-gradient(145deg,color-mix(in_srgb,var(--primary)_20%,var(--muted)),var(--background))] px-4 py-10">
+          <div className="flex min-h-56 items-center justify-center border-b border-[var(--border)] bg-[var(--muted)] px-4 py-9 sm:min-h-64">
             <PlatePreview
               plateText={listing.plate_text}
               plateType={listing.plate_type}
@@ -152,12 +152,12 @@ export default async function ListingDetailPage({
 
           <div className="space-y-5 p-5 sm:p-6">
             <div>
-              <p className="text-sm font-black uppercase text-[var(--primary)]">{typeLabel}</p>
-              <h1 className="mt-1 text-4xl font-black tracking-tight text-[var(--foreground)]">
+              <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--muted-soft)]">{typeLabel}</p>
+              <h1 className="mt-1 text-3xl font-bold tracking-tight text-[var(--foreground)] sm:text-4xl">
                 {listing.plate_text}
               </h1>
               <div className="mt-4 flex flex-wrap items-end gap-x-4 gap-y-2">
-                <div className="text-4xl font-black text-[var(--primary)]">
+                <div className="text-3xl font-bold text-[var(--foreground)] sm:text-4xl">
                   {formatPrice(listing.price_eur)}
                 </div>
                 <div className="pb-1 text-base font-bold text-[var(--muted-foreground)]">
@@ -166,7 +166,7 @@ export default async function ListingDetailPage({
               </div>
               <div className="mt-3 flex flex-wrap items-center gap-2">
                 {listing.partner_tier === 'nightrider' && (
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-fuchsia-300/50 bg-[linear-gradient(110deg,rgba(168,85,247,.22),rgba(34,211,238,.20),rgba(250,204,21,.18))] px-3 py-1 text-xs font-black tracking-wide text-[var(--foreground)] shadow-[0_0_20px_rgba(168,85,247,.18)]">
+                  <span className="inline-flex items-center gap-1.5 rounded-md border border-fuchsia-200 bg-fuchsia-50 px-2.5 py-1 text-xs font-bold tracking-wide text-fuchsia-800">
                     <span aria-hidden="true">✦</span> NIGHTRIDERS
                   </span>
                 )}
@@ -174,7 +174,7 @@ export default async function ListingDetailPage({
                   {formatDate(listing.created_at)}
                 </span>
                 {listing.is_verified_listing && (
-                  <span className="rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1 text-xs font-bold text-emerald-300">
+                  <span className="rounded-md bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-700">
                     {lt.listings.verifiedBadge}
                   </span>
                 )}
@@ -229,19 +229,19 @@ export default async function ListingDetailPage({
         <section className="app-card p-5 sm:p-6">
           <h2 className="mb-4 text-lg font-black text-[var(--foreground)]">Informacija</h2>
           <dl className="grid grid-cols-2 gap-3 text-sm sm:grid-cols-3">
-            <div className="rounded-2xl bg-[var(--muted)] p-3">
+            <div className="rounded-lg bg-[var(--muted)] p-3">
               <dt className="text-xs font-bold uppercase text-[var(--muted-soft)]">
                 {lt.listings.plateType}
               </dt>
               <dd className="mt-1 font-bold text-[var(--foreground)]">{typeLabel}</dd>
             </div>
-            <div className="rounded-2xl bg-[var(--muted)] p-3">
+            <div className="rounded-lg bg-[var(--muted)] p-3">
               <dt className="text-xs font-bold uppercase text-[var(--muted-soft)]">
                 {lt.listings.flagType}
               </dt>
               <dd className="mt-1 font-bold text-[var(--foreground)]">{flagLabel}</dd>
             </div>
-            <div className="rounded-2xl bg-[var(--muted)] p-3">
+            <div className="rounded-lg bg-[var(--muted)] p-3">
               <dt className="text-xs font-bold uppercase text-[var(--muted-soft)]">
                 {lt.listings.city}
               </dt>

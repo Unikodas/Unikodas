@@ -232,11 +232,11 @@ export default function SignInPage() {
   return (
     <main className="app-shell flex min-h-screen items-center justify-center p-6">
       <div className="app-card w-full max-w-sm p-6 text-[var(--foreground)]">
-        <h1 className="mb-1 text-2xl font-black">{lt.nav.login}</h1>
+        <h1 className="mb-1 text-2xl font-bold">{lt.nav.login}</h1>
         <p className="mb-4 text-sm text-[var(--muted-foreground)]">{lt.appName}</p>
 
         {/* Tab selector */}
-        <div className="mb-5 flex gap-1 rounded-2xl bg-[var(--muted)] p-1 text-sm">
+        <div className="mb-5 flex gap-1 rounded-lg bg-[var(--muted)] p-1 text-sm">
           <button
             type="button"
             onClick={() => {
@@ -285,7 +285,7 @@ export default function SignInPage() {
                 placeholder={lt.auth.phonePlaceholder}
                 value={pwPhone}
                 onChange={(e) => setPwPhone(e.target.value)}
-                className="w-full rounded-2xl border border-[var(--border-strong)] bg-[var(--input)] px-3 py-3 text-[var(--foreground)] placeholder:text-[var(--muted-soft)] focus:outline-none focus:ring-2 focus:ring-[var(--ring)] disabled:bg-[var(--muted)] disabled:text-[var(--muted-foreground)]"
+                className="w-full rounded-lg border border-[var(--border-strong)] bg-[var(--input)] px-3 py-3 text-[var(--foreground)] placeholder:text-[var(--muted-soft)] focus:outline-none focus:ring-2 focus:ring-[var(--ring)] disabled:bg-[var(--muted)] disabled:text-[var(--muted-foreground)]"
                 disabled={submitting}
                 required
               />
@@ -301,7 +301,7 @@ export default function SignInPage() {
                 autoComplete="current-password"
                 value={pwPassword}
                 onChange={(e) => setPwPassword(e.target.value)}
-                className="w-full rounded-2xl border border-[var(--border-strong)] bg-[var(--input)] px-3 py-3 text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--ring)] disabled:bg-[var(--muted)] disabled:text-[var(--muted-foreground)]"
+                className="w-full rounded-lg border border-[var(--border-strong)] bg-[var(--input)] px-3 py-3 text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--ring)] disabled:bg-[var(--muted)] disabled:text-[var(--muted-foreground)]"
                 disabled={submitting}
                 required
               />
@@ -326,7 +326,7 @@ export default function SignInPage() {
             <button
               type="submit"
               disabled={submitting || !captchaToken}
-              className="w-full rounded-2xl bg-[var(--primary)] py-3 font-bold text-[var(--primary-foreground)] hover:bg-[var(--primary-hover)] disabled:opacity-60"
+              className="w-full rounded-lg bg-[var(--primary)] py-3 font-bold text-[var(--primary-foreground)] hover:bg-[var(--primary-hover)] disabled:opacity-60"
             >
               {submitting
                 ? lt.common.loading
@@ -361,7 +361,7 @@ export default function SignInPage() {
                 placeholder={lt.auth.phonePlaceholder}
                 value={otpPhone}
                 onChange={(e) => setOtpPhone(e.target.value)}
-                className="w-full rounded-2xl border border-[var(--border-strong)] bg-[var(--input)] px-3 py-3 text-[var(--foreground)] placeholder:text-[var(--muted-soft)] focus:outline-none focus:ring-2 focus:ring-[var(--ring)] disabled:bg-[var(--muted)] disabled:text-[var(--muted-foreground)]"
+                className="w-full rounded-lg border border-[var(--border-strong)] bg-[var(--input)] px-3 py-3 text-[var(--foreground)] placeholder:text-[var(--muted-soft)] focus:outline-none focus:ring-2 focus:ring-[var(--ring)] disabled:bg-[var(--muted)] disabled:text-[var(--muted-foreground)]"
                 disabled={submitting}
                 required
               />
@@ -391,7 +391,7 @@ export default function SignInPage() {
             <button
               type="submit"
               disabled={submitting || !captchaToken}
-              className="w-full rounded-2xl bg-[var(--primary)] py-3 font-bold text-[var(--primary-foreground)] hover:bg-[var(--primary-hover)] disabled:opacity-60"
+              className="w-full rounded-lg bg-[var(--primary)] py-3 font-bold text-[var(--primary-foreground)] hover:bg-[var(--primary-hover)] disabled:opacity-60"
             >
               {submitting
                 ? lt.common.loading
@@ -405,12 +405,12 @@ export default function SignInPage() {
         {/* OTP tab — code step */}
         {tab === 'otp' && otpStep === 'code' && (
           <form onSubmit={handleOtpVerify} className="space-y-4">
-            <div className="rounded-2xl bg-[var(--muted)] p-3 text-sm">
+            <div className="rounded-lg bg-[var(--muted)] p-3 text-sm">
               <p className="text-[var(--muted-foreground)]">{lt.auth.codeSent}</p>
               <p className="mt-0.5 font-bold">{otpPhone}</p>
             </div>
             {devOtpCode && (
-              <div className="rounded-2xl border border-emerald-500/40 bg-emerald-500/10 p-3 text-sm">
+              <div className="rounded-lg border border-emerald-300 bg-emerald-50 p-3 text-sm">
                 <p className="font-semibold text-emerald-400">Lokalus testavimo kodas</p>
                 <button
                   type="button"
@@ -439,7 +439,7 @@ export default function SignInPage() {
                 placeholder={lt.auth.codePlaceholder}
                 value={otpCode}
                 onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, ''))}
-                className="w-full rounded-2xl border border-[var(--border-strong)] bg-[var(--input)] px-3 py-3 text-center text-lg tracking-[0.5em] text-[var(--foreground)] placeholder:text-[var(--muted-soft)] focus:outline-none focus:ring-2 focus:ring-[var(--ring)] disabled:bg-[var(--muted)] disabled:text-[var(--muted-foreground)]"
+                className="w-full rounded-lg border border-[var(--border-strong)] bg-[var(--input)] px-3 py-3 text-center text-lg tracking-[0.5em] text-[var(--foreground)] placeholder:text-[var(--muted-soft)] focus:outline-none focus:ring-2 focus:ring-[var(--ring)] disabled:bg-[var(--muted)] disabled:text-[var(--muted-foreground)]"
                 disabled={submitting}
                 required
               />
@@ -454,7 +454,7 @@ export default function SignInPage() {
             <button
               type="submit"
               disabled={submitting}
-              className="w-full rounded-2xl bg-[var(--primary)] py-3 font-bold text-[var(--primary-foreground)] hover:bg-[var(--primary-hover)] disabled:opacity-60"
+              className="w-full rounded-lg bg-[var(--primary)] py-3 font-bold text-[var(--primary-foreground)] hover:bg-[var(--primary-hover)] disabled:opacity-60"
             >
               {submitting ? lt.common.loading : lt.auth.verify}
             </button>

@@ -14,7 +14,7 @@ type MenuRowProps = {
 
 function RowIcon() {
   return (
-    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-[var(--muted)] text-[var(--primary)]">
+    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[var(--muted)] text-[var(--primary)]">
       <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.3" aria-hidden="true">
         <path d="m9 18 6-6-6-6" />
       </svg>
@@ -37,7 +37,7 @@ function ProfileMenuRow({ label, href, badge }: MenuRowProps) {
 
   if (!href) {
     return (
-      <div className="flex items-center gap-3 rounded-3xl border border-[var(--border)] bg-[var(--card)] p-3 opacity-80">
+      <div className="flex items-center gap-3 rounded-lg border border-[var(--border)] bg-[var(--card)] p-3 opacity-80">
         {content}
       </div>
     );
@@ -46,7 +46,7 @@ function ProfileMenuRow({ label, href, badge }: MenuRowProps) {
   return (
     <Link
       href={href}
-      className="flex items-center gap-3 rounded-3xl border border-[var(--border)] bg-[var(--card)] p-3 transition hover:border-[var(--border-strong)] hover:bg-[var(--muted)]"
+      className="flex items-center gap-3 rounded-lg border border-[var(--border)] bg-[var(--card)] p-3 transition-colors hover:border-[var(--border-strong)] hover:bg-[var(--muted)]"
     >
       {content}
     </Link>
@@ -80,7 +80,7 @@ export default async function ProfilePage() {
       <main className="app-shell mx-auto min-h-screen max-w-2xl space-y-5 px-4 py-5 sm:px-6">
         <section className="app-card p-5">
           <div className="flex items-center gap-4">
-            <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-[1.35rem] bg-[linear-gradient(145deg,var(--primary),#0f3f9f)] text-2xl font-black text-white shadow-[0_18px_42px_rgba(47,125,246,0.34)]">
+            <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl bg-[var(--primary)] text-2xl font-bold text-white">
               {(profile?.display_name ?? 'U').slice(0, 1).toUpperCase()}
             </div>
             <div className="min-w-0">
@@ -88,7 +88,7 @@ export default async function ProfilePage() {
                 {profile?.display_name ?? 'Unikodas vartotojas'}
               </h1>
               <div className="mt-1 flex flex-wrap items-center gap-2">
-                <span className="rounded-full border border-emerald-400/30 bg-emerald-400/10 px-2 py-0.5 text-xs font-bold text-emerald-300">
+                <span className="rounded-md bg-emerald-50 px-2 py-1 text-xs font-semibold text-emerald-700">
                   Patvirtinta SMS
                 </span>
                 <span className="text-xs font-semibold text-[var(--muted-soft)]">
@@ -100,7 +100,7 @@ export default async function ProfilePage() {
             </div>
           </div>
 
-          <dl className="mt-5 rounded-3xl bg-[var(--muted)] p-4">
+          <dl className="mt-5 rounded-lg bg-[var(--muted)] p-4">
             <dt className="text-xs font-bold uppercase text-[var(--muted-soft)]">
               {lt.auth.phoneLabel}
             </dt>

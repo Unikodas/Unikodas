@@ -46,19 +46,19 @@ export default async function AuctionsPage() {
       </header>
       <main className="app-shell mx-auto min-h-screen max-w-6xl space-y-7 px-4 py-6 sm:px-6 sm:py-9">
         <MarketplaceTabs active="auctions" />
-        <section className="app-card overflow-hidden p-5 sm:p-8">
+        <section className="border-b border-[var(--border)] pb-7 pt-2 sm:pb-9 sm:pt-4">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="rounded-full bg-amber-400 px-3 py-1 text-xs font-black text-slate-950">BETA</span>
-            <p className="text-sm font-black uppercase text-[var(--primary)]">Patikrinti numeriai · automatinis statymas</p>
+            <span className="rounded-md bg-amber-100 px-2 py-1 text-xs font-semibold text-amber-900">BETA</span>
+            <p className="text-xs font-semibold uppercase tracking-[0.1em] text-[var(--muted-soft)]">Patikrinti numeriai · automatinis statymas</p>
           </div>
-          <h1 className="mt-2 text-3xl font-black tracking-tight text-[var(--foreground)] sm:text-5xl">Numerių aukcionai</h1>
+          <h1 className="mt-3 text-3xl font-bold tracking-tight text-[var(--foreground)] sm:text-5xl">Numerių aukcionai</h1>
           <p className="mt-3 max-w-2xl leading-7 text-[var(--muted-foreground)]">Įrašykite didžiausią sumą, kurią sutinkate mokėti. Sistema statys už jus tik tiek, kiek reikia pirmavimui. Jūsų maksimali suma lieka slapta.</p>
-          <p className="mt-3 max-w-2xl rounded-2xl border border-[var(--border)] bg-[var(--muted)] p-3 text-sm leading-6 text-[var(--muted-foreground)]">Dalyvavimas konkrečiame aukcione kainuoja vienkartinį €2 mokestį. Sumokėjus tame aukcione galima statyti neribotai. Reikalingas patvirtintas telefono numeris, patvirtintas el. paštas ir įjungti aukcionų pranešimai.</p>
-          <div className="mt-5 grid gap-3 text-sm sm:grid-cols-3">
-            <div className="app-card-soft p-4"><strong className="block text-[var(--foreground)]">1. Pasirinkite maksimumą</strong><span className="text-[var(--muted-foreground)]">Kiti dalyviai jo nematys.</span></div>
-            <div className="app-card-soft p-4"><strong className="block text-[var(--foreground)]">2. Sistema varžosi už jus</strong><span className="text-[var(--muted-foreground)]">Kaina kyla nustatytais žingsniais.</span></div>
-            <div className="app-card-soft p-4"><strong className="block text-[var(--foreground)]">3. Laimėtojas susisiekia</strong><span className="text-[var(--muted-foreground)]">Sandoris užbaigiamas po aukciono.</span></div>
-          </div>
+          <p className="mt-4 max-w-2xl rounded-lg border border-[var(--border)] bg-[var(--muted)] p-3 text-sm leading-6 text-[var(--muted-foreground)]">Dalyvavimas konkrečiame aukcione kainuoja vienkartinį €2 mokestį. Sumokėjus tame aukcione galima statyti neribotai. Reikalingas patvirtintas telefono numeris, patvirtintas el. paštas ir įjungti aukcionų pranešimai.</p>
+          <ol className="mt-5 grid border-y border-[var(--border)] text-sm sm:grid-cols-3">
+            <li className="border-b border-[var(--border)] py-4 sm:border-b-0 sm:border-r sm:pr-4"><strong className="block text-[var(--foreground)]">1. Pasirinkite maksimumą</strong><span className="text-[var(--muted-foreground)]">Kiti dalyviai jo nematys.</span></li>
+            <li className="border-b border-[var(--border)] py-4 sm:border-b-0 sm:border-r sm:px-4"><strong className="block text-[var(--foreground)]">2. Sistema varžosi už jus</strong><span className="text-[var(--muted-foreground)]">Kaina kyla nustatytais žingsniais.</span></li>
+            <li className="py-4 sm:pl-4"><strong className="block text-[var(--foreground)]">3. Laimėtojas susisiekia</strong><span className="text-[var(--muted-foreground)]">Sandoris užbaigiamas po aukciono.</span></li>
+          </ol>
         </section>
 
         {live.length > 0 ? (

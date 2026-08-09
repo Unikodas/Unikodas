@@ -134,7 +134,7 @@ export default async function Home({
             </Link>
             <Link
               href={isSignedIn ? '/zinutes' : '/prisijungti?redirect=%2Fzinutes'}
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--border)] bg-[color:color-mix(in_srgb,var(--card)_76%,transparent)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] sm:hidden"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-[var(--border)] bg-[var(--card)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] sm:hidden"
               aria-label={lt.nav.messages}
             >
               <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
@@ -145,7 +145,7 @@ export default async function Home({
             </Link>
             <Link
               href={isSignedIn ? '/profilis' : '/prisijungti'}
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--border)] bg-[color:color-mix(in_srgb,var(--card)_76%,transparent)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] sm:h-auto sm:w-auto sm:border-0 sm:bg-transparent"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-[var(--border)] bg-[var(--card)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] sm:h-auto sm:w-auto sm:border-0 sm:bg-transparent"
               aria-label={isSignedIn ? lt.nav.profile : lt.nav.login}
             >
               <span className="hidden sm:inline">{isSignedIn ? lt.nav.profile : lt.nav.login}</span>
@@ -160,13 +160,13 @@ export default async function Home({
 
       <main className="app-shell mx-auto max-w-6xl px-4 py-5 sm:px-6 sm:py-8">
         <MarketplaceTabs active="listings" auctionCount={activeAuctionCount} />
-        <section className="border-b border-[var(--border)] pb-7 pt-8 sm:pb-9 sm:pt-12">
+        <section className="border-b border-[var(--border)] pb-7 pt-7 sm:pb-9 sm:pt-11">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
-              <p className="text-xs font-bold uppercase tracking-[0.16em] text-[var(--muted-soft)]">
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--muted-soft)]">
                 {lt.tagline}
               </p>
-              <h1 className="mt-3 text-[clamp(2.25rem,7vw,4.5rem)] font-black leading-[0.98] tracking-[-0.045em] text-[var(--foreground)]">
+              <h1 className="mt-3 text-[clamp(2.15rem,6vw,3.75rem)] font-bold leading-[1.03] tracking-[-0.035em] text-[var(--foreground)]">
                 Parduodami automobilių numeriai
               </h1>
               <p className="mt-4 max-w-2xl text-base leading-7 text-[var(--muted-foreground)] sm:text-lg">
@@ -209,7 +209,7 @@ export default async function Home({
             <div
               className={
                 hasSparseListings
-                  ? 'rounded-3xl border border-[var(--border)] bg-[var(--muted)] p-3 sm:p-4'
+                  ? 'rounded-xl border border-[var(--border)] bg-[var(--muted)] p-3 sm:p-4'
                   : undefined
               }
             >

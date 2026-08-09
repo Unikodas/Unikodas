@@ -128,7 +128,7 @@ export function ListingForm({ initial, action, submitLabel, showPartnerCode = fa
           </label>
 
           {showPartnerCode && (
-            <label className="block rounded-2xl border border-violet-400/30 bg-[linear-gradient(135deg,rgba(168,85,247,0.10),rgba(34,211,238,0.08),rgba(250,204,21,0.08))] p-4">
+            <label className="block rounded-lg border border-[var(--border)] bg-[var(--muted)] p-4">
               <span className="mb-1 block text-sm font-black text-[var(--foreground)]">
                 Partnerio kodas
               </span>
@@ -244,7 +244,7 @@ export function ListingForm({ initial, action, submitLabel, showPartnerCode = fa
 
       <section className={sectionClassName}>
         <StepHeader number={4} title={lt.listings.form.steps.preview} />
-        <div className="mb-4 flex justify-center rounded-3xl bg-[var(--muted)] p-4">
+        <div className="mb-4 flex justify-center rounded-lg bg-[var(--muted)] p-4">
           <PlatePreview
             plateText={preview.plateText}
             plateType={preview.plateType}

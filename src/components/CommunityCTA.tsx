@@ -13,13 +13,6 @@ type CommunityCTAProps = {
 
 const TELEGRAM_URL = 'https://t.me/+xweru-k3heRlMjY0';
 
-const bullets = [
-  '🚀 Pirmieji pamatykite naujus numerių skelbimus',
-  '💬 Diskutuokite apie retus ir vertingus numerius',
-  '🔎 Dalinkitės ieškomais numeriais',
-  '📢 Gaukite Unikodas naujienas',
-];
-
 type GtagWindow = Window & {
   gtag?: (
     command: 'event',
@@ -77,7 +70,7 @@ export function CommunityCTA({
           <p
             id={`community-cta-${placement}`}
             className={[
-              'font-black leading-tight text-[var(--foreground)]',
+              'font-bold leading-tight text-[var(--foreground)]',
               variant === 'embedded' ? 'text-lg sm:text-xl' : 'text-xl',
             ].join(' ')}
           >
@@ -99,22 +92,11 @@ export function CommunityCTA({
         </a>
       </div>
 
-      <ul
-        className={[
-          'mt-4 gap-2 text-sm font-semibold leading-6 text-[var(--foreground)] sm:grid-cols-2',
-          variant === 'embedded' ? 'hidden sm:grid' : 'grid',
-        ].join(' ')}
-      >
-        {bullets.map((bullet) => (
-          <li key={bullet} className="rounded-2xl bg-[var(--muted)] px-3 py-2">
-            {bullet}
-          </li>
-        ))}
-      </ul>
-
-      <p className="mt-3 text-xs font-bold uppercase text-[var(--muted-soft)]">
-        Prisijungimas nemokamas.
-      </p>
+      {variant === 'standalone' && (
+        <p className="mt-3 border-t border-[var(--border)] pt-3 text-xs text-[var(--muted-soft)]">
+          Nauji skelbimai, ieškomi numeriai ir bendruomenės diskusijos.
+        </p>
+      )}
     </section>
   );
 }

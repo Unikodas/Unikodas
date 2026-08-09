@@ -18,14 +18,14 @@ export function AuctionCard({ auction }: { auction: AuctionSummary }) {
     timeZone: 'Europe/Vilnius',
   }).format(new Date(auction.starts_at));
   return (
-    <Link href={`/aukcionai/${auction.id}`} className="app-card group flex h-full flex-col overflow-hidden p-4 transition hover:border-[var(--primary)]">
-      <div className="flex min-h-40 items-center justify-center rounded-2xl bg-[var(--muted)] p-4">
+    <Link href={`/aukcionai/${auction.id}`} className="app-card group flex h-full flex-col overflow-hidden p-4 transition-colors hover:border-[var(--border-strong)]">
+      <div className="flex min-h-40 items-center justify-center rounded-lg border border-[var(--border)] bg-[var(--muted)] p-4">
         <PlatePreview plateText={auction.plate_text} plateType={auction.plate_type as PlateType} flagType={auction.flag_type as FlagType} size="md" />
       </div>
       <div className="mt-4 flex flex-1 flex-col">
         <div className="flex items-start justify-between gap-3">
-          <h2 className="font-mono text-xl font-black tracking-wider text-[var(--foreground)]">{auction.plate_text}</h2>
-          <span className="rounded-full bg-[color:color-mix(in_srgb,var(--primary)_12%,transparent)] px-2.5 py-1 text-xs font-black text-[var(--primary)]">
+          <h2 className="font-mono text-xl font-bold tracking-wider text-[var(--foreground)]">{auction.plate_text}</h2>
+          <span className="rounded-md bg-blue-50 px-2.5 py-1 text-xs font-semibold text-[var(--primary)]">
             {auction.bid_count} {auction.bid_count === 1 ? 'statymas' : 'statymų'}
           </span>
         </div>

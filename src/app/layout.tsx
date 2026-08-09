@@ -42,7 +42,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     title: SITE_NAME,
-    statusBarStyle: 'black-translucent',
+    statusBarStyle: 'default',
   },
   formatDetection: {
     telephone: false,
@@ -75,53 +75,42 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#050816',
+  themeColor: '#ffffff',
 };
+
+const footerLinks = [
+  ['Numeriai', '/'],
+  ['Apie', '/apie'],
+  ['Parduoti', '/parduoti'],
+  ['Aukcionai', '/aukcionai'],
+  ['Kaip parduoti', '/kaip-parduoti-numeri'],
+  ['Vardiniai numeriai', '/vardiniai-numeriai'],
+  ['Motociklų numeriai', '/motociklu-numeriai'],
+  ['Numerio analizė', '/numerio-analize'],
+  ['Taisyklės', '/taisykles'],
+  ['Privatumas', '/privatumas'],
+  ['Įdomiausi numeriai', '/idomiausi-numeriai'],
+] as const;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="lt" className="dark" suppressHydrationWarning>
+    <html lang="lt" suppressHydrationWarning>
       <head>
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#2563eb" />
       </head>
       <body>
         {children}
 
-        <footer className="space-y-5 border-t border-[var(--border)] px-4 pb-[calc(7rem+env(safe-area-inset-bottom))] pt-6 text-center text-sm text-[var(--muted-foreground)] sm:pb-6">
+        <footer className="space-y-5 border-t border-[var(--border)] bg-[var(--card)] px-4 pb-[calc(7rem+env(safe-area-inset-bottom))] pt-7 text-center text-sm text-[var(--muted-foreground)] sm:pb-7">
           <CommunityCTA placement="footer" />
-          <a href="/" className="mx-2 inline-flex min-h-11 items-center hover:text-[var(--text)]">
-            Numeriai
-          </a>
-          <a href="/apie" className="mx-2 inline-flex min-h-11 items-center hover:text-[var(--text)]">
-            Apie
-          </a>
-          <a href="/parduoti" className="mx-2 inline-flex min-h-11 items-center hover:text-[var(--text)]">
-            Parduoti
-          </a>
-          <a href="/aukcionai" className="mx-2 inline-flex min-h-11 items-center hover:text-[var(--text)]">
-            Aukcionai
-          </a>
-          <a href="/kaip-parduoti-numeri" className="mx-2 inline-flex min-h-11 items-center hover:text-[var(--text)]">
-            Kaip parduoti
-          </a>
-          <a href="/vardiniai-numeriai" className="mx-2 inline-flex min-h-11 items-center hover:text-[var(--text)]">
-            Vardiniai numeriai
-          </a>
-          <a href="/motociklu-numeriai" className="mx-2 inline-flex min-h-11 items-center hover:text-[var(--text)]">
-            Motociklų numeriai
-          </a>
-          <a href="/numerio-analize" className="mx-2 inline-flex min-h-11 items-center hover:text-[var(--text)]">
-            Numerio analizė
-          </a>
-          <a href="/taisykles" className="mx-2 inline-flex min-h-11 items-center hover:text-[var(--text)]">
-            Taisyklės
-          </a>
-          <a href="/privatumas" className="mx-2 inline-flex min-h-11 items-center hover:text-[var(--text)]">
-            Privatumas
-          </a>
-          <a href="/idomiausi-numeriai" className="mx-2 inline-flex min-h-11 items-center hover:text-[var(--text)]">
-            Įdomiausi numeriai
-          </a>
+          <nav className="mx-auto flex max-w-4xl flex-wrap justify-center gap-x-5 gap-y-1" aria-label="Svetainės nuorodos">
+            {footerLinks.map(([label, href]) => (
+              <a key={href} href={href} className="inline-flex min-h-9 items-center hover:text-[var(--text)]">
+                {label}
+              </a>
+            ))}
+          </nav>
+          <p className="text-xs text-[var(--muted-soft)]">© {new Date().getFullYear()} Unikodas</p>
         </footer>
         <MobileBottomNav />
         <GoogleAnalytics gaId="G-6HPX9Q9GLV" />

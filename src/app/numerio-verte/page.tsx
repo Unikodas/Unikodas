@@ -312,7 +312,7 @@ export default async function PlateValuePage() {
               </div>
             </div>
 
-            <div className="flex min-w-0 justify-center overflow-hidden rounded-[2rem] bg-[linear-gradient(145deg,color-mix(in_srgb,var(--primary)_18%,var(--muted)),var(--background))] p-5">
+            <div className="flex min-w-0 justify-center overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--muted)] p-5">
               <PlatePreview
                 plateText="VIP777"
                 plateType="personalized"
@@ -365,9 +365,9 @@ export default async function PlateValuePage() {
                 <Link
                   key={example.plate}
                   href={`/numerio-analize?plate=${encodeURIComponent(example.plate)}&auto=1`}
-                  className="app-card flex h-full flex-col overflow-hidden transition hover:-translate-y-0.5 hover:border-[var(--border-strong)]"
+                  className="app-card flex h-full flex-col overflow-hidden transition-colors hover:border-[var(--border-strong)]"
                 >
-                  <div className="flex min-h-40 items-center justify-center bg-[linear-gradient(145deg,color-mix(in_srgb,var(--primary)_18%,var(--muted)),var(--background))] px-4 py-6">
+                  <div className="flex min-h-40 items-center justify-center border-b border-[var(--border)] bg-[var(--muted)] px-4 py-6">
                     <PlatePreview
                       plateText={example.plate}
                       plateType={example.type}
@@ -470,7 +470,7 @@ export default async function PlateValuePage() {
             </h2>
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
               {myths.map((myth) => (
-                <article key={myth.title} className="rounded-3xl border border-[var(--border)] bg-[var(--muted)] p-4">
+                <article key={myth.title} className="rounded-lg border border-[var(--border)] bg-[var(--muted)] p-4">
                   <h3 className="text-base font-black text-[var(--foreground)]">{myth.title}</h3>
                   <p className="mt-2 text-sm leading-6 text-[var(--muted-foreground)]">{myth.text}</p>
                 </article>
@@ -555,7 +555,7 @@ export default async function PlateValuePage() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="rounded-3xl border border-[var(--border)] bg-[var(--muted)] p-4 transition hover:border-[var(--primary)]"
+                  className="rounded-lg border border-[var(--border)] bg-[var(--muted)] p-4 transition-colors hover:border-[var(--border-strong)]"
                 >
                   <span className="block text-base font-black text-[var(--foreground)]">
                     {item.label}

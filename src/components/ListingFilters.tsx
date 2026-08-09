@@ -32,7 +32,7 @@ export function ListingFilters({ current }: { current: Filters }) {
   const fieldClassName =
     'w-full app-search-field px-3 py-3 text-base focus:outline-none focus:ring-2 focus:ring-[var(--ring)]';
   const chipFieldClassName =
-    'h-12 w-full rounded-2xl border border-[var(--border)] bg-[color:color-mix(in_srgb,var(--input)_86%,transparent)] px-4 text-sm font-bold text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--ring)] sm:h-11 sm:rounded-full';
+    'h-12 w-full rounded-lg border border-[var(--border)] bg-[var(--input)] px-3 text-sm font-medium text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--ring)] sm:h-11';
   const labelClassName = 'block min-w-0 text-sm';
   const labelTextClassName = 'mb-1 block text-xs font-bold uppercase text-[var(--muted-soft)]';
   const optionClassName = 'bg-[var(--input)] text-[var(--foreground)]';
@@ -65,7 +65,7 @@ export function ListingFilters({ current }: { current: Filters }) {
           />
           <button
             type="submit"
-            className="absolute right-1 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-[var(--primary)] text-[var(--primary-foreground)]"
+            className="absolute right-1 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-md bg-[var(--primary)] text-[var(--primary-foreground)]"
             aria-label={lt.listings.filters.apply}
           >
             <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">

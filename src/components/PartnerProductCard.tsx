@@ -69,7 +69,7 @@ export function PartnerProductCard({ className = '' }: PartnerProductCardProps) 
       className={className}
       aria-label="Partnerio pasiūlymas: NIGHTRIDERS magnetiniai numerių laikikliai"
     >
-      <div className="overflow-hidden rounded-[1.5rem] border border-[#d6a935]/70 bg-[#071126] p-3 text-white shadow-[0_18px_46px_rgba(0,0,0,0.26)]">
+      <div className="overflow-hidden rounded-xl border border-[#263652] bg-[#071126] p-3 text-white">
         <div className="mb-3 flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1 px-1">
           <p className="text-[0.68rem] font-black uppercase leading-4 text-[#f2c84b] [overflow-wrap:anywhere]">
             Partnerio pasiūlymas
@@ -87,9 +87,9 @@ export function PartnerProductCard({ className = '' }: PartnerProductCardProps) 
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => trackClick(product)}
-              className="group/product grid min-w-0 grid-cols-[4.75rem,minmax(0,1fr)] gap-3 rounded-[1.15rem] border border-white/10 bg-[#0b162c] p-2.5 transition hover:-translate-y-0.5 hover:border-white/20 hover:bg-[#0d1a33] focus:outline-none focus:ring-2 focus:ring-[var(--ring)] focus:ring-offset-2 focus:ring-offset-[#071126]"
+              className="group/product grid min-w-0 grid-cols-[4.75rem,minmax(0,1fr)] gap-3 rounded-lg border border-white/10 bg-[#0b162c] p-2.5 transition-colors hover:border-white/20 hover:bg-[#0d1a33] focus:outline-none focus:ring-2 focus:ring-[var(--ring)] focus:ring-offset-2 focus:ring-offset-[#071126]"
             >
-              <div className="aspect-square overflow-hidden rounded-[0.9rem] border border-white/10 bg-white/95">
+              <div className="aspect-square overflow-hidden rounded-md border border-white/10 bg-white/95">
                 <img
                   src={product.imageSrc}
                   alt={product.imageAlt}
@@ -97,7 +97,7 @@ export function PartnerProductCard({ className = '' }: PartnerProductCardProps) 
                   height="600"
                   loading="lazy"
                   decoding="async"
-                  className="h-full w-full object-cover transition duration-200 group-hover/product:scale-[1.03]"
+                  className="h-full w-full object-cover"
                 />
               </div>
 

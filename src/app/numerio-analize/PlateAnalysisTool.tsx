@@ -206,8 +206,8 @@ export function PlateAnalysisTool({ isAuthenticated }: PlateAnalysisToolProps) {
     <div className="grid gap-5 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
       <section className="app-card p-5 sm:p-6" aria-labelledby="plate-analysis-form-title">
         <div>
-          <p className="text-sm font-black uppercase text-[var(--primary)]">Nemokamas įrankis</p>
-          <h2 id="plate-analysis-form-title" className="mt-1 text-2xl font-black text-[var(--foreground)]">
+          <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--muted-soft)]">Nemokamas įrankis</p>
+          <h2 id="plate-analysis-form-title" className="mt-1 text-2xl font-bold text-[var(--foreground)]">
             Unikodas įžvalgos
           </h2>
           <p className="mt-2 text-sm leading-6 text-[var(--muted-foreground)]">
@@ -281,14 +281,14 @@ export function PlateAnalysisTool({ isAuthenticated }: PlateAnalysisToolProps) {
               key={example}
               type="button"
               onClick={() => analyzeExample(example)}
-              className="min-h-11 rounded-full border border-[var(--border)] bg-[var(--muted)] px-3 py-2 text-xs font-black text-[var(--foreground)] transition hover:border-[var(--primary)] hover:text-[var(--primary)]"
+              className="min-h-10 rounded-md border border-[var(--border)] bg-[var(--muted)] px-3 py-2 text-xs font-semibold text-[var(--foreground)] transition hover:border-[var(--primary)] hover:text-[var(--primary)]"
             >
               {example}
             </button>
           ))}
         </div>
 
-        <p className="mt-5 rounded-2xl border border-[var(--border)] bg-[var(--muted)] px-3 py-2 text-xs leading-5 text-[var(--muted-foreground)]">
+        <p className="mt-5 rounded-lg border border-[var(--border)] bg-[var(--muted)] px-3 py-2 text-xs leading-5 text-[var(--muted-foreground)]">
           Tai nėra oficialus vertinimas ar garantuota rinkos kaina. Įžvalgos paremtos
           derinio raštais, galimomis reikšmėmis ir bendru patrauklumu.
         </p>
@@ -296,7 +296,7 @@ export function PlateAnalysisTool({ isAuthenticated }: PlateAnalysisToolProps) {
 
       <section className="app-card min-h-[26rem] p-5 sm:p-6" aria-live="polite">
         {error && (
-          <div className="rounded-3xl border border-red-400/30 bg-red-500/10 p-4 text-sm font-semibold leading-6 text-red-200">
+          <div className="rounded-lg border border-red-300 bg-red-50 p-4 text-sm font-semibold leading-6 text-red-700">
             {error}
           </div>
         )}
@@ -304,8 +304,8 @@ export function PlateAnalysisTool({ isAuthenticated }: PlateAnalysisToolProps) {
         {!error && authTeaser && <AuthRequiredTeaser teaser={authTeaser} />}
 
         {!error && !authTeaser && !result && (
-          <div className="flex h-full min-h-[20rem] flex-col justify-center rounded-3xl border border-dashed border-[var(--border)] bg-[var(--muted)] p-5 text-center">
-            <p className="text-2xl font-black text-[var(--foreground)]">Unikodas įžvalgos pasirodys čia</p>
+          <div className="flex h-full min-h-[20rem] flex-col justify-center rounded-xl border border-dashed border-[var(--border)] bg-[var(--muted)] p-5 text-center">
+            <p className="text-2xl font-bold text-[var(--foreground)]">Unikodas įžvalgos pasirodys čia</p>
             <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-[var(--muted-foreground)]">
               Išbandykite vardinį derinį, automobilio modelio nuorodą arba trumpą skaičių seką.
             </p>
@@ -326,7 +326,7 @@ export function PlateAnalysisTool({ isAuthenticated }: PlateAnalysisToolProps) {
                   {result.ruleAnalysis.label}
                 </p>
               </div>
-              <div className="rounded-3xl border border-[var(--border)] bg-[var(--muted)] px-4 py-3 text-right">
+              <div className="rounded-lg border border-[var(--border)] bg-[var(--muted)] px-4 py-3 text-right">
                 <div className="text-3xl font-black text-[var(--primary)]">
                   {result.ruleAnalysis.score}/100
                 </div>
@@ -386,7 +386,7 @@ export function PlateAnalysisTool({ isAuthenticated }: PlateAnalysisToolProps) {
             </div>
 
             {result.ruleAnalysis.similarPlateIdeas.length > 0 && (
-              <div className="rounded-3xl bg-[var(--muted)] p-4">
+              <div className="rounded-lg bg-[var(--muted)] p-4">
                 <h3 className="text-sm font-black text-[var(--foreground)]">Panašios idėjos</h3>
                 <div className="mt-3 flex flex-wrap gap-2">
                   {result.ruleAnalysis.similarPlateIdeas.map((idea) => (
@@ -405,7 +405,7 @@ export function PlateAnalysisTool({ isAuthenticated }: PlateAnalysisToolProps) {
             )}
 
             {result.aiAnalysis ? (
-              <div className="rounded-3xl border border-[var(--primary)]/30 bg-[color:color-mix(in_srgb,var(--primary)_10%,var(--card))] p-4">
+              <div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <h3 className="text-lg font-black text-[var(--foreground)]">AI paaiškinimas</h3>
                   <span className="rounded-full bg-[var(--primary)] px-3 py-1 text-xs font-black text-[var(--primary-foreground)]">
@@ -450,7 +450,7 @@ export function PlateAnalysisTool({ isAuthenticated }: PlateAnalysisToolProps) {
 
 function AuthRequiredTeaser({ teaser }: { teaser: AuthTeaserState }) {
   return (
-    <div className="flex h-full min-h-[20rem] flex-col justify-center rounded-3xl border border-[var(--primary)]/30 bg-[color:color-mix(in_srgb,var(--primary)_10%,var(--card))] p-5 text-center">
+    <div className="flex h-full min-h-[20rem] flex-col justify-center rounded-xl border border-blue-200 bg-blue-50 p-5 text-center">
       <p className="text-sm font-black uppercase text-[var(--primary)]">{teaser.plate}</p>
       <h2 className="mt-3 text-2xl font-black text-[var(--foreground)]">
         Aptiktos galimos įžvalgos.
@@ -476,7 +476,7 @@ function AuthRequiredTeaser({ teaser }: { teaser: AuthTeaserState }) {
 function AnalysisFunnelActions({ plate }: { plate: string }) {
   return (
     <div className="space-y-4">
-      <section className="rounded-3xl border border-[var(--border)] bg-[var(--muted)] p-4">
+      <section className="rounded-lg border border-[var(--border)] bg-[var(--muted)] p-4">
         <h3 className="text-lg font-black text-[var(--foreground)]">
           Kiek gali būti vertas jūsų numeris?
         </h3>
@@ -500,7 +500,7 @@ function AnalysisFunnelActions({ plate }: { plate: string }) {
         </a>
       </section>
 
-      <section className="rounded-3xl border border-[var(--primary)]/30 bg-[color:color-mix(in_srgb,var(--primary)_10%,var(--card))] p-4">
+      <section className="rounded-lg border border-blue-200 bg-blue-50 p-4">
         <h3 className="text-lg font-black text-[var(--foreground)]">Turite šį numerį?</h3>
         <p className="mt-3 text-sm leading-6 text-[var(--muted-foreground)]">
           Įkelkite jį į Unikodas ir leiskite pirkėjams jus surasti.
@@ -547,7 +547,7 @@ function DimensionsGrid({ analysis }: { analysis: PlateAnalysis }) {
 
 function InsightBlock({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <div className="rounded-3xl bg-[var(--muted)] p-4">
+    <div className="rounded-lg bg-[var(--muted)] p-4">
       <h3 className="text-sm font-black text-[var(--foreground)]">{title}</h3>
       {children}
     </div>

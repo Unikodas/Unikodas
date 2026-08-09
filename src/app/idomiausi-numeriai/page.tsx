@@ -108,9 +108,9 @@ function InterestingPlateCard({
   listing: WithInterestingPlateInsight<InterestingListingRow>;
 }) {
   return (
-    <article className="app-card flex h-full flex-col overflow-hidden transition hover:-translate-y-0.5 hover:border-[var(--border-strong)]">
+    <article className="app-card flex h-full flex-col overflow-hidden transition-colors hover:border-[var(--border-strong)]">
       <Link href={`/skelbimas/${listing.id}`} className="flex flex-1 flex-col">
-        <div className="flex min-h-44 items-center justify-center bg-[linear-gradient(145deg,color-mix(in_srgb,var(--primary)_18%,var(--muted)),var(--background))] px-4 py-7">
+        <div className="flex min-h-44 items-center justify-center border-b border-[var(--border)] bg-[var(--muted)] px-4 py-7">
           <PlatePreview
             plateText={listing.plate_text}
             plateType={listing.plate_type}
@@ -127,7 +127,7 @@ function InterestingPlateCard({
               </p>
               <p className="mt-1 text-sm font-bold text-[var(--muted-foreground)]">{listing.city}</p>
             </div>
-            <div className="rounded-3xl border border-[var(--primary)]/30 bg-[color:color-mix(in_srgb,var(--primary)_12%,transparent)] px-3 py-2 text-right">
+            <div className="rounded-lg border border-blue-200 bg-blue-50 px-3 py-2 text-right">
               <p className="text-xl font-black text-[var(--primary)]">{listing.insight.score}</p>
               <p className="text-[0.65rem] font-black uppercase text-[var(--muted-soft)]">balai</p>
             </div>

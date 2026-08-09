@@ -98,41 +98,38 @@ export function MobileBottomNav() {
 
   return (
     <nav
-      className="fixed inset-x-0 bottom-0 z-50 border-t border-white/10 bg-[rgba(5,10,24,0.86)] px-3 pb-[calc(0.5rem+env(safe-area-inset-bottom))] pt-2 shadow-[0_-18px_48px_rgba(0,0,0,0.46)] backdrop-blur-2xl sm:hidden"
+      className="fixed inset-x-0 bottom-0 z-50 border-t border-[var(--border)] bg-[var(--card)] px-2 pb-[calc(0.35rem+env(safe-area-inset-bottom))] pt-1.5 sm:hidden"
       aria-label="Pagrindinė mobilioji navigacija"
     >
-      <div className="mx-auto grid max-w-md grid-cols-5 items-end gap-1">
+      <div className="mx-auto grid max-w-md grid-cols-5 gap-1">
         {items.map((item) => {
           const active = item.match(pathname);
-          if (item.primary) {
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                aria-current={active ? 'page' : undefined}
-                className="flex flex-col items-center gap-1 text-[0.72rem] font-black text-[var(--primary)]"
-              >
-                <span className="flex h-16 w-16 -translate-y-4 items-center justify-center rounded-full bg-[linear-gradient(180deg,var(--primary),#1557d8)] text-[var(--primary-foreground)] shadow-[0_18px_40px_rgba(47,125,246,0.42)] ring-4 ring-[#050a18]">
-                  {item.icon}
-                </span>
-                <span className="-mt-4">{item.label}</span>
-              </Link>
-            );
-          }
-
           return (
             <Link
               key={item.href}
               href={item.href}
               aria-current={active ? 'page' : undefined}
               className={[
-                'flex min-h-14 flex-col items-center justify-center gap-1 rounded-2xl px-1 text-[0.72rem] font-bold transition',
-                active
-                  ? 'bg-white/8 text-[var(--primary)]'
-                  : 'text-slate-400 hover:text-white',
+                'flex min-h-[3.65rem] flex-col items-center justify-center gap-1 rounded-lg px-1 text-[0.68rem] font-semibold transition',
+                item.primary
+                  ? 'text-[var(--primary)]'
+                  : active
+                    ? 'text-[var(--primary)]'
+                    : 'text-[var(--muted-soft)] hover:text-[var(--foreground)]',
               ].join(' ')}
             >
-              {item.icon}
+              <span
+                className={[
+                  'flex h-7 w-9 items-center justify-center rounded-md',
+                  item.primary
+                    ? 'bg-[var(--primary)] text-white'
+                    : active
+                      ? 'bg-blue-50 text-[var(--primary)]'
+                      : '',
+                ].join(' ')}
+              >
+                {item.icon}
+              </span>
               <span>{item.label}</span>
             </Link>
           );

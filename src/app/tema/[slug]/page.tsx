@@ -137,7 +137,7 @@ export default async function TopicPage({ params }: PageProps) {
                   {topic.description}
                 </p>
               </div>
-              <div className="rounded-[2rem] border border-[var(--border)] bg-[var(--muted)] p-5">
+              <div className="rounded-xl border border-[var(--border)] bg-[var(--muted)] p-5">
                 <p className="text-xs font-black uppercase text-[var(--muted-soft)]">Tema</p>
                 <p className="mt-2 text-4xl font-black text-[var(--primary)]">
                   {topic.entry.keyword}
@@ -346,7 +346,7 @@ async function getListingCandidates(): Promise<TopicListing[]> {
 function KnowledgeGraph({ items }: { items: TopicRelatedItem[] }) {
   if (items.length === 0) {
     return (
-      <p className="mt-4 rounded-3xl bg-[var(--muted)] p-4 text-sm leading-6 text-[var(--muted-foreground)]">
+      <p className="mt-4 rounded-lg bg-[var(--muted)] p-4 text-sm leading-6 text-[var(--muted-foreground)]">
         Šiai temai dar nėra pakankamai ryšių žinių bazėje.
       </p>
     );
@@ -391,7 +391,7 @@ function RelatedPanel({
             <Link
               key={item.href}
               href={item.href}
-              className="rounded-3xl border border-[var(--border)] bg-[var(--muted)] p-4 transition hover:border-[var(--primary)]"
+              className="rounded-lg border border-[var(--border)] bg-[var(--muted)] p-4 transition-colors hover:border-[var(--border-strong)]"
             >
               <span className="block text-lg font-black text-[var(--foreground)]">{item.label}</span>
               <span className="mt-1 block text-xs font-bold uppercase text-[var(--muted-soft)]">
@@ -411,7 +411,7 @@ function InternalLink({ href, label }: { href: string; label: string }) {
   return (
     <Link
       href={href}
-      className="rounded-3xl border border-[var(--border)] bg-[var(--muted)] p-4 text-sm font-black text-[var(--foreground)] transition hover:border-[var(--primary)]"
+      className="rounded-lg border border-[var(--border)] bg-[var(--muted)] p-4 text-sm font-bold text-[var(--foreground)] transition-colors hover:border-[var(--border-strong)]"
     >
       {label}
     </Link>

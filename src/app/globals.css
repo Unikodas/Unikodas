@@ -4,30 +4,30 @@
 
 :root {
   color-scheme: light;
-  --background: #f8fafc;
-  --foreground: #0f172a;
+  --background: #f4f5f7;
+  --foreground: #14181f;
   --card: #ffffff;
-  --card-foreground: #0f172a;
-  --muted: #f1f5f9;
-  --muted-foreground: #475569;
-  --muted-soft: #64748b;
-  --border: #e2e8f0;
-  --border-strong: #cbd5e1;
-  --primary: #2563eb;
-  --primary-hover: #1d4ed8;
+  --card-foreground: #14181f;
+  --muted: #f0f2f5;
+  --muted-foreground: #525b69;
+  --muted-soft: #6d7684;
+  --border: #dfe3e8;
+  --border-strong: #c8ced7;
+  --primary: #1769e0;
+  --primary-hover: #1258bd;
   --primary-foreground: #ffffff;
   --input: #ffffff;
   --ring: #2563eb;
   --page-bg: var(--background);
   --surface: var(--card);
   --surface-muted: var(--muted);
-  --surface-soft: #f8fafc;
+  --surface-soft: #f7f8fa;
   --text: var(--foreground);
   --primary-contrast: var(--primary-foreground);
   --focus: var(--ring);
   --app-elevated: #ffffff;
-  --app-glass: rgba(255, 255, 255, 0.86);
-  --app-shadow: 0 18px 50px rgba(15, 23, 42, 0.12);
+  --app-glass: #ffffff;
+  --app-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
 }
 
 html.dark {
@@ -55,7 +55,7 @@ html.dark {
   --focus: var(--ring);
   --app-elevated: #111c31;
   --app-glass: rgba(8, 13, 30, 0.82);
-  --app-shadow: 0 24px 70px rgba(0, 0, 0, 0.42);
+  --app-shadow: 0 1px 2px rgba(0, 0, 0, 0.28);
 }
 
 html,
@@ -70,45 +70,14 @@ html {
 }
 
 body {
-  background:
-    linear-gradient(180deg, var(--background) 0%, var(--page-bg) 48%, var(--background) 100%);
+  background: var(--background);
   color: var(--text);
   @apply antialiased;
 }
 
 @media (max-width: 639px) {
-  :root {
-    color-scheme: dark;
-    --background: #030712;
-    --foreground: #f8fafc;
-    --card: #0b1224;
-    --card-foreground: #f8fafc;
-    --muted: #101a31;
-    --muted-foreground: #cbd5e1;
-    --muted-soft: #94a3b8;
-    --border: #1e2b43;
-    --border-strong: #31435f;
-    --primary: #2f7df6;
-    --primary-hover: #5da2ff;
-    --primary-foreground: #ffffff;
-    --input: #0f1a2f;
-    --ring: #60a5fa;
-    --page-bg: var(--background);
-    --surface: var(--card);
-    --surface-muted: var(--muted);
-    --surface-soft: #13203a;
-    --text: var(--foreground);
-    --primary-contrast: var(--primary-foreground);
-    --focus: var(--ring);
-    --app-elevated: #111c31;
-    --app-glass: rgba(8, 13, 30, 0.82);
-    --app-shadow: 0 24px 70px rgba(0, 0, 0, 0.42);
-  }
-
   body {
     padding-bottom: calc(5.5rem + env(safe-area-inset-bottom));
-    background:
-      linear-gradient(180deg, #020617 0%, #061028 42%, #030712 100%);
   }
 
   /* Prevent iOS Safari from zooming the page when a form control receives focus. */
@@ -120,8 +89,7 @@ body {
 }
 
 .app-shell {
-  background:
-    linear-gradient(180deg, color-mix(in srgb, var(--background) 88%, var(--primary) 12%) 0%, var(--background) 30%, var(--background) 100%);
+  background: var(--background);
   color: var(--foreground);
   min-height: 100vh;
   width: 100%;
@@ -138,57 +106,67 @@ body {
 }
 
 .app-header {
-  background: var(--app-glass);
+  background: var(--card);
   border-bottom: 1px solid var(--border);
-  backdrop-filter: blur(18px);
 }
 
 .app-card {
-  background:
-    linear-gradient(180deg, color-mix(in srgb, var(--card) 92%, white 8%) 0%, var(--card) 100%);
+  background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 1.75rem;
+  border-radius: 0.875rem;
   min-width: 0;
   box-shadow: var(--app-shadow);
 }
 
 .app-card-soft {
-  background:
-    linear-gradient(180deg, color-mix(in srgb, var(--muted) 74%, var(--card) 26%) 0%, var(--card) 100%);
+  background: var(--surface-soft);
   border: 1px solid var(--border);
-  border-radius: 1.5rem;
+  border-radius: 0.75rem;
   min-width: 0;
 }
 
 .app-button-primary {
   align-items: center;
-  background: linear-gradient(180deg, var(--primary) 0%, color-mix(in srgb, var(--primary) 82%, #0b3b91 18%) 100%);
-  border-radius: 1.15rem;
-  box-shadow: 0 16px 36px color-mix(in srgb, var(--primary) 34%, transparent);
+  background: var(--primary);
+  border: 1px solid var(--primary);
+  border-radius: 0.625rem;
+  box-shadow: none;
   color: var(--primary-foreground);
   display: inline-flex;
-  font-weight: 800;
+  font-weight: 700;
   justify-content: center;
   min-height: 3rem;
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+
+.app-button-primary:hover {
+  background: var(--primary-hover);
+  border-color: var(--primary-hover);
 }
 
 .app-button-secondary {
   align-items: center;
-  background: color-mix(in srgb, var(--muted) 72%, transparent);
+  background: var(--card);
   border: 1px solid var(--border-strong);
-  border-radius: 1.15rem;
+  border-radius: 0.625rem;
   color: var(--foreground);
   display: inline-flex;
-  font-weight: 800;
+  font-weight: 700;
   justify-content: center;
   min-height: 3rem;
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+
+.app-button-secondary:hover {
+  background: var(--muted);
+  border-color: var(--border-strong);
 }
 
 .app-search-field {
   background: var(--input);
   border: 1px solid var(--border);
-  border-radius: 1.3rem;
-  box-shadow: inset 0 1px 0 color-mix(in srgb, white 8%, transparent);
+  border-radius: 0.625rem;
+  box-shadow: none;
   color: var(--foreground);
 }
 
@@ -220,7 +198,7 @@ body {
   box-shadow:
     inset 0 0 0 1px rgba(255, 255, 255, 0.95),
     inset 0 -8px 18px rgba(15, 23, 42, 0.035),
-    0 14px 30px rgba(15, 23, 42, 0.16);
+    0 3px 10px rgba(15, 23, 42, 0.12);
   color: #020617;
   display: flex;
   max-width: 100%;
@@ -287,7 +265,7 @@ body {
   box-shadow:
     inset 0 0 0 1px rgba(255, 255, 255, 0.96),
     inset 0 -10px 20px rgba(15, 23, 42, 0.04),
-    0 18px 38px rgba(15, 23, 42, 0.18);
+    0 4px 12px rgba(15, 23, 42, 0.14);
 }
 
 .plate-preview--compact {

@@ -86,7 +86,7 @@ export default function AboutPage() {
               </div>
             </div>
 
-            <div className="flex min-w-0 justify-center overflow-hidden rounded-[2rem] bg-[linear-gradient(145deg,color-mix(in_srgb,var(--primary)_18%,var(--muted)),var(--background))] p-5">
+            <div className="flex min-w-0 justify-center overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--muted)] p-5">
               <PlatePreview
                 plateText="UN1K0D"
                 plateType="personalized"

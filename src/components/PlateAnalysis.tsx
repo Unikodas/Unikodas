@@ -51,10 +51,10 @@ export function PlateAnalysis({
   if (!isAuthenticated) {
     return (
       <section className="app-card p-5 text-center sm:p-6" aria-labelledby="plate-analysis-title">
-        <p className="text-sm font-black uppercase text-[var(--primary)]">
+        <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--muted-soft)]">
           Unikodas įžvalgos
         </p>
-        <h2 id="plate-analysis-title" className="mt-3 text-2xl font-black text-[var(--foreground)]">
+        <h2 id="plate-analysis-title" className="mt-3 text-2xl font-bold text-[var(--foreground)]">
           Aptiktos galimos įžvalgos.
         </h2>
         <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-[var(--muted-foreground)]">
@@ -81,14 +81,14 @@ export function PlateAnalysis({
     <section className="app-card p-5 sm:p-6" aria-labelledby="plate-analysis-title">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <p className="text-sm font-black uppercase text-[var(--primary)]">
+          <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--muted-soft)]">
             Unikodas įžvalgos
           </p>
-          <h2 id="plate-analysis-title" className="mt-1 text-xl font-black text-[var(--foreground)]">
+          <h2 id="plate-analysis-title" className="mt-1 text-xl font-bold text-[var(--foreground)]">
             Bendras įvertinimas
           </h2>
         </div>
-        <div className="rounded-3xl border border-[var(--border)] bg-[var(--muted)] px-4 py-3 text-right">
+        <div className="rounded-lg border border-[var(--border)] bg-[var(--muted)] px-4 py-3 text-right">
           <div className="text-2xl font-black text-[var(--primary)]">{analysis.score}/100</div>
           <div className="text-xs font-bold uppercase text-[var(--muted-soft)]">
             {analysis.label}
@@ -113,7 +113,7 @@ export function PlateAnalysis({
         {Object.entries(dimensionLabels).map(([key, label]) => {
           const value = analysis.dimensions[key as keyof typeof analysis.dimensions];
           return (
-            <div key={key} className="rounded-2xl bg-[var(--muted)] p-3">
+            <div key={key} className="rounded-lg bg-[var(--muted)] p-3">
               <div className="flex items-center justify-between gap-3">
                 <span className="text-xs font-black uppercase text-[var(--muted-soft)]">{label}</span>
                 <span className="text-sm font-black text-[var(--foreground)]">{value}/100</span>
@@ -158,7 +158,7 @@ export function PlateAnalysis({
       </div>
 
       {analysis.similarPlateIdeas.length > 0 && (
-        <div className="mt-4 rounded-3xl bg-[var(--muted)] p-4">
+        <div className="mt-4 rounded-lg bg-[var(--muted)] p-4">
           <h3 className="text-sm font-black text-[var(--foreground)]">Panašios idėjos</h3>
           <div className="mt-3 flex flex-wrap gap-2">
             {analysis.similarPlateIdeas.map((idea) => (
@@ -181,7 +181,7 @@ export function PlateAnalysis({
           {visibleFactors.map((factor) => (
             <div
               key={`${factor.name}-${factor.description}`}
-              className="flex items-start justify-between gap-3 rounded-2xl border border-[var(--border)] px-3 py-2"
+              className="flex items-start justify-between gap-3 rounded-lg border border-[var(--border)] px-3 py-2"
             >
               <div>
                 <p className="text-sm font-bold text-[var(--foreground)]">{factor.name}</p>
@@ -197,7 +197,7 @@ export function PlateAnalysis({
         </div>
       )}
 
-      <p className="mt-4 rounded-2xl border border-[var(--border)] bg-[var(--background)] px-3 py-2 text-xs leading-5 text-[var(--muted-foreground)]">
+      <p className="mt-4 rounded-lg border border-[var(--border)] bg-[var(--background)] px-3 py-2 text-xs leading-5 text-[var(--muted-foreground)]">
         Tai nėra oficialus vertinimas ar garantuota rinkos kaina. Įžvalgos paremtos
         derinio raštais, galimomis reikšmėmis ir bendru patrauklumu.
       </p>
@@ -213,7 +213,7 @@ function InsightBlock({
   children: ReactNode;
 }) {
   return (
-    <div className="rounded-3xl bg-[var(--muted)] p-4">
+    <div className="rounded-lg bg-[var(--muted)] p-4">
       <h3 className="text-sm font-black text-[var(--foreground)]">{title}</h3>
       {children}
     </div>

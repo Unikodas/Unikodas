@@ -23,9 +23,9 @@ export function WantedCard({ wanted }: { wanted: WantedCardData }) {
   return (
     <Link
       href={`/ieskau/${wanted.id}`}
-      className="app-card block min-w-0 overflow-hidden p-5 transition hover:-translate-y-0.5 hover:border-[var(--border-strong)]"
+      className="app-card block min-w-0 overflow-hidden p-5 transition-colors hover:border-[var(--border-strong)]"
     >
-      <div className="mb-3 break-words font-mono text-xl font-black tracking-wider text-[var(--foreground)]">
+      <div className="mb-3 break-words font-mono text-xl font-bold tracking-wider text-[var(--foreground)]">
         {wanted.plate_pattern}
       </div>
 

@@ -121,8 +121,8 @@ export default function SellPlateGuidePage() {
               </div>
             </div>
 
-            <div className="mt-7 rounded-[2rem] border border-[var(--border)] bg-[linear-gradient(145deg,color-mix(in_srgb,var(--primary)_18%,var(--muted)),var(--background))] p-5 lg:mt-0">
-              <div className="rounded-3xl bg-[var(--card)] p-4 shadow-[var(--app-shadow)]">
+            <div className="mt-7 rounded-xl border border-[var(--border)] bg-[var(--muted)] p-5 lg:mt-0">
+              <div className="rounded-lg border border-[var(--border)] bg-[var(--card)] p-4">
                 <div className="flex items-center gap-3">
                   <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[var(--primary)] text-xs font-black text-[var(--primary-foreground)]">
                     LT
@@ -182,7 +182,7 @@ export default function SellPlateGuidePage() {
                 {safetyTips.map((tip) => (
                   <li
                     key={tip}
-                    className="flex gap-3 rounded-3xl border border-[var(--border)] bg-[var(--muted)] p-4 text-sm font-bold leading-6 text-[var(--foreground)]"
+                    className="flex gap-3 rounded-lg border border-[var(--border)] bg-[var(--muted)] p-4 text-sm font-bold leading-6 text-[var(--foreground)]"
                   >
                     <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-400/15 text-emerald-300">
                       ✓

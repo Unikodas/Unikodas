@@ -44,8 +44,8 @@ export default async function PlateAnalysisPage() {
       <main className="app-shell mx-auto max-w-5xl space-y-6 px-4 py-6 sm:px-6 sm:py-9">
         <section className="app-card grid gap-6 overflow-hidden p-5 sm:p-8 lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-center">
           <div className="min-w-0">
-            <p className="text-sm font-black uppercase text-[var(--primary)]">Unikodas įrankis</p>
-            <h1 className="mt-3 text-[clamp(2.2rem,9vw,4rem)] font-black leading-tight tracking-tight text-[var(--foreground)]">
+            <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--muted-soft)]">Unikodas įrankis</p>
+            <h1 className="mt-3 text-[clamp(2.1rem,8vw,3.5rem)] font-bold leading-tight tracking-tight text-[var(--foreground)]">
               Unikodas įžvalgos
             </h1>
             <p className="mt-4 max-w-2xl text-base leading-7 text-[var(--muted-foreground)]">
@@ -55,7 +55,7 @@ export default async function PlateAnalysisPage() {
             </p>
           </div>
 
-          <div className="flex min-w-0 justify-center overflow-hidden rounded-[2rem] bg-[linear-gradient(145deg,color-mix(in_srgb,var(--primary)_18%,var(--muted)),var(--background))] p-4 sm:p-5">
+          <div className="flex min-w-0 justify-center overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--muted)] p-4 sm:p-5">
             <PlatePreview
               plateText="M4T45"
               plateType="personalized"

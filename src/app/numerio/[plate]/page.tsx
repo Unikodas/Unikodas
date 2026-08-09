@@ -230,7 +230,7 @@ export default async function DynamicPlatePage({ params }: PageProps) {
               </div>
             </div>
 
-            <div className="flex min-w-0 justify-center overflow-hidden rounded-[2rem] bg-[linear-gradient(145deg,color-mix(in_srgb,var(--primary)_18%,var(--muted)),var(--background))] p-5">
+            <div className="flex min-w-0 justify-center overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--muted)] p-5">
               <PlatePreview
                 plateText={data.plate}
                 plateType={data.exactListing?.plate_type ?? 'personalized'}
@@ -305,7 +305,7 @@ export default async function DynamicPlatePage({ params }: PageProps) {
                     {aiAnalysis.collectorAppeal}
                   </p>
                 </div>
-                <div className="rounded-3xl bg-[var(--muted)] p-4">
+                <div className="rounded-lg bg-[var(--muted)] p-4">
                   <h3 className="text-sm font-black text-[var(--foreground)]">AI pastebėjimai</h3>
                   <ul className="mt-3 space-y-2 text-sm leading-6 text-[var(--muted-foreground)]">
                     {[...aiAnalysis.hiddenMeanings, ...aiAnalysis.suggestions].slice(0, 5).map((item) => (
@@ -335,7 +335,7 @@ export default async function DynamicPlatePage({ params }: PageProps) {
             </h2>
             <div className="mt-4 grid gap-3 md:grid-cols-2">
               {data.analysis.collectorInsights.slice(0, 6).map((insight) => (
-                <article key={insight} className="rounded-3xl border border-[var(--border)] bg-[var(--muted)] p-4">
+                <article key={insight} className="rounded-lg border border-[var(--border)] bg-[var(--muted)] p-4">
                   <p className="text-sm leading-6 text-[var(--muted-foreground)]">{insight}</p>
                 </article>
               ))}
@@ -358,7 +358,7 @@ export default async function DynamicPlatePage({ params }: PageProps) {
                 <Link
                   key={related}
                   href={`/numerio/${related}`}
-                  className="rounded-3xl border border-[var(--border)] bg-[var(--card)] p-4 transition hover:border-[var(--primary)]"
+                  className="rounded-lg border border-[var(--border)] bg-[var(--card)] p-4 transition-colors hover:border-[var(--border-strong)]"
                 >
                   <span className="block text-2xl font-black text-[var(--foreground)]">{related}</span>
                   <span className="mt-2 block text-sm leading-6 text-[var(--muted-foreground)]">
@@ -743,7 +743,7 @@ function getPatternFallback(plate: string): string {
 
 function ScoreBox({ label, value, text }: { label: string; value: number; text: string }) {
   return (
-    <div className="rounded-3xl border border-[var(--border)] bg-[var(--muted)] p-4">
+    <div className="rounded-lg border border-[var(--border)] bg-[var(--muted)] p-4">
       <div className="flex items-center justify-between gap-3">
         <p className="text-xs font-black uppercase text-[var(--muted-soft)]">{label}</p>
         <p className="text-2xl font-black text-[var(--primary)]">{value}/100</p>
@@ -766,7 +766,7 @@ function MeaningGroup({
   empty: string;
 }) {
   return (
-    <div className="rounded-3xl bg-[var(--muted)] p-4">
+    <div className="rounded-lg bg-[var(--muted)] p-4">
       <h3 className="text-sm font-black text-[var(--foreground)]">{title}</h3>
       {meanings.length > 0 ? (
         <div className="mt-3 space-y-2">
@@ -805,7 +805,7 @@ function TextList({
 }) {
   const visibleItems = items.length > 0 ? items : fallback ? [fallback] : [];
   return (
-    <div className={['rounded-3xl bg-[var(--muted)] p-4', className].filter(Boolean).join(' ')}>
+    <div className={['rounded-lg bg-[var(--muted)] p-4', className].filter(Boolean).join(' ')}>
       <h3 className="text-sm font-black text-[var(--foreground)]">{title}</h3>
       <ul className="mt-3 space-y-2 text-sm leading-6 text-[var(--muted-foreground)]">
         {visibleItems.map((item) => (
@@ -820,7 +820,7 @@ function InternalLink({ href, label }: { href: string; label: string }) {
   return (
     <Link
       href={href}
-      className="rounded-3xl border border-[var(--border)] bg-[var(--muted)] p-4 text-sm font-black text-[var(--foreground)] transition hover:border-[var(--primary)]"
+      className="rounded-lg border border-[var(--border)] bg-[var(--muted)] p-4 text-sm font-bold text-[var(--foreground)] transition-colors hover:border-[var(--border-strong)]"
     >
       {label}
     </Link>

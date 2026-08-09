@@ -55,9 +55,9 @@ export function MobileListingActionBar({
         visible ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-4 opacity-0',
       ].join(' ')}
     >
-      <div className="mx-auto flex max-w-3xl items-center gap-3 rounded-2xl border border-[var(--border)] bg-[color:color-mix(in_srgb,var(--card)_88%,transparent)] p-2 shadow-[0_18px_50px_rgba(0,0,0,0.36)] backdrop-blur-xl">
+      <div className="mx-auto flex max-w-3xl items-center gap-3 rounded-xl border border-[var(--border)] bg-[var(--card)] p-2 shadow-sm">
         <div className="min-w-0 flex-1 px-2">
-          <p className="truncate text-lg font-black leading-tight text-[var(--primary)]">
+          <p className="truncate text-lg font-bold leading-tight text-[var(--foreground)]">
             {price}
           </p>
           <p className="truncate text-xs font-bold text-[var(--muted-foreground)]">
