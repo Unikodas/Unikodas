@@ -179,6 +179,8 @@ export default async function Home({
           </div>
         </section>
 
+        <PartnerProductCard className="mt-5 sm:mt-6" />
+
         <section id="paieska" className="scroll-mb-36 scroll-mt-24 py-6 sm:py-8">
           <ListingFilters current={filters} />
         </section>
@@ -254,12 +256,11 @@ export default async function Home({
           </a>
         </section>
 
-        <section className="mt-8 grid gap-6 border-b border-[var(--border)] pb-10 lg:grid-cols-[minmax(0,1fr)_28rem] lg:items-start">
+        <section className="mt-8 border-b border-[var(--border)] pb-10">
           <div className="text-sm leading-6 text-[var(--muted-foreground)]">
             <p className="font-bold text-[var(--foreground)]">{lt.home.complianceTitle}</p>
             <p>{lt.home.complianceLead}</p>
           </div>
-          <PartnerProductCard />
         </section>
 
         <HomeInfoSections />
