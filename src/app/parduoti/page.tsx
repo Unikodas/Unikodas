@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { lt } from '@/lib/i18n/lt';
 import { createClient } from '@/lib/supabase/server';
 import { ListingForm } from '@/components/ListingForm';
+import { SellWithHelp } from '@/components/SellWithHelp';
 import { LoginPrompt } from '@/components/LoginPrompt';
 import { LogoLink } from '@/components/LogoLink';
 import { createListingAction } from './actions';
@@ -42,6 +43,7 @@ export default async function NewListingPage({
       </header>
 
       <main className="app-shell mx-auto min-h-screen max-w-2xl px-4 py-6 sm:px-6">
+        <SellWithHelp />
         {!userData.user ? (
           <LoginPrompt redirectTo={buildSellRedirect(initialPlate)} />
         ) : (

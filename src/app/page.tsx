@@ -9,6 +9,7 @@ import { ListingCard } from '@/components/ListingCard';
 import { ListingFilters } from '@/components/ListingFilters';
 import { ListingCategoryCards } from '@/components/ListingCategoryCards';
 import { HomeInfoSections } from '@/components/HomeInfoSections';
+import { SellWithHelp } from '@/components/SellWithHelp';
 import { LogoLink } from '@/components/LogoLink';
 import { PartnerProductCard } from '@/components/PartnerProductCard';
 import { MarketplaceTabs } from '@/components/MarketplaceTabs';
@@ -180,6 +181,7 @@ export default async function Home({
         </section>
 
         <PartnerProductCard className="mt-5 sm:mt-6" />
+        <SellWithHelp />
 
         <section id="paieska" className="scroll-mb-36 scroll-mt-24 py-6 sm:py-8">
           <ListingFilters current={filters} />

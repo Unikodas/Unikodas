@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { JsonLd } from '@/components/JsonLd';
 import { LogoLink } from '@/components/LogoLink';
 import { FaqAccordion } from '@/components/FaqAccordion';
+import { SellWithHelp } from '@/components/SellWithHelp';
 import { createPageMetadata } from '@/lib/seo';
 import { articleJsonLd, breadcrumbJsonLd, faqPageJsonLd } from '@/lib/structured-data';
 
@@ -143,6 +144,8 @@ export default function SellPlateGuidePage() {
               </div>
             </div>
           </section>
+
+          <SellWithHelp />
 
           <section className="space-y-4">
             <div>
